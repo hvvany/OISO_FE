@@ -27,11 +27,17 @@ export default {
 
 <style scoped>
 nav {
+  padding: 0;
+  width: 100vw;
   position: fixed;
+  left: 0;
   bottom: 0;
-  background-color: aquamarine;
+  background-color: rgb(25, 240, 168);
 }
 .nav-group {
+  padding: 0;
+  text-decoration: none;
+  list-style: none;
   display: flex;
   justify-content: space-around;
   align-items: center;

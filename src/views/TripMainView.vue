@@ -6,13 +6,13 @@
 </template>
 
 <script>
-import AppNav from '@/components/layout/AppNav.vue';
+import AppNav from "@/components/layout/AppNav.vue";
 export default {
-  name: 'TripMain',
-  components: {AppNav},
+  name: "TripMain",
+  components: { AppNav },
   data() {
     return {
-      message: '',
+      message: "",
     };
   },
   created() {},
@@ -20,4 +20,5 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+</style>
