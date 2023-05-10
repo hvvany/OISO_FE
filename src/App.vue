@@ -3,13 +3,7 @@
     <router-view></router-view>
   </div>
 </template>
-<script>
-// import LoginView from "@/views/LoginView.vue";
-
-// export default {
-//   components: { LoginView },
-// };
-</script>
+<script></script>
 
 <style>
 #app {
