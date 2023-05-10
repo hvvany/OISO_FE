@@ -55,6 +55,7 @@ export default {
         : (isValid = true);
 
       if (isValid) {
+        this.$router.push("/trip");
         this.goMain();
       }
     },
