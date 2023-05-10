@@ -2,10 +2,30 @@
   <div>
     <h1>SignUp View</h1>
     <div class="signup">
-      <input class="signup__input" type="text" placeholder="아이디 입력" />
-      <input class="signup__input" type="text" placeholder="비밀번호 입력" />
-      <input class="signup__input" type="text" placeholder="비밀번호 확인" />
-      <button class="signup__btn" type="button">회원가입</button>
+      <input
+        class="signup__input"
+        v-model="userId"
+        type="text"
+        placeholder="아이디 입력"
+        ref="id" />
+      <p v-show="err === 1">{{ errMsg }}</p>
+      <input
+        class="signup__input"
+        v-model="userPw1"
+        type="text"
+        placeholder="비밀번호 입력"
+        ref="pw1" />
+      <p v-show="err === 2">{{ errMsg }}</p>
+      <input
+        class="signup__input"
+        v-model="userPw2"
+        type="text"
+        placeholder="비밀번호 확인"
+        ref="pw2" />
+      <p v-show="(err === 3) | (err === 4)">{{ errMsg }}</p>
+      <button class="signup__btn" type="button" @click="validate">
+        회원가입
+      </button>
     </div>
   </div>
 </template>
@@ -17,10 +37,50 @@ export default {
   data() {
     return {
       message: "",
+      errMsg: "",
+      err: 0,
+      userId: "",
+      userPw1: "",
+      userPw2: "",
     };
   },
   created() {},
-  methods: {},
+  methods: {
+    validate() {
+      this.err = 0;
+      let isValid = true; // 유효하면 true
+      !this.userId
+        ? ((isValid = false),
+          (this.err = 1),
+          (this.errMsg = "ID를 입력해주세요"),
+          this.$refs.id.focus())
+        : this.userId.length < 6
+        ? ((isValid = false),
+          (this.err = 1),
+          (this.errMsg = "ID를 6자 이상 작성해주세요"),
+          this.$refs.id.focus())
+        : !this.userPw1
+        ? ((isValid = false),
+          (this.err = 2),
+          (this.errMsg = "비밀번호를 입력해주세요"),
+          this.$refs.pw1.focus())
+        : !this.userPw2
+        ? ((isValid = false),
+          (this.err = 3),
+          (this.errMsg = "비밀번호 확인을 입력해주세요"),
+          this.$refs.pw2.focus())
+        : !(this.userPw1 === this.userPw2)
+        ? ((isValid = false),
+          (this.err = 4),
+          (this.errMsg = "비밀번호를 다시 확인해 주세요"),
+          this.$refs.price.focus())
+        : (isValid = true);
+
+      if (isValid) {
+        this.goLogin();
+      }
+    },
+  },
 };
 </script>
 
