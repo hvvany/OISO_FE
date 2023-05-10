@@ -33,6 +33,7 @@ nav {
   left: 0;
   bottom: 0;
   background-color: rgb(25, 240, 168);
+  z-index: 10;
 }
 .nav-group {
   padding: 0;
