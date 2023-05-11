@@ -1,5 +1,6 @@
 <template>
   <div>
+    <top-nav></top-nav>
     <img-swiper class="main-swiper" :imgs="imgs"></img-swiper>
     <content class="main-content">
       <input class="main-content__search" type="search" placeholder="어데로 갈라고?" />
@@ -14,9 +15,10 @@
 import AppNav from "@/components/layout/AppNav.vue";
 import ImgSwiper from "@/components/common/ImgSwiper.vue";
 import ImgCards from "@/components/common/ImgCards.vue";
+import TopNav from '@/components/layout/TopNav.vue';
 export default {
   name: "TripMain",
-  components: { AppNav, ImgSwiper, ImgCards },
+  components: { AppNav, ImgSwiper, ImgCards, TopNav },
   data: function () {
     return {
       message: "",
@@ -47,7 +49,7 @@ export default {
   border-radius: 30px;
   position: relative;
   bottom: 5rem;
-  z-index: 10;
+  z-index: 2;
 }
 .main-content__search{
   border-radius: 30px;
