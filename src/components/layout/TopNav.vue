@@ -1,6 +1,17 @@
 <template>
   <div>
-    <nav>
+    <nav
+      :style="
+        'background-color:rgba(255,255,255,' +
+        topNavNum +
+        '%);color:rgb(' +
+        (255 - topNavNum * 2) +
+        ',' +
+        (255 - topNavNum * 2) +
+        ',' +
+        (255 - topNavNum * 2) +
+        ')'
+      ">
       <div class="nav__logo">OISO</div>
       <div class="nav__menus">
         <div class="menus__add-btn">
@@ -25,6 +36,9 @@ export default {
   },
   created() {},
   methods: {},
+  props: {
+    topNavNum: Number,
+  },
 };
 </script>
 
@@ -33,13 +47,12 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position:fixed;
+  position: fixed;
   z-index: 10;
-  width:100vw;
-  background-color:rgba(255, 255, 255, 0);
-  color: white;
+  width: 100vw;
   padding: 0 1rem 0 1rem;
   height: 3rem;
+  color: aliceblue;
 }
 .nav__logo {
   font-weight: 700;
