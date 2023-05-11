@@ -8,10 +8,14 @@
         <input
           class="search__input"
           type="search"
-          placeholder="어데로 갈라고?" />
+          placeholder="어데로 갈라고" />
       </div>
       <div class="main-content__hotplace">
-        <router-link class="hotplace__more-btn" to="">더보기</router-link>
+        <div class="hotplace">
+          <h2 class="hotplace__title">OISO 핫플레이스</h2>
+          <router-link class="hotplace__more-btn" to="">더보기</router-link>
+        </div>
+        
         <img-cards class="hotplace__cards" :infos="imgs"></img-cards>
       </div>
     </content>
@@ -67,25 +71,33 @@ export default {
   justify-content: center;
   align-items: center;
   width: 70vw;
-  height: 3rem;
+  height: 2.5rem;
   margin: 1.2rem 1.2rem;
   padding: 0 1rem 0 1rem;
 }
-.search__icon{
-  color:#0000008f
+.search__icon {
+  color: #0000008f;
 }
 .search__input {
-  font-size: 1rem;
+  font-size: 0.5rem;
   border: none;
   width: 100%;
 }
-.main-content__hotplace--more {
-  margin: 1rem 0 1rem 0;
-  width: 70vw;
+
+.hotplace{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin:0 1rem 0 1rem;
+}
+.hotplace__title{
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+.hotplace__more-btn {
   text-decoration: none;
   color: #3c59ee;
   font-weight: 700;
   font-size: 0.7rem;
-  text-align: end;
 }
 </style>

@@ -27,12 +27,16 @@ export default {
 
 <style scoped>
 nav {
+  display: flex;
+  align-items: center;
   padding: 0;
   width: 100vw;
+  height: 3rem;
   position: fixed;
   left: 0;
   bottom: 0;
-  background-color: rgb(25, 240, 168);
+  background-color: rgb(255, 255, 255);
+  border-top: 1px solid rgba(0, 0, 0, 0.162);
   z-index: 10;
 }
 .nav-group {
