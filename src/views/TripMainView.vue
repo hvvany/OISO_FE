@@ -3,9 +3,17 @@
     <top-nav></top-nav>
     <img-swiper class="main-swiper" :imgs="imgs"></img-swiper>
     <content class="main-content">
-      <input class="main-content__search" type="search" placeholder="어데로 갈라고?" />
-      <router-link class="main-content__hotplace--more" to="">더보기</router-link>
-      <img-cards :infos="imgs"></img-cards>
+      <div class="main-content__search">
+        <span class="search__icon material-symbols-outlined"> search </span>
+        <input
+          class="search__input"
+          type="search"
+          placeholder="어데로 갈라고?" />
+      </div>
+      <div class="main-content__hotplace">
+        <router-link class="hotplace__more-btn" to="">더보기</router-link>
+        <img-cards class="hotplace__cards" :infos="imgs"></img-cards>
+      </div>
     </content>
     <app-nav></app-nav>
   </div>
@@ -15,7 +23,7 @@
 import AppNav from "@/components/layout/AppNav.vue";
 import ImgSwiper from "@/components/common/ImgSwiper.vue";
 import ImgCards from "@/components/common/ImgCards.vue";
-import TopNav from '@/components/layout/TopNav.vue';
+import TopNav from "@/components/layout/TopNav.vue";
 export default {
   name: "TripMain",
   components: { AppNav, ImgSwiper, ImgCards, TopNav },
@@ -35,7 +43,7 @@ export default {
 </script>
 
 <style scoped>
-.main-swiper{
+.main-swiper {
   position: sticky;
   top: 0;
 }
@@ -51,17 +59,31 @@ export default {
   bottom: 5rem;
   z-index: 2;
 }
-.main-content__search{
+.main-content__search {
+  border-style: solid;
+  border-width: 0.1rem;
   border-radius: 30px;
-  width:70vw;
-  height:3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70vw;
+  height: 3rem;
   margin: 1.2rem 1.2rem;
-  padding:1.2rem;
+  padding: 0 1rem 0 1rem;
 }
-.main-content__hotplace--more{
-  width:70vw;
+.search__icon{
+  color:#0000008f
+}
+.search__input {
+  font-size: 1rem;
+  border: none;
+  width: 100%;
+}
+.main-content__hotplace--more {
+  margin: 1rem 0 1rem 0;
+  width: 70vw;
   text-decoration: none;
-  color: #3C59EE;
+  color: #3c59ee;
   font-weight: 700;
   font-size: 0.7rem;
   text-align: end;

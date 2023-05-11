@@ -31,4 +31,7 @@ export default {
   width: 70vw;
   height: 70vw;
 }
+.card {
+  margin: 1rem 1rem;
+}
 </style>
