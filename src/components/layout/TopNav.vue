@@ -4,7 +4,13 @@
       :style="
         'background-color:rgba(255,255,255,' +
         topNavNum +
-        '%);color:rgb(' + (255 - topNavNum*2) + ',' + (255 - topNavNum*2) + ',' + (255 - topNavNum*2) + ')'
+        '%);color:rgb(' +
+        (255 - topNavNum * 2) +
+        ',' +
+        (255 - topNavNum * 2) +
+        ',' +
+        (255 - topNavNum * 2) +
+        ')'
       ">
       <div class="nav__logo">OISO</div>
       <div class="nav__menus">
@@ -26,7 +32,6 @@ export default {
   data() {
     return {
       message: "",
-      navColor: Math.floor(),
     };
   },
   created() {},
@@ -47,7 +52,7 @@ nav {
   width: 100vw;
   padding: 0 1rem 0 1rem;
   height: 3rem;
-  color:aliceblue;
+  color: aliceblue;
 }
 .nav__logo {
   font-weight: 700;
