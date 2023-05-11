@@ -2,7 +2,8 @@
   <div>
     <img-swiper class="main-swiper" :imgs="imgs"></img-swiper>
     <content class="main-content">
-      <input class="main-content__search" type="search" placeholder="어데로 가노 마" />
+      <input class="main-content__search" type="search" placeholder="어데로 갈라고?" />
+      <router-link class="main-content__hotplace--more" to="">더보기</router-link>
       <img-cards :infos="imgs"></img-cards>
     </content>
     <app-nav></app-nav>
@@ -43,7 +44,7 @@ export default {
   flex-direction: column;
   align-items: center;
   width: 100vw;
-  border-radius: 20px;
+  border-radius: 30px;
   position: relative;
   bottom: 5rem;
   z-index: 10;
@@ -54,5 +55,13 @@ export default {
   height:3rem;
   margin: 1.2rem 1.2rem;
   padding:1.2rem;
+}
+.main-content__hotplace--more{
+  width:70vw;
+  text-decoration: none;
+  color: #3C59EE;
+  font-weight: 700;
+  font-size: 0.7rem;
+  text-align: end;
 }
 </style>
