@@ -1,8 +1,5 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import LoginView from "@/views/LoginView.vue";
-import SignUpView from "@/views/SignUpView.vue";
-import TripMainView from "@/views/TripMainView.vue";
 
 Vue.use(VueRouter);
 
@@ -10,17 +7,22 @@ const routes = [
   {
     path: "/",
     name: "login",
-    component: LoginView,
+    component: () => import("@/views/LoginView.vue"),
   },
   {
     path: "/user/signup",
     name: "signup",
-    component: SignUpView,
+    component: () => import("@/views/SignUpView.vue"),
   },
   {
     path: "/trip",
     name: "tripmain",
-    component: TripMainView,
+    component: () => import("@/views/TripMainView.vue"),
+  },
+  {
+    path: "/trip/info",
+    name: "tripinfo",
+    component: () => import("@/views/TripInfoView.vue"),
   },
 ];
 
