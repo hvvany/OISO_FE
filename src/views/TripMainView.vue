@@ -4,11 +4,13 @@
     <img-swiper class="main-swiper" :imgs="imgs"></img-swiper>
     <content class="main-content">
       <div class="main-content__search">
-        <span class="search__icon material-symbols-outlined"> search </span>
-        <input
+        <button
+          type="button"
           class="search__input"
-          type="search"
-          placeholder="어데로 갈라고" />
+          @click="$router.push('/trip/info')">
+          <span class="search__icon material-symbols-outlined"> search </span>
+          <p>어디로 여행을 가시나요</p>
+        </button>
       </div>
       <div class="main-content__hotplace">
         <div class="hotplace">
@@ -98,6 +100,9 @@ export default {
   color: #0000008f;
 }
 .search__input {
+  display: flex;
+  align-items: center;
+  background-color: #ffffffff;
   font-size: 0.5rem;
   border: none;
   width: 100%;
