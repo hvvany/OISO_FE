@@ -1,6 +1,22 @@
 <template>
   <div>
     <top-nav :topNavNum="topNavNum"></top-nav>
+    <div id="mySidebar" class="sidebar">
+      <a href="javascript:void(0)" class="closebtn" @click="closeNav()"
+        >&times;</a
+      >
+      <a href="#">사용자 이름</a>
+      <a href="#">개인정보 수정</a>
+      <a href="#">로그아웃</a>
+      <a href="#">admin이면 member</a>
+      <a href="#">공지사항</a>
+    </div>
+
+    <!-- <div id="main">
+      <button class="openbtn" onclick="openNav()">&#9776; Open Sidebar</button>
+      <h2>Collapsed Sidebar</h2>
+      <p>Content...</p>
+    </div> -->
     <img-swiper class="main-swiper" :imgs="imgs"></img-swiper>
     <content class="main-content">
       <div class="main-content__search">
@@ -56,6 +72,15 @@ export default {
       } else {
         this.topNavNum = 100;
       }
+    },
+    openNav() {
+      document.getElementById("mySidebar").style.width = "250px";
+      // document.getElementById("main").style.marginLeft = "250px";
+    },
+
+    closeNav() {
+      document.getElementById("mySidebar").style.width = "0";
+      //document.getElementById("main").style.marginLeft = "0";
     },
   },
   mounted() {
@@ -123,5 +148,72 @@ export default {
   color: #3c59ee;
   font-weight: 700;
   font-size: 0.7rem;
+}
+/* The sidebar menu */
+.sidebar {
+  height: 100%; /* 100% Full-height */
+  width: 0; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place */
+  z-index: 10; /* Stay on top */
+  top: 0;
+  right: 0;
+  background-color: #111; /* Black*/
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 60px; /* Place content 60px from the top */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+}
+
+/* The sidebar links */
+.sidebar a {
+  padding: 8px 8px 8px 8px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidebar a:hover {
+  color: #f1f1f1;
+}
+
+/* Position and style the close button (top right corner) */
+.sidebar .closebtn {
+  position: absolute;
+  top: 0;
+  left: 1rem;
+  font-size: 36px;
+  margin-right: 5rem;
+}
+
+/* The button used to open the sidebar */
+/* .openbtn {
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #111;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+}
+
+.openbtn:hover {
+  background-color: #444;
+} */
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+/* #main {
+  transition: margin-left 0.5s; /* If you want a transition effect
+  padding: 20px;
+} */
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidebar {
+    padding-top: 15px;
+  }
+  .sidebar a {
+    font-size: 18px;
+  }
 }
 </style>

@@ -18,7 +18,7 @@
           <span class="material-symbols-outlined"> add </span>
         </div>
         <div class="menus__aside-btn">
-          <span class="material-symbols-outlined"> menu </span>
+          <span class="material-symbols-outlined" @click="$parent.openNav()"> menu </span>
         </div>
       </div>
     </nav>
