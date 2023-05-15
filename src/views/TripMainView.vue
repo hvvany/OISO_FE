@@ -31,7 +31,7 @@
       </div>
       <div class="main-content__hotplace">
         <div class="hotplace">
-          <h2 class="hotplace__title">OISO 핫플레이스 {{ topNavNum }}</h2>
+          <h2 class="hotplace__title">OISO 핫플레이스</h2>
           <router-link class="hotplace__more-btn" to="">더보기</router-link>
         </div>
 
@@ -66,10 +66,8 @@ export default {
   created() {},
   methods: {
     onScroll() {
-      console.log("함수 실행");
       //스크롤시 이벤트가 실행된다.
       let value = window.scrollY;
-      console.log(value);
       if (value <= 200) {
         this.topNavNum = Math.floor(value / 2);
       } else {
@@ -77,13 +75,11 @@ export default {
       }
     },
     openNav() {
-      document.getElementById("mySidebar").style.width = "250px";
-      // document.getElementById("main").style.marginLeft = "250px";
+      document.getElementById("mySidebar").style.width = "17rem";
     },
 
     closeNav() {
       document.getElementById("mySidebar").style.width = "0";
-      //document.getElementById("main").style.marginLeft = "0";
     },
   },
   mounted() {
