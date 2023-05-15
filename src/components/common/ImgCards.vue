@@ -14,7 +14,7 @@ export default {
   name: "ImgCards",
   components: {},
   props: {
-    infos: Object,
+    infos: Array,
   },
   data() {
     return {

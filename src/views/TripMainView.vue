@@ -11,8 +11,8 @@
       <a href="#">사용자 이름</a>
       <a href="#">개인정보 수정</a>
       <a href="#">로그아웃</a>
-      <a href="#">admin이면 member</a>
-      <a href="#">공지사항</a>
+      <a href="#">member</a>
+      <router-link :to="{ name: 'bulletin' }">공지사항</router-link>
     </div>
 
     <!-- 상단 이미지 스와이퍼 -->
@@ -160,7 +160,7 @@ export default {
   z-index: 10; /* Stay on top */
   top: 0;
   right: 0;
-  background-color: #111; /* Black*/
+  background-color: #ffffff; /* Black*/
   overflow-x: hidden; /* Disable horizontal scroll */
   padding-top: 60px; /* Place content 60px from the top */
   transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
@@ -171,14 +171,14 @@ export default {
   padding: 8px 8px 8px 8px;
   text-decoration: none;
   font-size: 25px;
-  color: #818181;
+  color: #aeaeae;
   display: block;
   transition: 0.3s;
 }
 
 /* When you mouse over the navigation links, change their color */
 .sidebar a:hover {
-  color: #f1f1f1;
+  color: #000000;
 }
 
 /* Position and style the close button (top right corner) */

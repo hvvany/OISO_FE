@@ -24,6 +24,11 @@ const routes = [
     name: "tripinfo",
     component: () => import("@/views/TripInfoView.vue"),
   },
+  {
+    path: "/article/bulletin",
+    name: "bulletin",
+    component: () => import("@/views/ArticleBulletinView.vue"),
+  },
 ];
 
 const router = new VueRouter({
