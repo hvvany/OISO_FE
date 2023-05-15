@@ -35,6 +35,11 @@ const routes = [
     component: () => import("@/views/ArticleBoardView.vue"),
   },
   {
+    path: "/article/board/new",
+    name: "boardnew",
+    component: () => import("@/views/ArticleBoardNewView.vue"),
+  },
+  {
     path: "/article/hotplace",
     name: "hotplace",
     component: () => import("@/views/ArticleHotplaceView.vue"),
