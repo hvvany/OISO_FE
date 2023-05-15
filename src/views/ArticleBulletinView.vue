@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="top-back">
-      <div class="top-back__arrow material-symbols-outlined">arrow_back</div>
+      <div @click="$router.go(-1)" class="top-back__arrow material-symbols-outlined">arrow_back</div>
       <div>공지사항</div>
     </div>
     <ul class="content-list">
