@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import http from "@/util/http-common";
 export default {
   name: "LoginView",
   components: {},
@@ -50,8 +51,31 @@ export default {
         : (isValid = true);
 
       if (isValid) {
-        this.$router.push("/trip");
+        this.login();
       }
+    },
+    login() {
+      console.log(this.userId);
+      console.log(this.userPw);
+      http
+        .post(`/user/login`, {
+          userId: this.userId,
+          userPwd: this.userPw,
+        })
+        .then((response) => {
+          console.log(response);
+          if (response.status == 200) {
+            this.$router.push("/trip");
+          }
+        })
+        .catch(({ response }) => {
+          console.log(response);
+          if (response.status == 500) {
+            alert("서버 오류 입니다.");
+          } else if (response.status == 204) {
+            alert("아이디와 비밀번호를 다시 입력해주세요.");
+          }
+        });
     },
   },
 };
