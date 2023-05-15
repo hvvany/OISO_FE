@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import http from "@/util/http-common";
+import { mapActions } from "vuex";
 export default {
   name: "LoginView",
   components: {},
@@ -33,8 +33,8 @@ export default {
       userPw: "",
     };
   },
-  created() {},
   methods: {
+    ...mapActions(["userLogin"]),
     validate() {
       this.err = 0;
       let isValid = true; // 유효하면 true
@@ -55,27 +55,18 @@ export default {
       }
     },
     login() {
-      console.log(this.userId);
-      console.log(this.userPw);
-      http
-        .post(`/user/login`, {
-          userId: this.userId,
-          userPwd: this.userPw,
-        })
-        .then((response) => {
-          console.log(response);
-          if (response.status == 200) {
-            this.$router.push("/trip");
-          }
-        })
-        .catch(({ response }) => {
-          console.log(response);
-          if (response.status == 500) {
+      const thiz = this;
+      this.userLogin({
+        userId: this.userId,
+        userPwd: this.userPw,
+        callback: function (status) {
+          if (status == 200) {
+            thiz.$router.push({ name: "tripmain" });
+          } else if (status == 500) {
             alert("서버 오류 입니다.");
-          } else if (response.status == 204) {
-            alert("아이디와 비밀번호를 다시 입력해주세요.");
           }
-        });
+        },
+      });
     },
   },
 };
