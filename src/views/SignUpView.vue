@@ -38,9 +38,9 @@
 </template>
 
 <script>
-import http from "@/util/http-common";
+import { mapActions } from "vuex";
 export default {
-  name: "LoginView",
+  name: "signUpView",
   components: {},
   data: function () {
     return {
@@ -53,8 +53,8 @@ export default {
       email: "",
     };
   },
-  created() {},
   methods: {
+    ...mapActions(["userSignUp"]),
     validate() {
       const validateEmail =
         /^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\.[A-Za-z0-9\\-]+/;
@@ -97,27 +97,21 @@ export default {
       }
     },
     signUp() {
-      console.log(this.userId);
-      console.log();
-      http
-        .post(`/user/signup`, {
-          userId: this.userId,
-          userPwd: this.userPw1,
-          emailId: this.email.split("@")[0],
-          emailDomain: this.email.split("@")[1],
-        })
-        .then((response) => {
-          console.log(response);
-          if (response.status == 200 && response.data == 1) {
-            this.$router.push("/");
-          }
-        })
-        .catch(({ response }) => {
-          console.log(response);
-          if (response.status == 500) {
+      const thiz = this;
+      console.log(this.email);
+      this.userSignUp({
+        userId: this.userId,
+        userPwd: this.userPw1,
+        emailId: this.email.split("@")[0],
+        emailDomain: this.email.split("@")[1],
+        callback: function (status) {
+          if (status == 200) {
+            thiz.$router.push({ name: "login" });
+          } else if (status == 500) {
             alert("서버 오류 입니다.");
           }
-        });
+        },
+      });
     },
   },
 };
