@@ -51,8 +51,6 @@ export default {
         : (isValid = true);
 
       if (isValid) {
-        // console.log(this.userId, this.userPw);
-        // this.$router.push("/trip");
         this.login();
       }
     },
