@@ -22,6 +22,18 @@ export default new Vuex.Store({
           payload.callback(response.status);
         });
     },
+    userSignUp(context, payload) {
+      console.log(payload);
+      http
+        .post(`/user/signup`, payload)
+        .then(({ data, status }) => {
+          console.log("응답: ", data, status);
+          payload.callback(status);
+        })
+        .catch(({ response }) => {
+          payload.callback(response.status);
+        });
+    },
   },
   modules: {},
   plugins: [
