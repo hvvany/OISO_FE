@@ -50,7 +50,7 @@ export default {
         : (isValid = true);
 
       if (isValid) {
-        this.$router.push("/");
+        this.$router.push("/trip");
       }
     },
   },
