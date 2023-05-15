@@ -1,7 +1,11 @@
 <template>
   <div>
     <div class="top-back">
-      <div class="top-back__arrow material-symbols-outlined">arrow_back</div>
+      <a
+        @click="$router.go(-1)"
+        class="top-back__arrow material-symbols-outlined"
+        >arrow_back</a
+      >
       <div>{{ title }}</div>
     </div>
   </div>
