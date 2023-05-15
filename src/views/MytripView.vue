@@ -1,15 +1,18 @@
 <template>
   <div>
-    <h1>나의 여행 계획 페이지 입니당.</h1>
+    <top-back-nav :title="'MyTrip'"></top-back-nav>
+    <kakao-map></kakao-map>
     <app-nav :navmode="'mytrip'"></app-nav>
   </div>
 </template>
 
 <script>
 import AppNav from "@/components/layout/AppNav.vue";
+import TopBackNav from "@/components/layout/TopBackNav.vue";
+import KakaoMap from "@/components/common/KakaoMap.vue";
 export default {
   name: "MytripView",
-  components: { AppNav },
+  components: { AppNav, TopBackNav, KakaoMap },
   data() {
     return {
       message: "",

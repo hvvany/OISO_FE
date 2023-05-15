@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   name: "LoginView",
   components: {},
@@ -32,8 +33,8 @@ export default {
       userPw: "",
     };
   },
-  created() {},
   methods: {
+    ...mapActions(["userLogin"]),
     validate() {
       this.err = 0;
       let isValid = true; // 유효하면 true
@@ -50,8 +51,24 @@ export default {
         : (isValid = true);
 
       if (isValid) {
-        this.$router.push("/trip");
+        // console.log(this.userId, this.userPw);
+        // this.$router.push("/trip");
+        this.login();
       }
+    },
+    login() {
+      const thiz = this;
+      this.userLogin({
+        userId: this.userId,
+        userPwd: this.userPw,
+        callback: function (status) {
+          if (status == 200) {
+            thiz.$router.push({ name: "tripmain" });
+          } else if (status == 500) {
+            alert("서버 오류 입니다.");
+          }
+        },
+      });
     },
   },
 };
