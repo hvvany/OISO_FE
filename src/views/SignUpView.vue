@@ -22,7 +22,14 @@
         type="text"
         placeholder="비밀번호 확인"
         ref="pw2" />
-      <p v-show="(err === 3) | (err === 4)">{{ errMsg }}</p>
+      <p v-show="err === 3">{{ errMsg }}</p>
+      <input
+        class="signup__input"
+        v-model="email"
+        type="text"
+        placeholder="이메일 입력"
+        ref="email" />
+      <p v-show="err === 4">{{ errMsg }}</p>
       <button class="signup__btn" type="button" @click="validate">
         회원가입
       </button>
@@ -31,10 +38,11 @@
 </template>
 
 <script>
+import http from "@/util/http-common";
 export default {
   name: "LoginView",
   components: {},
-  data() {
+  data: function () {
     return {
       message: "",
       errMsg: "",
@@ -42,11 +50,14 @@ export default {
       userId: "",
       userPw1: "",
       userPw2: "",
+      email: "",
     };
   },
   created() {},
   methods: {
     validate() {
+      const validateEmail =
+        /^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\.[A-Za-z0-9\\-]+/;
       this.err = 0;
       let isValid = true; // 유효하면 true
       !this.userId
@@ -66,14 +77,47 @@ export default {
           this.$refs.pw2.focus())
         : !(this.userPw1 === this.userPw2)
         ? ((isValid = false),
-          (this.err = 4),
+          (this.err = 3),
           (this.errMsg = "비밀번호를 다시 확인해 주세요"),
-          this.$refs.price.focus())
+          this.$refs.pw2.focus())
+        : !this.email
+        ? ((isValid = false),
+          (this.err = 4),
+          (this.errMsg = "이메일을 입력해주세요"),
+          this.$refs.email.focus())
+        : !validateEmail.test(this.email)
+        ? ((isValid = false),
+          (this.err = 4),
+          (this.errMsg = "이메일을 정확하게 입력해주세요"),
+          this.$refs.email.focus())
         : (isValid = true);
 
       if (isValid) {
-        this.goLogin();
+        this.signUp();
       }
+    },
+    signUp() {
+      console.log(this.userId);
+      console.log();
+      http
+        .post(`/user/signup`, {
+          userId: this.userId,
+          userPwd: this.userPw1,
+          emailId: this.email.split("@")[0],
+          emailDomain: this.email.split("@")[1],
+        })
+        .then((response) => {
+          console.log(response);
+          if (response.status == 200 && response.data == 1) {
+            this.$router.push("/");
+          }
+        })
+        .catch(({ response }) => {
+          console.log(response);
+          if (response.status == 500) {
+            alert("서버 오류 입니다.");
+          }
+        });
     },
   },
 };

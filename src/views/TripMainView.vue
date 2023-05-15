@@ -32,7 +32,9 @@
       <div class="main-content__hotplace">
         <div class="hotplace">
           <h2 class="hotplace__title">OISO 핫플레이스</h2>
-          <router-link class="hotplace__more-btn" to="">더보기</router-link>
+          <router-link class="hotplace__more-btn" :to="{ name: 'hotplace' }"
+            >더보기</router-link
+          >
         </div>
 
         <img-cards class="hotplace__cards" :infos="imgs"></img-cards>
@@ -40,7 +42,7 @@
     </content>
 
     <!-- 하단 네브바 -->
-    <app-nav></app-nav>
+    <app-nav :navmode="'home'"></app-nav>
   </div>
 </template>
 

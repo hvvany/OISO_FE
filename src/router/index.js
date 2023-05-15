@@ -29,6 +29,21 @@ const routes = [
     name: "bulletin",
     component: () => import("@/views/ArticleBulletinView.vue"),
   },
+  {
+    path: "/article/board",
+    name: "board",
+    component: () => import("@/views/ArticleBoardView.vue"),
+  },
+  {
+    path: "/article/hotplace",
+    name: "hotplace",
+    component: () => import("@/views/ArticleHotplaceView.vue"),
+  },
+  {
+    path: "/mytrip/:1",
+    name: "mytrip",
+    component: () => import("@/views/MytripView.vue"),
+  },
 ];
 
 const router = new VueRouter({
