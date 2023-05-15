@@ -1,9 +1,6 @@
 <template>
   <div>
-    <div class="top-back">
-      <div class="top-back__arrow material-symbols-outlined">arrow_back</div>
-      <div>공지사항</div>
-    </div>
+    <top-back-nav :title="'공지사항'"></top-back-nav>
     <ul class="content-list">
       <li class="content-list__item">
         <p>공지사항 title</p>
@@ -61,9 +58,10 @@
 
 <script>
 import AppNav from "@/components/layout/AppNav.vue";
+import TopBackNav from "@/components/layout/TopBackNav.vue";
 export default {
   name: "BulletinView",
-  components: { AppNav },
+  components: { AppNav, TopBackNav },
   data() {
     return {
       message: "",
@@ -75,28 +73,10 @@ export default {
 </script>
 
 <style scoped>
-.top-back {
-  position:sticky;
-  top: 0;
-  z-index: 2;
-  background-color: rgb(255, 255, 255);
-  width: 100vw;
-  display: flex;
-  align-items: center;
-  padding: 1rem;
-  font-size: 1.6rem;
-  font-weight: 600;
-  border-bottom:solid 1px gray;
-}
-.top-back__arrow {
-  font-size: 2rem;
-  padding: 0 1rem;
-}
-
 .content-list {
   padding: 0 1.5rem;
 }
-.content-list__item{
+.content-list__item {
   padding: 1rem;
   border-bottom: solid 1px gray;
 }
