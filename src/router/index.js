@@ -45,8 +45,13 @@ const routes = [
     component: () => import("@/views/ArticleHotplaceView.vue"),
   },
   {
-    path: "/mytrip/:1",
+    path: "/mytrip",
     name: "mytrip",
+    component: () => import("@/views/MyTripMainView.vue"),
+  },
+  {
+    path: "/mytripmap",
+    name: "mytripmap",
     component: () => import("@/views/MytripView.vue"),
   },
 ];

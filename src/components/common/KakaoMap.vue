@@ -119,7 +119,7 @@ export default {
 <style scoped>
 #map {
   width: 100vw;
-  height: 150vw;
+  height: 50vw;
 }
 
 .button-group {
