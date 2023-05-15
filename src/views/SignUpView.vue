@@ -31,10 +31,11 @@
 </template>
 
 <script>
+import http from "@/util/http-common";
 export default {
   name: "LoginView",
   components: {},
-  data() {
+  data: function () {
     return {
       message: "",
       errMsg: "",
@@ -72,8 +73,28 @@ export default {
         : (isValid = true);
 
       if (isValid) {
-        this.goLogin();
+        this.signUp();
       }
+    },
+    signUp() {
+      console.log(this.userId);
+      console.log();
+      http.post(`/user/signup`, {
+        userId: this.userId,
+        userPwd: this.userPw1,
+        emailId: this.userId,
+        emailDomain: this.userId,
+      });
+      // .then(({ data, status }) => {
+      // if (status == 200 && data == "success") {
+      //   this.$router.push("/");
+      // }
+      // })
+      // .catch(({ response }) => {
+      //   if (response.status == 500) {
+      //     alert("서버 오류 입니다.");
+      //   }
+      // })
     },
   },
 };

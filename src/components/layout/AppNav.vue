@@ -3,13 +3,31 @@
     <nav>
       <ul class="nav-group">
         <li class="nav-group__btn">
-          <a @click="$router.push('/trip')" class="material-symbols-outlined">
+          <a
+            v-if="navmode === 'home'"
+            @click="$router.push('/trip')"
+            class="material-symbols-outlined"
+            style="color: red">
+            home
+          </a>
+          <a
+            v-else
+            @click="$router.push('/trip')"
+            class="material-symbols-outlined">
             home
           </a>
           <div>Home</div>
         </li>
         <li class="nav-group__btn">
           <a
+            v-if="navmode === 'board'"
+            @click="$router.push('/article/board')"
+            class="material-symbols-outlined"
+            style="color: red">
+            note_alt
+          </a>
+          <a
+            v-else
             @click="$router.push('/article/board')"
             class="material-symbols-outlined">
             note_alt
@@ -18,6 +36,14 @@
         </li>
         <li class="nav-group__btn">
           <a
+            v-if="navmode === 'hotplace'"
+            @click="$router.push('/article/hotplace')"
+            class="material-symbols-outlined"
+            style="color: red">
+            dashboard
+          </a>
+          <a
+            v-else
             @click="$router.push('/article/hotplace')"
             class="material-symbols-outlined">
             dashboard
@@ -25,7 +51,19 @@
           <div>핫플</div>
         </li>
         <li class="nav-group__btn">
-          <a @click="$router.push(`/mytrip/${userId}`)" class="material-symbols-outlined"> luggage </a>
+          <a
+            v-if="navmode === 'mytrip'"
+            @click="$router.push(`/mytrip/${userId}`)"
+            class="material-symbols-outlined"
+            style="color: red">
+            luggage
+          </a>
+          <a
+            v-else
+            @click="$router.push(`/mytrip/${userId}`)"
+            class="material-symbols-outlined">
+            luggage
+          </a>
           <div>My Trip</div>
         </li>
       </ul>
@@ -37,6 +75,9 @@
 export default {
   name: "AppNav",
   components: {},
+  props: {
+    navmode: String,
+  },
   data() {
     return {
       message: "",

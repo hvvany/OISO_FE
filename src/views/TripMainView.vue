@@ -40,7 +40,7 @@
     </content>
 
     <!-- 하단 네브바 -->
-    <app-nav></app-nav>
+    <app-nav :navmode="'home'"></app-nav>
   </div>
 </template>
 
