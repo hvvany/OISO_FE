@@ -1,13 +1,9 @@
 <template>
-  <div>
-    <div class="top-back">
-      <a
-        @click="$router.go(-1)"
-        class="top-back__arrow material-symbols-outlined"
-        >arrow_back</a
-      >
-      <div>{{ title }}</div>
-    </div>
+  <div class="top-back">
+    <a @click="$router.go(-1)" class="top-back__arrow material-symbols-outlined"
+      >arrow_back</a
+    >
+    <div class="top-back__title">{{ title }}</div>
   </div>
 </template>
 
@@ -35,15 +31,19 @@ export default {
   z-index: 2;
   background-color: rgb(255, 255, 255);
   width: 100vw;
+  height: 17vw;
   display: flex;
   align-items: center;
-  padding: 1rem;
-  font-size: 1.6rem;
+  padding: 0.5rem;
+  font-size: 1.2rem;
   font-weight: 600;
   border-bottom: solid 1px gray;
 }
 .top-back__arrow {
-  font-size: 2rem;
+  font-size: 1.6rem;
   padding: 0 1rem;
+}
+.top-back__title{
+  
 }
 </style>
