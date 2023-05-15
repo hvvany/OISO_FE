@@ -1,6 +1,9 @@
 <template>
   <div>
+    <!-- 상단 네브바 -->
     <top-nav :topNavNum="topNavNum"></top-nav>
+
+    <!-- 사이드바 -->
     <div id="mySidebar" class="sidebar">
       <a href="javascript:void(0)" class="closebtn" @click="closeNav()"
         >&times;</a
@@ -12,12 +15,10 @@
       <a href="#">공지사항</a>
     </div>
 
-    <!-- <div id="main">
-      <button class="openbtn" onclick="openNav()">&#9776; Open Sidebar</button>
-      <h2>Collapsed Sidebar</h2>
-      <p>Content...</p>
-    </div> -->
+    <!-- 상단 이미지 스와이퍼 -->
     <img-swiper class="main-swiper" :imgs="imgs"></img-swiper>
+
+    <!-- 메인 화면 콘텐트 -->
     <content class="main-content">
       <div class="main-content__search">
         <button
@@ -37,6 +38,8 @@
         <img-cards class="hotplace__cards" :infos="imgs"></img-cards>
       </div>
     </content>
+
+    <!-- 하단 네브바 -->
     <app-nav></app-nav>
   </div>
 </template>
