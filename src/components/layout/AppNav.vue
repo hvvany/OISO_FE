@@ -3,16 +3,30 @@
     <nav>
       <ul class="nav-group">
         <li class="nav-group__btn">
-          <button @click="$router.push('/trip')">Home</button>
+          <a @click="$router.push('/trip')" class="material-symbols-outlined">
+            home
+          </a>
+          <div>Home</div>
         </li>
         <li class="nav-group__btn">
-          <button @click="$router.push('/article/board')">게시판</button>
+          <a
+            @click="$router.push('/article/board')"
+            class="material-symbols-outlined">
+            note_alt
+          </a>
+          <div>게시판</div>
         </li>
         <li class="nav-group__btn">
-          <button @click="$router.push('/article/hotplace')">핫플</button>
+          <a
+            @click="$router.push('/article/hotplace')"
+            class="material-symbols-outlined">
+            dashboard
+          </a>
+          <div>핫플</div>
         </li>
         <li class="nav-group__btn">
-          <button @click="$router.push(`/mytrip/${userId}`)">나의 계획</button>
+          <a @click="$router.push(`/mytrip/${userId}`)" class="material-symbols-outlined"> luggage </a>
+          <div>My Trip</div>
         </li>
       </ul>
     </nav>
@@ -39,7 +53,7 @@ nav {
   align-items: center;
   padding: 0;
   width: 100vw;
-  height: 3rem;
+  height: 3.7rem;
   position: fixed;
   left: 0;
   bottom: 0;
@@ -59,5 +73,8 @@ nav {
 }
 
 .nav-group__btn {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.5rem;
 }
 </style>

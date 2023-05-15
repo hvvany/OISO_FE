@@ -54,11 +54,6 @@ export default {
           (this.err = 1),
           (this.errMsg = "ID를 입력해주세요"),
           this.$refs.id.focus())
-        : this.userId.length < 6
-        ? ((isValid = false),
-          (this.err = 1),
-          (this.errMsg = "ID를 6자 이상 작성해주세요"),
-          this.$refs.id.focus())
         : !this.userPw1
         ? ((isValid = false),
           (this.err = 2),

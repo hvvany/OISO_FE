@@ -20,7 +20,7 @@ import "swiper/swiper-bundle.css";
 
 export default {
   props: {
-    imgs: Object,
+    imgs: Array,
   },
   components: {
     Swiper,
