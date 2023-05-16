@@ -102,12 +102,13 @@ content {
   color: white;
 }
 .card__title {
-  margin: 4rem;
+  margin-top: 4rem;
   font-size: 1.5rem;
   font-weight: 700;
   color: white;
 }
 .card__location{
+  margin-top: 3rem;
   color: white;
   text-align: start;
 }
