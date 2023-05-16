@@ -51,16 +51,17 @@
           <div>핫플</div>
         </li>
         <li class="nav-group__btn">
+          <!-- /mytrip/${userId} 해야하는데 일단 에러나므로 이렇게 처리 -->
           <a
             v-if="navmode === 'mytrip'"
-            @click="$router.push(`/mytrip/${userId}`)"
+            @click="$router.push(`/mytrip/`)"
             class="material-symbols-outlined"
             style="color: red">
             luggage
           </a>
           <a
             v-else
-            @click="$router.push(`/mytrip/${userId}`)"
+            @click="$router.push(`/mytrip/`)"
             class="material-symbols-outlined">
             luggage
           </a>
