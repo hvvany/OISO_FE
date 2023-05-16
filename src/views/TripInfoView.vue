@@ -38,8 +38,10 @@
         <div class="sido-lst__item">
           <div class="sido-lst__left">
             <div
+              v-if="info.firstimage != ''"
               class="item__img"
               :style="'background-image: url(' + info.firstimage + ')'"></div>
+            <div v-else class="item__img--noimg"></div>
             <h3 class="item__sido">{{ info.title }}</h3>
           </div>
         </div>
@@ -171,27 +173,26 @@ export default {
 .sido {
   display: flex;
   flex-direction: column;
-  justify-content: end;
+  justify-content: center;
   padding: 1rem;
-  height: 7rem;
+  height: 10rem;
   background-size: cover;
 }
 .sido__title {
   color: white;
   align-self: center;
-  margin: 0.5rem;
+  margin: 3rem 1rem 2rem 1rem;
   font-size: 1.5rem;
   font-weight: 800;
 }
 .sido__btn {
   align-self: end;
-  font-size: 0.4rem;
-  height: 1.3rem;
+  font-size: 0.7rem;
   color: white;
   background-color: #3485ff;
   border: solid 0;
   border-radius: 10px;
-  padding: 0.3rem 0.3rem;
+  padding: 0.2rem 0.3rem;
   box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.29);
 }
 .filter-swiper {
@@ -201,9 +202,9 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem;
+  padding: 1.2rem;
   width: 100vw;
-  height: 3rem;
+  height: 4rem;
   background-color: white;
   border-bottom: solid 0.1px rgb(211, 211, 211);
 }
@@ -214,21 +215,29 @@ export default {
 .item__img {
   background-size: cover;
   border-radius: 50%;
-  width: 2rem;
-  height: 2rem;
+  width: 2.7rem;
+  height: 2.7rem;
+}
+
+.item__img--noimg{
+  background-image: url(https://jeunessetravel.com/wp-content/uploads/jeunesse-travel-video-thumbnail.jpg);
+  background-size:cover;
+  border-radius: 50%;
+  width: 2.7rem;
+  height: 2.7rem;
 }
 
 .item__sido {
-  margin: 0.5rem;
-  font-size: 0.8rem;
+  margin: 1rem;
+  font-size: 0.9rem;
   font-weight: 800;
 }
 .item__btn {
-  border-radius: 10px;
+  border-radius: 15px;
   border: 0;
   background-color: rgba(213, 213, 213, 0.581);
   justify-self: end;
-  font-size: 0.6rem;
+  font-size: 0.7rem;
   padding: 0.3rem 0.4rem;
 }
 </style>
