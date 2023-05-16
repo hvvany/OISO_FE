@@ -4,17 +4,24 @@
     <top-back-nav :title="'나의 여행'"></top-back-nav>
 
     <!-- 날씨 정보 스와이퍼 -->
-    <city-info-swiper :texts="sidos"></city-info-swiper>
+    <city-info-swiper :texts="plans.sido"></city-info-swiper>
 
     <!-- 여행 계획 -->
     <div class="main-content__plan">
       <div class="plan">
-        <ul v-if="sidos.length != 0">
-          <li class="card" v-for="(code, sido, idx) in sidos" :key="idx">
+        <ul v-if="plans.length != 0">
+          <li class="card" v-for="(val, sido, idx) in plans" :key="idx">
             <div>
-              <router-link class="plan__more-card" :to="{ name: 'mytripmap' }">
-                {{ sido }} 자세히
+              <router-link
+                class="plan__more-card"
+                :to="{
+                  name: 'mytripmap',
+                  params: { planNo: idx },
+                }">
+                <div id="plan__city">{{ val[0] }} 계획</div>
+                <div id="plan__period">{{ val[1] }} ~ {{ val[2] }}</div>
               </router-link>
+              <!-- params: { planNo: tripplan.planNo } -->
             </div>
           </li>
         </ul>
@@ -29,6 +36,8 @@
 import AppNav from "@/components/layout/AppNav.vue";
 import CityInfoSwiper from "@/components/common/CityInfoSwiper.vue";
 import TopBackNav from "@/components/layout/TopBackNav.vue";
+// import http from "@/util/http-common";
+
 export default {
   name: "MytripMainView",
   components: { AppNav, CityInfoSwiper, TopBackNav },
@@ -36,15 +45,20 @@ export default {
     return {
       message: "",
       topNavNum: 0,
-      sidos: {
-        서울: 1,
-        부산: 6,
-        울산: 7,
-        제주도: 39,
+      plans: {
+        서울: ["서울", "2023-06-09", "2023-06-12"],
+        부산: ["부산", "2023-07-01", "2023-07-24"],
+        울산: ["울산", "2023-06-02", "2023-06-04"],
+        제주도: ["제주도", "2023-05-25", "2023-05-28"],
       },
     };
   },
-  created() {},
+  created() {
+    // http.get("/mytrip").then((response) => {
+    //   console.log(response);
+    //   this.articles = response.data;
+    // });
+  },
   methods: {},
 };
 </script>
@@ -70,12 +84,22 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 15px;
+  background-color: rgba(224, 255, 255, 0.436);
 }
 
 .plan__more-card {
   width: 0;
   text-decoration: none;
-  font-size: 1.3rem;
   color: black;
+}
+
+#plan__city {
+  font-size: 1.4rem;
+  margin-bottom: 0.4rem;
+}
+
+#plan__period {
+  font-size: 1rem;
 }
 </style>
