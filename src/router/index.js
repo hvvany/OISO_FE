@@ -52,7 +52,7 @@ const routes = [
   {
     path: "/mytripmap",
     name: "mytripmap",
-    component: () => import("@/views/MytripView.vue"),
+    component: () => import("@/views/MytripMap.vue"),
   },
 ];
 

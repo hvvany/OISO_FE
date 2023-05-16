@@ -18,7 +18,7 @@ export default new Vuex.Store({
           console.log("응답: ", data, status);
           payload.callback(status);
         })
-        .catch(({ response }) => {
+        .catch((response) => {
           payload.callback(response.status);
         });
     },
