@@ -15,10 +15,16 @@
       <div class="nav__logo">OISO</div>
       <div class="nav__menus">
         <div class="menus__add-btn">
-          <span class="material-symbols-outlined"> add </span>
+          <span
+            class="material-symbols-outlined"
+            @click="$router.push('/trip/info')">
+            add
+          </span>
         </div>
         <div class="menus__aside-btn">
-          <span class="material-symbols-outlined" @click="$parent.openNav()"> menu </span>
+          <span class="material-symbols-outlined" @click="$parent.openNav()">
+            menu
+          </span>
         </div>
       </div>
     </nav>
