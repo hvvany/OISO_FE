@@ -85,8 +85,8 @@ content {
   flex-direction: column;
 }
 .cards__card {
-  width: 20rem;
-  height: 15rem;
+  width: 90vw;
+  height: 80vw;
   padding: 1rem;
   margin: 1rem 0.5rem 1rem 0.5rem;
   border-radius: 10px;
@@ -102,13 +102,13 @@ content {
   color: white;
 }
 .card__title {
-  margin-top: 4rem;
+  margin-top: 15vw;
   font-size: 1.5rem;
   font-weight: 700;
   color: white;
 }
 .card__location{
-  margin-top: 3rem;
+  margin-top: 20vw;
   color: white;
   text-align: start;
 }

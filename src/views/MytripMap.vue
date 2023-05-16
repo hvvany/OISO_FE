@@ -16,9 +16,13 @@ export default {
   data() {
     return {
       message: "",
+      planNo: Number,
     };
   },
-  created() {},
+  created() {
+    this.planNo = this.$route.params.planNo;
+    console.log(this.planNo);
+  },
   methods: {},
 };
 </script>
