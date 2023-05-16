@@ -156,13 +156,13 @@ export default {
   box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.29);
 }
 .filter-swiper {
-  margin: 0.5rem 0;
+  padding: 0.8rem 0;
 }
 .sido-lst__item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 2rem 1rem 1rem;
+  padding: 1rem;
   width: 100vw;
   height: 3rem;
   background-color: white;
@@ -177,7 +177,12 @@ export default {
   border-radius: 50%;
   width: 2rem;
   height: 2rem;
-  margin: 1rem;
+}
+
+.item__sido {
+  margin: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 800;
 }
 .item__btn {
   border-radius: 10px;
