@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 상단 네브바 -->
-    <top-back-nav :title="'MytripMainView'"></top-back-nav>
+    <top-back-nav :title="'나의 여행'"></top-back-nav>
 
     <!-- 날씨 정보 스와이퍼 -->
     <city-info-swiper :texts="sidos"></city-info-swiper>
@@ -21,7 +21,7 @@
       </div>
     </div>
     <!-- 하단 네브바 -->
-    <app-nav :navmode="'mytripmain'"></app-nav>
+    <app-nav :navmode="'mytrip'"></app-nav>
   </div>
 </template>
 
@@ -44,7 +44,8 @@ export default {
       },
     };
   },
-  created() {},
+  created() {
+  },
   methods: {},
 };
 </script>
