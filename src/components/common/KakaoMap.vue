@@ -35,6 +35,7 @@ export default {
       infowindow: null,
     };
   },
+  created() {},
   mounted() {
     if (window.kakao && window.kakao.maps) {
       this.initMap();
@@ -43,7 +44,8 @@ export default {
       /* global kakao */
       script.onload = () => kakao.maps.load(this.initMap);
       script.src =
-        "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=915cffed372954b7b44804ed422b9cf0";
+        "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=" +
+        process.env.VUE_APP_KAKAO_KEY;
       document.head.appendChild(script);
     }
   },
