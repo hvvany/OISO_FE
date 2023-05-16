@@ -34,13 +34,24 @@
       </li>
     </ul>
     <ul v-if="input_mode === 1">
-      <h1>필터</h1>
+      <li v-for="(info, idx) in total_infos" :key="idx">
+        <div class="sido-lst__item">
+          <div class="sido-lst__left">
+            <div
+              class="item__img"
+              :style="'background-image: url(' + info.firstimage + ')'"></div>
+            <h3 class="item__sido">{{ info.title }}</h3>
+          </div>
+        </div>
+      </li>
+      <button @click="addInfo()" style="margin-bottom: 20rem;">더 불러오기</button>
     </ul>
     <app-nav></app-nav>
   </div>
 </template>
 
 <script>
+import http from "@/util/http-common.js";
 import AppNav from "@/components/layout/AppNav.vue";
 import TextSwiper from "@/components/common/TextSwiper.vue";
 import TopBackNav from "@/components/layout/TopBackNav.vue";
@@ -110,6 +121,9 @@ export default {
       sido_pick: "도시를 선택해 주세요",
       input_mode: -1, // mode 0 :시도 입력모드   1 : 관광지, 문화시설... 필터 입력 모드
       now_filter: "관광지", // 현재 정보 검색 필터 선택된 모드, 기본값은 관광지 -> 스와이퍼에 넘겨줌
+      total_infos: [],
+      get_infos:[],
+      getinfocnt: 1,
     };
   },
   created() {},
@@ -120,9 +134,34 @@ export default {
     pickSido(sido) {
       this.sido_pick = sido;
       this.input_mode = 1;
+      this.changeFilter("관광지");
     },
     changeFilter(filter) {
       this.now_filter = filter;
+      this.getinfocnt = 1;
+      this.total_infos = []
+      this.getInfo(1);
+    },
+    addInfo() {
+      this.getinfocnt += 1;
+      this.getInfo(this.getinfocnt);
+    },
+    getInfo(pageNum) {
+      const request_url =
+        "https://apis.data.go.kr/B551011/KorService1/areaBasedSyncList1?serviceKey=" +
+        process.env.VUE_APP_WEATHER_KEY +
+        "&numOfRows=10&pageNo=" +
+        pageNum +
+        "&MobileOS=WIN&MobileApp=AppTest&_type=json&showflag=1&arrange=A" +
+        "&contentTypeId=" +
+        this.filters[this.now_filter] +
+        "&areaCode=" +
+        this.sidos[this.sido_pick];
+      http.get(request_url).then((response) => {
+        console.log(response.data.response.body.items.item);
+        this.total_infos.push(...response.data.response.body.items.item);
+        console.log(this.total_infos)
+      });
     },
   },
 };
