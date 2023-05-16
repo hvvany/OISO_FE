@@ -61,6 +61,7 @@ export default {
         userPwd: this.userPw,
         callback: function (status) {
           if (status == 200) {
+            localStorage.setItem('userId',this.userId)
             thiz.$router.push({ name: "tripmain" });
           } else if (status == 500) {
             alert("서버 오류 입니다.");

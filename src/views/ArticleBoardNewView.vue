@@ -4,20 +4,22 @@
     <input
       class="input__title"
       type="text"
-      placeholder="제목을 입력해주세요." />
+      placeholder="제목을 입력해주세요."
+      v-model="content_title" />
     <textarea id="input__content" v-model="content_text"></textarea>
     <app-nav :navmode="'board'"></app-nav>
   </div>
 </template>
 
 <script>
-import suneditor from "suneditor";
 // import editor plugins
+import suneditor from "suneditor";
 import image from "suneditor/src/plugins/dialog/link";
 import list from "suneditor/src/plugins/submenu/list";
 import { font, video } from "suneditor/src/plugins";
 import lang from "suneditor/src/lang";
 
+import http from "@/util/http-common";
 import TopFormNav from "@/components/layout/TopFormNav.vue";
 import AppNav from "@/components/layout/AppNav.vue";
 export default {
@@ -25,7 +27,7 @@ export default {
   components: { TopFormNav, AppNav },
   data() {
     return {
-      message: "",
+      content_title: "",
       content_text: "",
     };
   },
@@ -70,7 +72,21 @@ export default {
     // document.getElementById('example_files_input').files
     editor.insertImage(FileList);
   },
-  methods: {},
+  methods: {
+    sendArticle() {
+      http
+        .post("/article/board/new", {
+          id: localStorage.getItem("userId"),
+          title: this.content_title,
+          content: this.content_text,
+        })
+        .then(({ status }) => {
+          if (status == 200) {
+            this.$router.push("article/board");
+          }
+        });
+    },
+  },
 };
 </script>
 
