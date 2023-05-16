@@ -10,8 +10,8 @@
     <div class="main-content__plan">
       <div class="plan">
         <ul v-if="sidos.length != 0">
-          <li v-for="(code, sido, idx) in sidos" :key="idx">
-            <div class="card">
+          <li class="card" v-for="(code, sido, idx) in sidos" :key="idx">
+            <div>
               <router-link class="plan__more-card" :to="{ name: 'mytripmap' }">
                 {{ sido }} 자세히
               </router-link>
@@ -44,8 +44,7 @@ export default {
       },
     };
   },
-  created() {
-  },
+  created() {},
   methods: {},
 };
 </script>
@@ -68,12 +67,15 @@ export default {
   width: 85vw;
   margin: 3vw;
   border: 1px solid;
+  display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .plan__more-card {
+  width: 0;
   text-decoration: none;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   color: black;
 }
 </style>
