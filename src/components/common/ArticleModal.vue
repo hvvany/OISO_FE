@@ -76,7 +76,7 @@ input {
 }
 
 button {
-  width: 20%;
+  width: 25%;
   border: 1px solid #989898;
   background-color: white;
   border-radius: 8px;
