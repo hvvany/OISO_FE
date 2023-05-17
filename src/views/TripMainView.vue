@@ -10,7 +10,7 @@
       >
       <a href="#">사용자 이름</a>
       <a href="#">개인정보 수정</a>
-      <a href="#">로그아웃</a>
+      <a @click="logout()">로그아웃</a>
       <router-link v-if="isAdmin" :to="{ name: 'member' }">member</router-link>
       <router-link :to="{ name: 'bulletin' }">공지사항</router-link>
     </div>
@@ -74,6 +74,10 @@ export default {
     }
   },
   methods: {
+    logout() {
+      localStorage.setItem("userId", "");
+      this.$router.push({name:'login'})
+    },
     onScroll() {
       //스크롤시 이벤트가 실행된다.
       let value = window.scrollY;
