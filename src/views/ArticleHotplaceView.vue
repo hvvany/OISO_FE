@@ -26,6 +26,7 @@
       <!-- 모달창 -->
       <article-modal v-show="modal_show"></article-modal>
     </content>
+    <app-footer></app-footer>
     <app-nav :navmode="'hotplace'"></app-nav>
   </div>
 </template>
@@ -34,9 +35,10 @@
 import AppNav from "@/components/layout/AppNav.vue";
 import TopBackNav from "@/components/layout/TopBackNav.vue";
 import ArticleModal from "@/components/common/ArticleModal.vue";
+import AppFooter from '@/components/layout/AppFooter.vue';
 export default {
   name: "BoardView",
-  components: { AppNav, TopBackNav, ArticleModal },
+  components: { AppNav, TopBackNav, ArticleModal, AppFooter },
   data() {
     return {
       message: "",

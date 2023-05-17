@@ -46,8 +46,9 @@
           </div>
         </div>
       </li>
-      <button @click="addInfo()" style="margin-bottom: 20rem;">더 불러오기</button>
+      <button v-if="input_mode === 1" @click="addInfo()" class="add-article__btn">+</button>
     </ul>
+    <app-footer></app-footer>
     <app-nav></app-nav>
   </div>
 </template>
@@ -57,9 +58,10 @@ import http from "@/util/http-common.js";
 import AppNav from "@/components/layout/AppNav.vue";
 import TextSwiper from "@/components/common/TextSwiper.vue";
 import TopBackNav from "@/components/layout/TopBackNav.vue";
+import AppFooter from '@/components/layout/AppFooter.vue';
 export default {
   name: "TripInfo",
-  components: { AppNav, TextSwiper, TopBackNav },
+  components: { AppNav, TextSwiper, TopBackNav, AppFooter },
   data() {
     return {
       message: "",
@@ -170,6 +172,18 @@ export default {
 </script>
 
 <style scoped>
+.add-article__btn {
+  margin-top: 1rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 2rem;
+  font-weight: 200;
+  color: rgb(0, 0, 0);
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: solid 0;
+  box-shadow: 2px 2px 2px 1px rgba(128, 128, 128, 0.29);
+}
 .sido {
   display: flex;
   flex-direction: column;

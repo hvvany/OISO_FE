@@ -52,6 +52,7 @@
       </li>
     </ul>
     <div></div>
+    <app-footer></app-footer>
     <app-nav></app-nav>
   </div>
 </template>
@@ -59,9 +60,10 @@
 <script>
 import AppNav from "@/components/layout/AppNav.vue";
 import TopBackNav from "@/components/layout/TopBackNav.vue";
+import AppFooter from '@/components/layout/AppFooter.vue';
 export default {
   name: "BulletinView",
-  components: { AppNav, TopBackNav },
+  components: { AppNav, TopBackNav, AppFooter },
   data() {
     return {
       message: "",

@@ -40,6 +40,7 @@
         <img-cards class="hotplace__cards" :infos="imgs"></img-cards>
       </div>
     </content>
+    <app-footer></app-footer>
 
     <!-- 하단 네브바 -->
     <app-nav :navmode="'home'"></app-nav>
@@ -51,9 +52,10 @@ import AppNav from "@/components/layout/AppNav.vue";
 import ImgSwiper from "@/components/common/ImgSwiper.vue";
 import ImgCards from "@/components/common/ImgCards.vue";
 import TopNav from "@/components/layout/TopNav.vue";
+import AppFooter from '@/components/layout/AppFooter.vue';
 export default {
   name: "TripMain",
-  components: { AppNav, ImgSwiper, ImgCards, TopNav },
+  components: { AppNav, ImgSwiper, ImgCards, TopNav, AppFooter },
   data: function () {
     return {
       message: "",
