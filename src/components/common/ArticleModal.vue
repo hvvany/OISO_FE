@@ -3,10 +3,11 @@
     <div class="modal">
       <div class="modal__header">게시글 검색</div>
       <div class="modal__body">
-        <div class="mb-3">
+        <div class="search__input">
           <input
             type="text"
             placeholder="검색어 입력..."
+            class="form-control"
             v-model="search_keyword" />
         </div>
       </div>
@@ -16,20 +17,6 @@
       </div>
     </div>
   </div>
-  <!-- <div class="modal__background">
-    <div class="modal">
-      <div class="modal__header">게시글 검색</div>
-      <div class="modal__body">
-        <div class="mb-3">
-          <input type="text" placeholder="검색어 입력..." />
-        </div>
-      </div>
-      <div class="moda__footer">
-        <button type="button" @click="$emit('resolve')">검색</button>
-        <button type="button" @click="$emit('close')">취소</button>
-      </div>
-    </div>
-  </div> -->
 </template>
 
 <script>
@@ -77,10 +64,25 @@ export default {
   margin: 4vw;
 }
 .modal__body {
-  margin: 4vw;
+  margin: 2vw;
 }
-.modal__footer {
-  margin: 4vw;
+
+input {
+  width: 80%;
+  border: 1px solid #989898;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+button {
+  width: 20%;
+  border: 1px solid #989898;
+  background-color: white;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin: 0px 10px;
+  font-size: 12px;
 }
 /* 모달 버튼 css 저장 */
 /* .add-article__btn {
