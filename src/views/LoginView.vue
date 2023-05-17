@@ -16,7 +16,7 @@
       <p v-show="err === 2">{{ errMsg }}</p>
       <button class="login__btn" type="button" @click="validate">로그인</button>
       <router-link :to="'/user/signup'">회원가입</router-link>
-      <button @click="$router.push('/trip')">테스트용</button>
+      <button @click="">테스트용</button>
     </div>
   </div>
 </template>
@@ -62,13 +62,17 @@ export default {
         userPwd: this.userPw,
         callback: function (status) {
           if (status == 200) {
-            localStorage.setItem('userId',this.userId)
+            localStorage.setItem("userId", this.userId);
             thiz.$router.push({ name: "tripmain" });
           } else if (status == 500) {
             alert("서버 오류 입니다.");
           }
         },
       });
+    },
+    testBtn() {
+      localStorage.setItem("userId", "ssafy");
+      this.$router.push("/trip");
     },
   },
 };
