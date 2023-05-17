@@ -11,7 +11,7 @@
       <a href="#">사용자 이름</a>
       <a href="#">개인정보 수정</a>
       <a href="#">로그아웃</a>
-      <router-link v-if="local" :to="{ name: 'member' }">member</router-link>
+      <router-link v-if="isAdmin" :to="{ name: 'member' }">member</router-link>
       <router-link :to="{ name: 'bulletin' }">공지사항</router-link>
     </div>
 
@@ -65,9 +65,14 @@ export default {
         "https://velog.velcdn.com/images/hvvany/post/06500863-ae48-48f4-a731-a3e2a7507b73/image.jpeg",
       ],
       topNavNum: 0,
+      isAdmin: false,
     };
   },
-  created() {},
+  created() {
+    if (localStorage.getItem("userId") === "ssafy") {
+      this.isAdmin = true;
+    }
+  },
   methods: {
     onScroll() {
       //스크롤시 이벤트가 실행된다.
