@@ -3,6 +3,11 @@
     <top-back-nav :title="'게시판'"></top-back-nav>
     <content>
       <button
+        @click="openModal"
+        class="search-article__btn material-symbols-outlined">
+        search
+      </button>
+      <button
         @click="$router.push({ name: 'boardnew' })"
         class="add-article__btn">
         +
@@ -27,7 +32,7 @@
       </div>
 
       <!-- 모달창 -->
-      <article-modal v-show="modal_show"></article-modal>
+      <article-modal v-show="modal_show" @close="closeModal()"></article-modal>
     </content>
     <app-footer></app-footer>
     <app-nav :navmode="'board'"></app-nav>
@@ -57,8 +62,61 @@ export default {
     });
   },
   methods: {
+    kmpSearch(text, pattern) {
+      const patternTable = this.buildPatternTable(pattern);
+      let textIndex = 0;
+      let patternIndex = 0;
+
+      while (textIndex < text.length) {
+        if (pattern[patternIndex] === text[textIndex]) {
+          if (patternIndex === pattern.length - 1) {
+            // Pattern found
+            return textIndex - pattern.length + 1;
+          }
+
+          textIndex++;
+          patternIndex++;
+        } else if (patternIndex > 0) {
+          patternIndex = patternTable[patternIndex - 1];
+        } else {
+          textIndex++;
+        }
+      }
+      return -1;
+    },
+    buildPatternTable(pattern) {
+      const table = [0];
+      let prefix = 0;
+      let suffix = 1;
+
+      while (suffix < pattern.length) {
+        if (pattern[prefix] === pattern[suffix]) {
+          table[suffix] = prefix + 1;
+          prefix++;
+          suffix++;
+        } else if (prefix === 0) {
+          table[suffix] = 0;
+          suffix++;
+        } else {
+          prefix = table[prefix - 1];
+        }
+      }
+      return table;
+    },
     openModal() {
       this.modal_show = true;
+    },
+    closeModal(search_keyword) {
+      let test = {};
+      let idx = 0;
+      this.modal_show = false;
+      for (let info of this.boardData) {
+        if (this.kmpSearch(info.title, search_keyword) != -1) {
+          console.log(info);
+          test[idx++] = info;
+        }
+      }
+      this.boardData = test;
     },
   },
 };
@@ -82,6 +140,21 @@ content {
   border: solid 0;
   box-shadow: 2px 2px 2px 1px rgba(128, 128, 128, 0.29);
 }
+
+.search-article__btn {
+  position: fixed;
+  right: 1rem;
+  bottom: 8rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 1.4rem;
+  color: white;
+  border-radius: 50%;
+  background-color: #8d68f3;
+  border: solid 0;
+  box-shadow: 2px 2px 2px 1px rgba(128, 128, 128, 0.29);
+}
+
 .cards__card {
   padding: 1rem;
   margin: 0 0.5rem 1rem 0.5rem;

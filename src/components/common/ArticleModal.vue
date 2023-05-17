@@ -1,9 +1,35 @@
 <template>
-  <div class="modal">
-    <div class="modal__header">모달 헤드</div>
-    <div class="modal__body">모달 바디</div>
-    <div class="modal__footer">모달 푸터</div>
+  <div class="modal__background">
+    <div class="modal">
+      <div class="modal__header">게시글 검색</div>
+      <div class="modal__body">
+        <div class="mb-3">
+          <input
+            type="text"
+            placeholder="검색어 입력..."
+            v-model="search_keyword" />
+        </div>
+      </div>
+      <div class="moda__footer">
+        <button type="button" @click="search()">검색</button>
+        <button type="button" @click="$emit('close')">취소</button>
+      </div>
+    </div>
   </div>
+  <!-- <div class="modal__background">
+    <div class="modal">
+      <div class="modal__header">게시글 검색</div>
+      <div class="modal__body">
+        <div class="mb-3">
+          <input type="text" placeholder="검색어 입력..." />
+        </div>
+      </div>
+      <div class="moda__footer">
+        <button type="button" @click="$emit('resolve')">검색</button>
+        <button type="button" @click="$emit('close')">취소</button>
+      </div>
+    </div>
+  </div> -->
 </template>
 
 <script>
@@ -13,26 +39,49 @@ export default {
   data() {
     return {
       message: "",
+      search_keyword: "",
     };
   },
   created() {},
-  methods: {},
+  methods: {
+    search() {
+      this.$parent.closeModal(this.search_keyword);
+    },
+  },
 };
 </script>
 
 <style scoped>
+.modal__background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  backdrop-filter: blur(3px);
+}
+
 .modal {
   position: fixed;
-  top: 15vh;
-  left: 5vw;
-  width: 90vw;
-  height: 70vh;
+  top: 50vw;
+  left: 10vw;
+  width: 80vw;
+  height: 20vh;
   border-radius: 20px;
   box-shadow: 2px 2px 2px 2px rgba(128, 128, 128, 0.29);
   z-index: 5;
-  background-color: rgb(255, 255, 255);
+  background-color: rgba(255, 255, 255);
 }
 
+.modal__header {
+  margin: 4vw;
+}
+.modal__body {
+  margin: 4vw;
+}
+.modal__footer {
+  margin: 4vw;
+}
 /* 모달 버튼 css 저장 */
 /* .add-article__btn {
   position: fixed;
