@@ -32,7 +32,9 @@
       </div>
 
       <!-- 모달창 -->
-      <article-modal v-show="modal_show" @close="closeModal()"></article-modal>
+      <article-modal
+        v-show="modal_show"
+        @close="closeModal('')"></article-modal>
     </content>
     <app-footer></app-footer>
     <app-nav :navmode="'board'"></app-nav>
@@ -107,22 +109,24 @@ export default {
       this.modal_show = true;
     },
     closeModal(search_keyword) {
+      this.modal_show = false;
       //전체 목록 불러오기
-      http.get("/article/board/").then((response) => {
-        this.boardData = response.data;
+      if (search_keyword != "") {
+        http.get("/article/board/").then((response) => {
+          this.boardData = response.data;
 
-        //KMP 알고리즘
-        let test = {};
-        let idx = 0;
-        this.modal_show = false;
-        for (let info of this.boardData) {
-          if (this.kmpSearch(info.title, search_keyword) != -1) {
-            console.log(info);
-            test[idx++] = info;
+          //KMP 알고리즘
+          let test = {};
+          let idx = 0;
+          for (let info of this.boardData) {
+            if (this.kmpSearch(info.title, search_keyword) != -1) {
+              console.log(info);
+              test[idx++] = info;
+            }
           }
-        }
-        this.boardData = test;
-      });
+          this.boardData = test;
+        });
+      }
     },
   },
 };
