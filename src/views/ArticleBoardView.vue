@@ -107,16 +107,22 @@ export default {
       this.modal_show = true;
     },
     closeModal(search_keyword) {
-      let test = {};
-      let idx = 0;
-      this.modal_show = false;
-      for (let info of this.boardData) {
-        if (this.kmpSearch(info.title, search_keyword) != -1) {
-          console.log(info);
-          test[idx++] = info;
+      //전체 목록 불러오기
+      http.get("/article/board/").then((response) => {
+        this.boardData = response.data;
+
+        //KMP 알고리즘
+        let test = {};
+        let idx = 0;
+        this.modal_show = false;
+        for (let info of this.boardData) {
+          if (this.kmpSearch(info.title, search_keyword) != -1) {
+            console.log(info);
+            test[idx++] = info;
+          }
         }
-      }
-      this.boardData = test;
+        this.boardData = test;
+      });
     },
   },
 };
@@ -159,7 +165,7 @@ content {
   padding: 1rem;
   margin: 0 0.5rem 1rem 0.5rem;
   border-radius: 5px;
-  background-color: rgb(255, 255, 255);
+  background-color: white;
   box-shadow: 2px 2px 2px 1px rgba(128, 128, 128, 0.29);
 }
 .card__author {
