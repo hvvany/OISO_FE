@@ -2,7 +2,7 @@
   <div class="top-back">
     <a @click="$router.go(-1)" class="top-back__cancel">취소</a>
     <div class="top-back__title">{{ title }}</div>
-    <a @click="부모함수;" class="top-back__submit">등록</a>
+    <a @click="$parent.sendArticle()" class="top-back__submit">등록</a>
   </div>
 </template>
 

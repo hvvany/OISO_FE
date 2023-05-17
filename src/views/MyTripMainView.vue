@@ -27,6 +27,7 @@
         </ul>
       </div>
     </div>
+    <app-footer></app-footer>
     <!-- 하단 네브바 -->
     <app-nav :navmode="'mytrip'"></app-nav>
   </div>
@@ -36,11 +37,12 @@
 import AppNav from "@/components/layout/AppNav.vue";
 import CityInfoSwiper from "@/components/common/CityInfoSwiper.vue";
 import TopBackNav from "@/components/layout/TopBackNav.vue";
+import AppFooter from '@/components/layout/AppFooter.vue';
 // import http from "@/util/http-common";
 
 export default {
   name: "MytripMainView",
-  components: { AppNav, CityInfoSwiper, TopBackNav },
+  components: { AppNav, CityInfoSwiper, TopBackNav, AppFooter },
   data: function () {
     return {
       message: "",

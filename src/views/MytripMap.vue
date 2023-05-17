@@ -2,6 +2,7 @@
   <div>
     <top-back-nav :title="'MyTrip'"></top-back-nav>
     <kakao-map></kakao-map>
+    <app-footer></app-footer>
     <app-nav :navmode="'mytrip'"></app-nav>
   </div>
 </template>
@@ -10,9 +11,10 @@
 import AppNav from "@/components/layout/AppNav.vue";
 import TopBackNav from "@/components/layout/TopBackNav.vue";
 import KakaoMap from "@/components/common/KakaoMap.vue";
+import AppFooter from '@/components/layout/AppFooter.vue';
 export default {
   name: "MytripView",
-  components: { AppNav, TopBackNav, KakaoMap },
+  components: { AppNav, TopBackNav, KakaoMap, AppFooter },
   data() {
     return {
       message: "",
