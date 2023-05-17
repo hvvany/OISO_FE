@@ -2,7 +2,11 @@
   <div>
     <top-back-nav :title="'게시판'"></top-back-nav>
     <content>
-      <button @click="$router.push('/article/board/new')" class="add-article__btn">+</button>
+      <button
+        @click="$router.push('/article/board/new')"
+        class="add-article__btn">
+        +
+      </button>
       <div class="cards">
         <div class="cards__card">
           <div class="card__author">작성자 ▪ 김준환</div>
@@ -60,10 +64,11 @@
 </template>
 
 <script>
+import http from "@/util/http-common";
 import AppNav from "@/components/layout/AppNav.vue";
 import TopBackNav from "@/components/layout/TopBackNav.vue";
 import ArticleModal from "@/components/common/ArticleModal.vue";
-import AppFooter from '@/components/layout/AppFooter.vue';
+import AppFooter from "@/components/layout/AppFooter.vue";
 export default {
   name: "BoardView",
   components: { AppNav, TopBackNav, ArticleModal, AppFooter },
@@ -73,11 +78,16 @@ export default {
       modal_show: false,
     };
   },
-  created() {},
+  created() {
+    http.get("/article/board")
+    .then((response) => {
+      console.log(response)
+    })
+  },
   methods: {
-    openModal(){
+    openModal() {
       this.modal_show = true;
-    }
+    },
   },
 };
 </script>
