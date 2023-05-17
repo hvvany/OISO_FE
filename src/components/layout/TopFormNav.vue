@@ -2,7 +2,26 @@
   <div class="top-back">
     <a @click="$router.go(-1)" class="top-back__cancel">취소</a>
     <div class="top-back__title">{{ title }}</div>
-    <a @click="$parent.sendArticle()" class="top-back__submit">등록</a>
+    <a v-if="(mode == '디테일') & (canEdit == false)" class="top-back__submit">
+      &nbsp; &nbsp; &nbsp;&nbsp;
+    </a>
+    <div v-else-if="(mode == '디테일') & (canEdit == true)">
+      <a class="top-back__submit" @click="$parent.changeEdit()"> 수정 </a>
+      <a
+        class="top-back__submit"
+        @click="$parent.deleteArticle()"
+        style="color: #f24e1e">
+        삭제
+      </a>
+    </div>
+
+    <a
+      v-else-if="mode == '디테일수정'"
+      @click="$parent.modifyArticle()"
+      class="top-back__submit"
+      >등록</a
+    >
+    <a v-else @click="$parent.sendArticle()" class="top-back__submit">등록</a>
   </div>
 </template>
 
@@ -12,6 +31,8 @@ export default {
   components: {},
   props: {
     title: String,
+    mode: String,
+    canEdit: Boolean,
   },
   data() {
     return {
@@ -47,5 +68,6 @@ export default {
 .top-back__submit {
   font-size: 1rem;
   color: #3485ff;
+  margin: 1px;
 }
 </style>

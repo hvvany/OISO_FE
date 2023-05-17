@@ -3,12 +3,14 @@
     <top-back-nav :title="'게시판'"></top-back-nav>
     <content>
       <button
-        @click="$router.push('/article/board/new')"
+        @click="$router.push({ name: 'boardnew' })"
         class="add-article__btn">
         +
       </button>
       <div class="cards" v-for="(board, idx) in boardData" :key="idx">
-        <div class="cards__card">
+        <div
+          class="cards__card"
+          @click="$router.push('/article/board/' + board.articleNo)">
           <div class="card__author">
             작성자 ▪ {{ board.id }} | 작성일 ▪ {{ board.regTime.split(" ")[0] }}
           </div>
@@ -49,7 +51,7 @@ export default {
     };
   },
   created() {
-    http.get("/article/board").then((response) => {
+    http.get("/article/board/").then((response) => {
       this.boardData = response.data;
       console.log(response.data);
     });
