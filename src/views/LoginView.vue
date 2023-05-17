@@ -16,7 +16,7 @@
       <p v-show="err === 2">{{ errMsg }}</p>
       <button class="login__btn" type="button" @click="validate">로그인</button>
       <router-link :to="'/user/signup'">회원가입</router-link>
-      <button @click="">테스트용</button>
+      <button @click="testBtn()">테스트용</button>
     </div>
   </div>
 </template>
