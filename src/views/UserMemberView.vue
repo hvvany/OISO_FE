@@ -1,7 +1,7 @@
 <template>
   <div>
     <top-back-nav :title="'멤버 관리'"></top-back-nav>
-    <div v-for="(member, idx) in memberData" :key="idx">
+    <div class="member__div" v-for="(member, idx) in memberData" :key="idx">
       <input
         v-if="modifyMode & (member.userId === userId)"
         type="text"
@@ -98,4 +98,14 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+button {
+  width: 20%;
+  border: 1px solid #989898;
+  background-color: white;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin: 0px 10px;
+  font-size: 12px;
+}
+</style>
