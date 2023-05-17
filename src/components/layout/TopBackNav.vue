@@ -31,7 +31,7 @@ export default {
   z-index: 2;
   background-color: rgb(255, 255, 255);
   width: 100vw;
-  height: 15vw;
+  height: 3.7rem;
   display: flex;
   align-items: center;
   padding: 0.5rem;

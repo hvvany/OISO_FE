@@ -11,7 +11,7 @@
       <a href="#">사용자 이름</a>
       <a href="#">개인정보 수정</a>
       <a href="#">로그아웃</a>
-      <a href="#">member</a>
+      <router-link v-if="local" :to="{ name: 'member' }">member</router-link>
       <router-link :to="{ name: 'bulletin' }">공지사항</router-link>
     </div>
 
@@ -52,7 +52,7 @@ import AppNav from "@/components/layout/AppNav.vue";
 import ImgSwiper from "@/components/common/ImgSwiper.vue";
 import ImgCards from "@/components/common/ImgCards.vue";
 import TopNav from "@/components/layout/TopNav.vue";
-import AppFooter from '@/components/layout/AppFooter.vue';
+import AppFooter from "@/components/layout/AppFooter.vue";
 export default {
   name: "TripMain",
   components: { AppNav, ImgSwiper, ImgCards, TopNav, AppFooter },
