@@ -9,9 +9,7 @@
       type="text"
       placeholder="제목을 입력해주세요."
       v-model="content_title" />
-    <form enctype="multipart/form-data" id="form">
-      <input type="file" name="upfile" multiple="multiple"/>
-    </form>
+    <input type="file" name="file" id="file" multiple="multiple" />
     <textarea
       class="input__text"
       placeholder="본문을 입력해주세요."
@@ -41,14 +39,29 @@ export default {
   mounted() {},
   methods: {
     sendArticle() {
-      console.log(this);
       if ((this.content_text != "") & (this.content_title != "")) {
+        let formData = new FormData();
+        let data = {
+          id: this.userInfo.userId,
+          title: this.content_title,
+          content: this.content_text,
+        };
+        formData.append("file", document.querySelector("#file").files[0]);
+        formData.append(
+          "key",
+          new Blob([JSON.stringify(data)], { type: "application/json" })
+        );
+
         http
-          .post("/article/board/new", {
-            // id: localStorage.getItem("userId"),
-            id: this.userInfo.userId,
-            title: this.content_title,
-            content: this.content_text,
+          .post("/article/board/new", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+            transformRequest: [
+              function () {
+                return formData;
+              },
+            ],
           })
           .then(({ status }) => {
             if (status == 200) {
