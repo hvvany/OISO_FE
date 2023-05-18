@@ -34,6 +34,7 @@ import http from "@/util/http-common";
 import TopFormNav from "@/components/layout/TopFormNav.vue";
 import AppNav from "@/components/layout/AppNav.vue";
 import AppFooter from "@/components/layout/AppFooter.vue";
+import { mapGetters } from "vuex";
 export default {
   name: "BoardNew",
   components: { TopFormNav, AppNav, AppFooter },
@@ -55,13 +56,18 @@ export default {
         this.content_title = boardData.title;
         this.content_text = boardData.content;
         this.articleNo = boardData.articleNo;
-        if (localStorage.getItem("userId") === boardData.id) {
+        if (this.userInfo.userId === boardData.id) {
           this.canEdit = true;
           console.log(this.canEdit);
         }
       });
   },
   mounted() {},
+  computed: {
+    ...mapGetters({
+      userInfo: "userInfo",
+    }),
+  },
   methods: {
     changeEdit() {
       this.editMode = !this.editMode;
@@ -71,7 +77,7 @@ export default {
       if ((this.content_text != "") & (this.content_title != "")) {
         http
           .post("/article/board/new", {
-            id: localStorage.getItem("userId"),
+            id: this.userInfo.userId,
             title: this.content_title,
             content: this.content_text,
           })
