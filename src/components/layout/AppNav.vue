@@ -101,7 +101,7 @@ nav {
   bottom: 0;
   background-color: rgb(255, 255, 255);
   border-top: 1px solid rgba(0, 0, 0, 0.162);
-  z-index: 10;
+  z-index: 5;
 }
 .nav-group {
   padding: 0;
