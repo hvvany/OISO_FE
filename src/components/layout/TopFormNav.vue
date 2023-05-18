@@ -59,14 +59,14 @@ export default {
   border-bottom: solid 1px gray;
 }
 .top-back__cancel {
-  font-size: 1rem;
+  font-size: 0.8rem;
   color: rgba(115, 115, 115, 0.682);
 }
 .top-back__title {
-  font-size: 1.3rem;
+  font-size: 1rem;
 }
 .top-back__submit {
-  font-size: 1rem;
+  font-size: 0.8rem;
   color: #3485ff;
   margin: 1px;
 }

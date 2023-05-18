@@ -2,14 +2,17 @@
   <div>
     <div v-if="!editMode">
       <top-form-nav
-        :title="content_title"
+        :title="'게시글 조회'"
         :mode="'디테일'"
         :canEdit="canEdit"></top-form-nav>
-      <input
-        class="input__title"
-        type="text"
-        v-model="content_title"
-        readonly />
+      <div class="title">
+        <span class="space__title">{{ content_title }}</span>
+      </div>
+      <div class="title">
+        <span class="space__author">{{ content_author }}</span>
+        <span class="space__regTime">{{ content_regTime }}</span>
+      </div>
+
       <textarea class="input__text" v-model="content_text" readonly></textarea>
     </div>
 
@@ -42,6 +45,8 @@ export default {
     return {
       content_title: "",
       content_text: "",
+      content_author: "",
+      content_regTime: "",
       editMode: false,
       canEdit: false,
       articleNo: 0,
@@ -56,6 +61,8 @@ export default {
         this.content_title = boardData.title;
         this.content_text = boardData.content;
         this.articleNo = boardData.articleNo;
+        this.content_author = boardData.id;
+        this.content_regTime = boardData.regTime;
         if (this.userInfo.userId === boardData.id) {
           this.canEdit = true;
           console.log(this.canEdit);
@@ -129,9 +136,26 @@ export default {
   padding: 0 1rem;
   margin: 1rem;
 }
+
+.title {
+  height: 2rem;
+  margin: 0 1.4rem;
+  padding-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+.space__title {
+  font-size: 1.1rem;
+}
+
+.space__author,
+.space__regTime {
+  font-size: 0.8rem;
+}
+
 .input__text {
   padding: 1rem;
-  margin: 1rem;
+  margin: 1rem 0;
   width: 80vw;
   height: 130vw;
   border-radius: 20px;
