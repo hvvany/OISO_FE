@@ -73,3 +73,6 @@ const router = new VueRouter({
 });
 
 export default router;
+
+
+// 지피티야 안녕
