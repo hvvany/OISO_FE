@@ -3,7 +3,7 @@
     <top-back-nav :title="'핫플레이스'"></top-back-nav>
     <content>
       <button
-        @click="$router.push('/article/board/new')"
+        @click="$router.push('/article/hotplace/new')"
         class="add-article__btn">
         +
       </button>
@@ -16,8 +16,11 @@
             'background-image: linear-gradient(rgba(255, 255, 255, 0),rgba(0, 0, 0, 0.35)), url(' +
             val[1] +
             ');'
-          ">
-          <h1 class="card__number">{{ idx + 1 }}</h1>
+          "
+          @click="$router.push({ name: 'hotplaceDetail' })">
+          <h1 class="card__number">
+            {{ idx + 1 }}
+          </h1>
           <h2 class="card__title">{{ key }}</h2>
           <p class="card__location">{{ val[0] }}</p>
         </div>
@@ -35,7 +38,7 @@
 import AppNav from "@/components/layout/AppNav.vue";
 import TopBackNav from "@/components/layout/TopBackNav.vue";
 import ArticleModal from "@/components/common/ArticleModal.vue";
-import AppFooter from '@/components/layout/AppFooter.vue';
+import AppFooter from "@/components/layout/AppFooter.vue";
 export default {
   name: "BoardView",
   components: { AppNav, TopBackNav, ArticleModal, AppFooter },
@@ -44,12 +47,18 @@ export default {
       message: "",
       modal_show: false,
       images: {
-        '감천문화마을':
-          ["부산","https://a.cdn-hotels.com/gdcs/production37/d1169/1dcbfef5-2070-48ce-8d62-3e0fffa21797.jpg"],
-        '광안리':
-          ["부산","https://www.visitbusan.net/uploadImgs/files/cntnts/20191229160530047_oen"],
-        '해운대':
-          ['부산','https://www.visitbusan.net/uploadImgs/files/cntnts/20191229153530671_oen']
+        감천문화마을: [
+          "부산",
+          "https://a.cdn-hotels.com/gdcs/production37/d1169/1dcbfef5-2070-48ce-8d62-3e0fffa21797.jpg",
+        ],
+        광안리: [
+          "부산",
+          "https://www.visitbusan.net/uploadImgs/files/cntnts/20191229160530047_oen",
+        ],
+        해운대: [
+          "부산",
+          "https://www.visitbusan.net/uploadImgs/files/cntnts/20191229153530671_oen",
+        ],
       },
     };
   },
@@ -95,7 +104,6 @@ content {
   box-shadow: 2px 2px 2px 1px rgba(128, 128, 128, 0.29);
   background-repeat: no-repeat;
   background-size: cover;
-  
 }
 .card__number {
   text-align: start;
@@ -109,7 +117,7 @@ content {
   font-weight: 700;
   color: white;
 }
-.card__location{
+.card__location {
   margin-top: 20vw;
   color: white;
   text-align: start;
