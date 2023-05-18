@@ -55,15 +55,15 @@ const routes = [
     component: () => import("@/views/ArticleHotplaceView.vue"),
   },
   {
-    path: "/article/hotplace/detail",
+    path: "/article/hotplace/:articleNo",
     name: "hotplaceDetail",
     component: () => import("@/views/ArticleHotplaceDetailView.vue"),
   },
-  {
-    path: "/article/hotplace/new",
-    name: "hotplaceNew",
-    component: () => import("@/views/ArticleHotplaceNewView.vue"),
-  },
+  // {
+  //   path: "/article/hotplace/new",
+  //   name: "hotplaceNew",
+  //   component: () => import("@/views/ArticleHotplaceNewView.vue"),
+  // },
   {
     path: "/mytrip",
     name: "mytrip",

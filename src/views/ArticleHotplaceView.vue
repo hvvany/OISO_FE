@@ -17,7 +17,7 @@
             val[1] +
             ');'
           "
-          @click="$router.push({ name: 'hotplaceDetail' })">
+          @click="$router.push('/article/hotplace/' + key)">
           <h1 class="card__number">
             {{ idx + 1 }}
           </h1>
