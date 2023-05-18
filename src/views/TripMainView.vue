@@ -76,7 +76,7 @@ export default {
   methods: {
     logout() {
       localStorage.setItem("userId", "");
-      this.$router.push({name:'login'})
+      this.$router.push({ name: "login" });
     },
     onScroll() {
       //스크롤시 이벤트가 실행된다.
@@ -183,6 +183,7 @@ export default {
   color: #aeaeae;
   display: block;
   transition: 0.3s;
+  width: 17rem;
 }
 
 /* When you mouse over the navigation links, change their color */
@@ -194,9 +195,10 @@ export default {
 .sidebar .closebtn {
   position: absolute;
   top: 0;
-  left: 1rem;
+  left: 0;
   font-size: 36px;
-  margin-right: 5rem;
+  width: 1rem;
+  padding-left: 2rem;
 }
 
 /* The button used to open the sidebar */

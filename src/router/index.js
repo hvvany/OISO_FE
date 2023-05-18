@@ -55,6 +55,16 @@ const routes = [
     component: () => import("@/views/ArticleHotplaceView.vue"),
   },
   {
+    path: "/article/hotplace/detail",
+    name: "hotplaceDetail",
+    component: () => import("@/views/ArticleHotplaceDetailView.vue"),
+  },
+  {
+    path: "/article/hotplace/new",
+    name: "hotplaceNew",
+    component: () => import("@/views/ArticleHotplaceNewView.vue"),
+  },
+  {
     path: "/mytrip",
     name: "mytrip",
     component: () => import("@/views/MyTripMainView.vue"),
@@ -73,6 +83,5 @@ const router = new VueRouter({
 });
 
 export default router;
-
 
 // 지피티야 안녕
