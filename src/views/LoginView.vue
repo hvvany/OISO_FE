@@ -78,13 +78,14 @@ export default {
             thiz.getUserInfo({
               accessToken: thiz.accessToken,
               callback: (status) => {
+                console.log("여기");
                 if (status == 200) {
                   thiz.$router.push({ name: "tripmain" });
                 }
               },
             });
 
-            localStorage.setItem("userId", this.userId);
+            // localStorage.setItem("userId", this.userId);
           } else if (status == 500) {
             alert("서버 오류 입니다.");
           }
@@ -92,7 +93,7 @@ export default {
       });
     },
     testBtn() {
-      localStorage.setItem("userId", "ssafy");
+      // localStorage.setItem("userId", "ssafy");
       this.$router.push("/trip");
     },
   },

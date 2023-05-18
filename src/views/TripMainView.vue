@@ -53,6 +53,7 @@ import ImgSwiper from "@/components/common/ImgSwiper.vue";
 import ImgCards from "@/components/common/ImgCards.vue";
 import TopNav from "@/components/layout/TopNav.vue";
 import AppFooter from "@/components/layout/AppFooter.vue";
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "TripMain",
   components: { AppNav, ImgSwiper, ImgCards, TopNav, AppFooter },
@@ -69,13 +70,14 @@ export default {
     };
   },
   created() {
-    if (localStorage.getItem("userId") === "ssafy") {
+    if (this.userInfo.userId === "ssafy") {
       this.isAdmin = true;
     }
   },
   methods: {
+    ...mapActions(["userLogout"]),
     logout() {
-      localStorage.setItem("userId", "");
+      this.userLogout({});
       this.$router.push({ name: "login" });
     },
     onScroll() {
@@ -94,6 +96,11 @@ export default {
     closeNav() {
       document.getElementById("mySidebar").style.width = "0";
     },
+  },
+  computed: {
+    ...mapGetters({
+      userInfo: "userInfo",
+    }),
   },
   mounted() {
     window.addEventListener("scroll", this.onScroll);

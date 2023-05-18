@@ -92,7 +92,7 @@ export default new Vuex.Store({
           payload.callback(response.status);
         });
     },
-    logout({ commit }) {
+    userLogout({ commit }) {
       commit("LOGOUT");
     },
   },
