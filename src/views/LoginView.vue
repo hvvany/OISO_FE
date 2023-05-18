@@ -6,13 +6,15 @@
         class="login__input"
         v-model="userId"
         type="text"
-        placeholder="아이디 입력" />
+        placeholder="아이디 입력"
+        required />
       <p v-show="err === 1">{{ errMsg }}</p>
       <input
         class="login__input"
         v-model="userPw"
         type="text"
-        placeholder="비밀번호 입력" />
+        placeholder="비밀번호 입력"
+        required />
       <p v-show="err === 2">{{ errMsg }}</p>
       <button class="login__btn" type="button" @click="validate">로그인</button>
       <router-link :to="'/user/signup'">회원가입</router-link>
@@ -22,7 +24,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "LoginView",
   components: {},
@@ -35,7 +37,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["userLogin"]),
+    ...mapActions(["userLogin", "getUserInfo"]),
     validate() {
       this.err = 0;
       let isValid = true; // 유효하면 true
@@ -52,7 +54,18 @@ export default {
         : (isValid = true);
 
       if (isValid) {
-        this.login();
+        this.login({
+          userId: this.userId,
+          userPw: this.userPw,
+          callback: (status) => {
+            if (status == 200) {
+              // thiz.$router.push({ name: "tripmain" });
+              console.log("로그인 성공");
+            } else if (status == 401) {
+              alert("로그인에 실패했습니다.");
+            }
+          },
+        });
       }
     },
     login() {
@@ -62,8 +75,16 @@ export default {
         userPwd: this.userPw,
         callback: function (status) {
           if (status == 200) {
+            thiz.getUserInfo({
+              accessToken: thiz.accessToken,
+              callback: (status) => {
+                if (status == 200) {
+                  thiz.$router.push({ name: "tripmain" });
+                }
+              },
+            });
+
             localStorage.setItem("userId", this.userId);
-            thiz.$router.push({ name: "tripmain" });
           } else if (status == 500) {
             alert("서버 오류 입니다.");
           }
@@ -74,6 +95,9 @@ export default {
       localStorage.setItem("userId", "ssafy");
       this.$router.push("/trip");
     },
+  },
+  computed: {
+    ...mapGetters(["accessToken", "userInfo"]),
   },
 };
 </script>
