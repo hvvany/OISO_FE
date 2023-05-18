@@ -9,6 +9,9 @@
       type="text"
       placeholder="제목을 입력해주세요."
       v-model="content_title" />
+    <form enctype="multipart/form-data" id="form">
+      <input type="file" name="upfile" multiple="multiple"/>
+    </form>
     <textarea
       class="input__text"
       placeholder="본문을 입력해주세요."
