@@ -43,7 +43,6 @@ export default new Vuex.Store({
         .post(`/user/login`, payload)
         .then(({ status, data }) => {
           if (status == 200) {
-            console.log(data);
             commit("TOKEN", {
               accessToken: data["access-token"],
               refreshToken: data["refresh-token"],

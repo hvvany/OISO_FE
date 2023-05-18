@@ -24,6 +24,13 @@
       <input class="input__title" type="text" v-model="content_title" />
       <textarea class="input__text" v-model="content_text"></textarea>
     </div>
+    <comment-write :articleNo="this.articleNo"></comment-write>
+
+    <comment-row
+      v-for="comment in comments"
+      :key="comment.commentNo"
+      :articleNo="comment.articleNo"
+      :comment="comment"></comment-row>
 
     <app-footer></app-footer>
     <app-nav :navmode="'board'"></app-nav>
@@ -34,13 +41,19 @@
 // import editor plugins
 
 import http from "@/util/http-common";
-import TopFormNav from "@/components/layout/TopFormNav.vue";
-import AppNav from "@/components/layout/AppNav.vue";
-import AppFooter from "@/components/layout/AppFooter.vue";
+// import TopFormNav from "@/components/layout/TopFormNav.vue";
+// import AppNav from "@/components/layout/AppNav.vue";
+// import AppFooter from "@/components/layout/AppFooter.vue";
 import { mapGetters } from "vuex";
 export default {
   name: "BoardNew",
-  components: { TopFormNav, AppNav, AppFooter },
+  components: {
+    TopFormNav: () => import("@/components/layout/TopFormNav"),
+    AppNav: () => import("@/components/layout/AppNav"),
+    AppFooter: () => import("@/components/layout/AppFooter"),
+    "comment-write": () => import("@/components/comment/CommentWrite"),
+    "comment-row": () => import("@/components/comment/CommentRow"),
+  },
   data() {
     return {
       content_title: "",
@@ -50,6 +63,7 @@ export default {
       editMode: false,
       canEdit: false,
       articleNo: 0,
+      comments: "",
     };
   },
   created() {
@@ -67,6 +81,12 @@ export default {
           this.canEdit = true;
           console.log(this.canEdit);
         }
+      });
+    http
+      .get("/comment/board/" + this.$route.params.articleNo)
+      .then((response) => {
+        this.comments = response.data;
+        // console.log(this.comments);
       });
   },
   mounted() {},
@@ -157,7 +177,7 @@ export default {
   padding: 1rem;
   margin: 1rem 0;
   width: 80vw;
-  height: 130vw;
+  height: 100vw;
   border-radius: 20px;
 }
 </style>
