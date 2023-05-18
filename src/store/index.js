@@ -31,6 +31,11 @@ export default new Vuex.Store({
     USER_INFO(state, payload) {
       state.userInfo = payload.userInfo;
     },
+    LOGOUT(state) {
+      state.accessToken = null;
+      state.refreshToken = null;
+      state.userInfo = null;
+    },
   },
   actions: {
     userLogin({ commit }, payload) {
@@ -69,6 +74,9 @@ export default new Vuex.Store({
             });
           }
           payload.callback(status);
+        })
+        .catch((error) => {
+          payload.callback(error.response.status);
         });
     },
     userSignUp(context, payload) {
@@ -83,6 +91,9 @@ export default new Vuex.Store({
           console.log(response);
           payload.callback(response.status);
         });
+    },
+    logout({ commit }) {
+      commit("LOGOUT");
     },
   },
   modules: {},
