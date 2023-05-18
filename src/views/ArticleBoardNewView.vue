@@ -9,7 +9,7 @@
       type="text"
       placeholder="제목을 입력해주세요."
       v-model="content_title" />
-    <input type="file" name="file" id="file" multiple="multiple" />
+    <input type="file" name="files" id="files" multiple="multiple" />
     <textarea
       class="input__text"
       placeholder="본문을 입력해주세요."
@@ -46,7 +46,12 @@ export default {
           title: this.content_title,
           content: this.content_text,
         };
-        formData.append("file", document.querySelector("#file").files[0]);
+        Array.from(document.querySelector("#files").files).forEach((file) => {
+          formData.append("files", file);
+          console.log(file);
+        });
+        // formData.append("file", document.querySelector("#file").files[0]);
+        // console.log(document.querySelector("#file").files);
         formData.append(
           "key",
           new Blob([JSON.stringify(data)], { type: "application/json" })
