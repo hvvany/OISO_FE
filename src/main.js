@@ -16,6 +16,13 @@ Vue.filter("showFirstLine", (value) => {
   return value.split(/(?:\r\n|\r|\n)/g)[0];
 });
 
+// Vue.filter("enterToBr", (value) => {
+//   if (!value) {
+//     return value;
+//   }
+//   return value.replace(/(?:\r\n|\r|\n)/g, "<br >");
+// });
+
 Vue.prototype.$kmpSearch = function (text, pattern) {
   const prefixTable = generatePrefixTable(pattern);
   const result = [];

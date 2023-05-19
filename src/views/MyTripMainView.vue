@@ -27,6 +27,13 @@
         </ul>
       </div>
     </div>
+
+    <button
+      @click="$router.push({ name: 'mytripnew' })"
+      class="add-article__btn">
+      +
+    </button>
+
     <app-footer></app-footer>
     <!-- 하단 네브바 -->
     <app-nav :navmode="'mytrip'"></app-nav>
@@ -37,7 +44,7 @@
 import AppNav from "@/components/layout/AppNav.vue";
 import CityInfoSwiper from "@/components/common/CityInfoSwiper.vue";
 import TopBackNav from "@/components/layout/TopBackNav.vue";
-import AppFooter from '@/components/layout/AppFooter.vue';
+import AppFooter from "@/components/layout/AppFooter.vue";
 // import http from "@/util/http-common";
 
 export default {
@@ -103,5 +110,20 @@ export default {
 
 #plan__period {
   font-size: 1rem;
+}
+
+.add-article__btn {
+  position: fixed;
+  right: 1rem;
+  bottom: 5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 2rem;
+  font-weight: 200;
+  color: white;
+  border-radius: 50%;
+  background-color: #3485ff;
+  border: solid 0;
+  box-shadow: 2px 2px 2px 1px rgba(128, 128, 128, 0.29);
 }
 </style>

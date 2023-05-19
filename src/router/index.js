@@ -30,6 +30,11 @@ const routes = [
     component: () => import("@/views/TripInfoView.vue"),
   },
   {
+    path: "/trip/info/:contentId",
+    name: "tripinfoDetail",
+    component: () => import("@/views/TripInfoDetailView.vue"),
+  },
+  {
     path: "/article/bulletin",
     name: "bulletin",
     component: () => import("@/views/ArticleBulletinView.vue"),
@@ -68,6 +73,11 @@ const routes = [
     path: "/mytrip",
     name: "mytrip",
     component: () => import("@/views/MyTripMainView.vue"),
+  },
+  {
+    path: "/mytrip/new",
+    name: "mytripnew",
+    component: () => import("@/views/MyTripNewView.vue"),
   },
   {
     path: "/mytripmap",
