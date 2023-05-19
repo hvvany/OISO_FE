@@ -41,9 +41,9 @@ export default {
 }
 .top-back__arrow {
   font-size: 1.6rem;
-  padding: 0 1rem;
+  padding: 0 0.5rem;
 }
-.top-back__title{
-  
+.top-back__title {
+  font-size: 1.1rem;
 }
 </style>

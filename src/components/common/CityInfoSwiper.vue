@@ -48,6 +48,7 @@ export default {
   data() {
     return {
       weather: { 1: [] },
+      formattedDate: "",
       sidos: {
         서울: { sido_code: 1, nx: 60, ny: 127 },
         인천: { sido_code: 2, nx: 55, ny: 124 },
@@ -70,6 +71,11 @@ export default {
     };
   },
   created() {
+    //오늘 날짜
+    const today = new Date();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    this.formattedDate = today.getFullYear() + month + day;
     this.getWeatherInfo();
   },
   computed: {},
@@ -86,11 +92,14 @@ export default {
         "https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=" +
         process.env.VUE_APP_WEATHER_KEY +
         "&pageNo=1&numOfRows=14" +
-        "&dataType=JSON&base_date=20230516&base_time=0500" +
+        "&dataType=JSON&base_date=" +
+        this.formattedDate +
+        "&base_time=0500" +
         "&nx=" +
         "94" +
         "&ny=" +
         "74";
+      console.log(request_url);
 
       http.get(request_url).then((response) => {
         let infos = {
@@ -102,7 +111,6 @@ export default {
           PTY: 0,
         };
         for (let info of response.data.response.body.items.item) {
-          // console.log(info);
           if (info.category === "TMP") {
             infos.TMP = info.fcstValue;
           } else if (info.category === "TMN") {

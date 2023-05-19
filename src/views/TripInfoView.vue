@@ -35,7 +35,17 @@
     </ul>
     <ul v-if="input_mode === 1">
       <li v-for="(info, idx) in total_infos" :key="idx">
-        <div class="sido-lst__item">
+        <div
+          class="sido-lst__item"
+          @click="
+            $router.push({
+              name: 'tripinfoDetail',
+              params: {
+                contentId: info.contentid,
+                contentTypeId: info.contenttypeid,
+              },
+            })
+          ">
           <div class="sido-lst__left">
             <div
               v-if="info.firstimage != ''"
@@ -46,7 +56,12 @@
           </div>
         </div>
       </li>
-      <button v-if="input_mode === 1" @click="addInfo()" class="add-article__btn">+</button>
+      <button
+        v-if="input_mode === 1"
+        @click="addInfo()"
+        class="add-article__btn">
+        +
+      </button>
     </ul>
     <app-footer></app-footer>
     <app-nav></app-nav>
@@ -55,13 +70,15 @@
 
 <script>
 import http from "@/util/http-common.js";
-import AppNav from "@/components/layout/AppNav.vue";
 import TextSwiper from "@/components/common/TextSwiper.vue";
-import TopBackNav from "@/components/layout/TopBackNav.vue";
-import AppFooter from '@/components/layout/AppFooter.vue';
 export default {
   name: "TripInfo",
-  components: { AppNav, TextSwiper, TopBackNav, AppFooter },
+  components: {
+    TextSwiper,
+    TopBackNav: () => import("@/components/layout/TopBackNav"),
+    AppNav: () => import("@/components/layout/AppNav"),
+    AppFooter: () => import("@/components/layout/AppFooter"),
+  },
   data() {
     return {
       message: "",
@@ -126,7 +143,7 @@ export default {
       input_mode: -1, // mode 0 :시도 입력모드   1 : 관광지, 문화시설... 필터 입력 모드
       now_filter: "관광지", // 현재 정보 검색 필터 선택된 모드, 기본값은 관광지 -> 스와이퍼에 넘겨줌
       total_infos: [],
-      get_infos:[],
+      get_infos: [],
       getinfocnt: 1,
     };
   },
@@ -143,7 +160,7 @@ export default {
     changeFilter(filter) {
       this.now_filter = filter;
       this.getinfocnt = 1;
-      this.total_infos = []
+      this.total_infos = [];
       this.getInfo(1);
     },
     addInfo() {
@@ -164,7 +181,7 @@ export default {
       http.get(request_url).then((response) => {
         console.log(response.data.response.body.items.item);
         this.total_infos.push(...response.data.response.body.items.item);
-        console.log(this.total_infos)
+        console.log(this.total_infos);
       });
     },
   },
@@ -233,9 +250,9 @@ export default {
   height: 2.7rem;
 }
 
-.item__img--noimg{
+.item__img--noimg {
   background-image: url(https://jeunessetravel.com/wp-content/uploads/jeunesse-travel-video-thumbnail.jpg);
-  background-size:cover;
+  background-size: cover;
   border-radius: 50%;
   width: 2.7rem;
   height: 2.7rem;

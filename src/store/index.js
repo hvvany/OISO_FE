@@ -1,8 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import http from "@/util/http-common";
-import persistedState from "vuex-persistedstate";
 import jwtDecode from "jwt-decode";
+import persistedState from "vuex-persistedstate";
 
 Vue.use(Vuex);
 
