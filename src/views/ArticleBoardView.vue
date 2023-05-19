@@ -64,47 +64,6 @@ export default {
     });
   },
   methods: {
-    kmpSearch(text, pattern) {
-      const patternTable = this.buildPatternTable(pattern);
-      let textIndex = 0;
-      let patternIndex = 0;
-
-      while (textIndex < text.length) {
-        if (pattern[patternIndex] === text[textIndex]) {
-          if (patternIndex === pattern.length - 1) {
-            // Pattern found
-            return textIndex - pattern.length + 1;
-          }
-
-          textIndex++;
-          patternIndex++;
-        } else if (patternIndex > 0) {
-          patternIndex = patternTable[patternIndex - 1];
-        } else {
-          textIndex++;
-        }
-      }
-      return -1;
-    },
-    buildPatternTable(pattern) {
-      const table = [0];
-      let prefix = 0;
-      let suffix = 1;
-
-      while (suffix < pattern.length) {
-        if (pattern[prefix] === pattern[suffix]) {
-          table[suffix] = prefix + 1;
-          prefix++;
-          suffix++;
-        } else if (prefix === 0) {
-          table[suffix] = 0;
-          suffix++;
-        } else {
-          prefix = table[prefix - 1];
-        }
-      }
-      return table;
-    },
     openModal() {
       this.modal_show = true;
     },
@@ -114,12 +73,11 @@ export default {
       if (search_keyword != "") {
         http.get("/article/board/").then((response) => {
           this.boardData = response.data;
-
           //KMP 알고리즘
           let test = {};
           let idx = 0;
           for (let info of this.boardData) {
-            if (this.kmpSearch(info.title, search_keyword) != -1) {
+            if (this.$kmpSearch(info.title, search_keyword).length > 0) {
               console.log(info);
               test[idx++] = info;
             }
