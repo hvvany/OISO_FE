@@ -22,8 +22,17 @@
       <textarea class="input__text" v-model="content_text"></textarea>
     </div>
 
+    <comment-write :articleNo="this.articleNo" type="hotplace"></comment-write>
+
+    <comment-row
+      type="hotplace"
+      v-for="comment in comments"
+      :key="comment.commentNo"
+      :articleNo="comment.articleNo"
+      :comment="comment"></comment-row>
+
     <app-footer></app-footer>
-    <app-nav :navmode="'board'"></app-nav>
+    <app-nav :navmode="'hotplace'"></app-nav>
   </div>
 </template>
 
@@ -34,9 +43,16 @@ import http from "@/util/http-common";
 import TopFormNav from "@/components/layout/TopFormNav.vue";
 import AppNav from "@/components/layout/AppNav.vue";
 import AppFooter from "@/components/layout/AppFooter.vue";
+import { mapGetters } from "vuex";
 export default {
   name: "hotplaceNew",
-  components: { TopFormNav, AppNav, AppFooter },
+  components: {
+    TopFormNav,
+    AppNav,
+    AppFooter,
+    "comment-write": () => import("@/components/comment/CommentWrite"),
+    "comment-row": () => import("@/components/comment/CommentRow"),
+  },
   data() {
     return {
       content_title: "",
@@ -44,6 +60,7 @@ export default {
       editMode: false,
       canEdit: false,
       articleNo: 0,
+      comments: "",
     };
   },
   created() {
@@ -55,13 +72,23 @@ export default {
         this.content_title = boardData.title;
         this.content_text = boardData.content;
         this.articleNo = boardData.articleNo;
-        if (localStorage.getItem("userId") === boardData.id) {
+        if (this.userInfo.userId === boardData.id) {
           this.canEdit = true;
           console.log(this.canEdit);
         }
       });
+    http
+      .get("/comment/hotplace/" + this.$route.params.articleNo)
+      .then((response) => {
+        this.comments = response.data;
+      });
   },
   mounted() {},
+  computed: {
+    ...mapGetters({
+      userInfo: "userInfo",
+    }),
+  },
   methods: {
     changeEdit() {
       this.editMode = !this.editMode;
@@ -71,7 +98,7 @@ export default {
       if ((this.content_text != "") & (this.content_title != "")) {
         http
           .post("/article/board/new", {
-            id: localStorage.getItem("userId"),
+            id: this.userInfo.userId,
             title: this.content_title,
             content: this.content_text,
           })

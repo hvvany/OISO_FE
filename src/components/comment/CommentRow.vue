@@ -23,8 +23,8 @@
 import http from "@/util/http-common";
 export default {
   props: {
-    // commentNo: String,
     comment: Object,
+    type: String,
   },
   data() {
     return {
@@ -50,7 +50,7 @@ export default {
     modifyEnd() {
       if (this.comment_text != "") {
         http
-          .put(`/comment/board/${this.commentNo}`, {
+          .put(`/comment/${this.type}/${this.commentNo}`, {
             commentNo: this.commentNo,
             comment: this.comment_text,
           })

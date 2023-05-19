@@ -24,9 +24,10 @@
       <input class="input__title" type="text" v-model="content_title" />
       <textarea class="input__text" v-model="content_text"></textarea>
     </div>
-    <comment-write :articleNo="this.articleNo"></comment-write>
+    <comment-write :articleNo="this.articleNo" type="board"></comment-write>
 
     <comment-row
+      type="board"
       v-for="comment in comments"
       :key="comment.commentNo"
       :articleNo="comment.articleNo"
@@ -86,7 +87,6 @@ export default {
       .get("/comment/board/" + this.$route.params.articleNo)
       .then((response) => {
         this.comments = response.data;
-        // console.log(this.comments);
       });
   },
   mounted() {},
