@@ -12,6 +12,9 @@
         <span class="space__author">{{ content_author }}</span>
         <span class="space__regTime">{{ content_regTime }}</span>
       </div>
+      <div v-for="(img, idx) in imgs" :key="idx">
+        <img :src="img.onlinePath" />
+      </div>
 
       <textarea class="input__text" v-model="content_text" readonly></textarea>
     </div>
@@ -65,6 +68,7 @@ export default {
       canEdit: false,
       articleNo: 0,
       comments: "",
+      imgs: [],
     };
   },
   created() {
@@ -88,6 +92,18 @@ export default {
       .then((response) => {
         this.comments = response.data;
       });
+
+    http.get("/article/board/").then((response) => {
+      this.boardData = response.data;
+      console.log(response.data);
+      for (let article of response.data) {
+        if (article.articleNo == this.$route.params.articleNo) {
+          this.imgs = article.fileInfos;
+          console.log(this.imgs);
+          break;
+        }
+      }
+    });
   },
   mounted() {},
   computed: {
