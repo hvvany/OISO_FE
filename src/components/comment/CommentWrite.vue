@@ -16,6 +16,7 @@ import { mapGetters } from "vuex";
 export default {
   props: {
     articleNo: Number,
+    type: String,
   },
   data() {
     return {
@@ -25,9 +26,10 @@ export default {
   created() {},
   methods: {
     sendComment() {
+      console.log(this.type);
       if (this.comment != "") {
         http
-          .post("/comment/board", {
+          .post(`/comment/${this.type}`, {
             id: this.userInfo.userId,
             comment: this.comment,
             articleNo: this.articleNo,

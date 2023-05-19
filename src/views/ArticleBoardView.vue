@@ -21,7 +21,7 @@
           </div>
           <h2 class="card__title">{{ board.title }}</h2>
           <p class="card__content">
-            {{ board.content }}
+            {{ board.content | showFirstLine }}
           </p>
           <div class="card__imgs">
             <img
