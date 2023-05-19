@@ -38,41 +38,41 @@ export default {
   },
   mounted() {},
   methods: {
-    sendArticle() {
-      if ((this.content_text != "") & (this.content_title != "")) {
-        let formData = new FormData();
-        let data = {
-          id: this.userInfo.userId,
-          title: this.content_title,
-          content: this.content_text,
-        };
-        Array.from(document.querySelector("#files").files).forEach((file) => {
-          formData.append("files", file);
-          console.log(file);
-        });
-        // formData.append("file", document.querySelector("#file").files[0]);
-        // console.log(document.querySelector("#file").files);
-        formData.append(
-          "key",
-          new Blob([JSON.stringify(data)], { type: "application/json" })
-        );
+    async sendArticle() {
+      let boardData = {
+        id: this.userInfo.userId,
+        title: this.content_title,
+        content: this.content_text,
+        fileInfos: [],
+      };
+      if (this.content_text !== "" && this.content_title !== "") {
+        const uploadPromises = Array.from(
+          document.querySelector("#files").files
+        ).map(async (file) => {
+          const imgData = new FormData();
+          imgData.append("key", "f2ca20b108085e2a0acc6988c4e16c0f");
+          imgData.append("image", file);
+          const response = await http.post(
+            "https://api.imgbb.com/1/upload",
+            imgData
+          );
+          const imageData = response.data.data;
 
-        http
-          .post("/article/board/new", formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-            transformRequest: [
-              function () {
-                return formData;
-              },
-            ],
-          })
-          .then(({ status }) => {
-            if (status == 200) {
-              this.$router.push({ name: "board" });
-            }
+          boardData.fileInfos.push({
+            originName: file.name,
+            onlinePath: imageData.display_url,
+            deletePath: imageData.delete_url,
           });
+        });
+        await Promise.all(uploadPromises);
+        console.log(boardData.fileInfos);
+
+        // 게시글 post 요청
+        http.post("/article/board/new", boardData).then(({ status }) => {
+          if (status == 200) {
+            this.$router.push({ name: "board" });
+          }
+        });
       } else {
         alert("정보를 입력해 주세요");
       }
