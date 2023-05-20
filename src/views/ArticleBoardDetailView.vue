@@ -12,9 +12,10 @@
         <span class="space__author">{{ content_author }}</span>
         <span class="space__regTime">{{ content_regTime }}</span>
       </div>
-      <div v-for="(img, idx) in imgs" :key="idx">
+      <!-- <div v-for="(img, idx) in imgs" :key="idx">
         <img :src="img.onlinePath" />
-      </div>
+      </div> -->
+      <img-swiper class="main-swiper" :imgs="imgs"></img-swiper>
 
       <textarea class="input__text" v-model="content_text" readonly></textarea>
     </div>
@@ -55,6 +56,7 @@ export default {
     TopFormNav: () => import("@/components/layout/TopFormNav"),
     AppNav: () => import("@/components/layout/AppNav"),
     AppFooter: () => import("@/components/layout/AppFooter"),
+    ImgSwiper: () => import("@/components/common/ImgSwiper"),
     "comment-write": () => import("@/components/comment/CommentWrite"),
     "comment-row": () => import("@/components/comment/CommentRow"),
   },
@@ -98,7 +100,9 @@ export default {
       console.log(response.data);
       for (let article of response.data) {
         if (article.articleNo == this.$route.params.articleNo) {
-          this.imgs = article.fileInfos;
+          for (let imgs of article.fileInfos) {
+            this.imgs.push(imgs.onlinePath);
+          }
           console.log(this.imgs);
           break;
         }
