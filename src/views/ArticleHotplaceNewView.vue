@@ -1,7 +1,7 @@
 <template>
   <div>
     <top-form-nav
-      :title="'게시글 작성'"
+      :title="'핫플 등록'"
       :mode="'등록'"
       :canEdit="canEdit"></top-form-nav>
     <input
@@ -21,12 +21,12 @@
       v-model="content_text"></textarea>
 
     <!-- 파일 업로드 애니메이션 -->
-    <div v-if="uploading" class="board-new__background">
+    <div v-if="uploading" class="hotplace-new__background">
       <div v-if="uploading" class="upload-animation"></div>
     </div>
 
     <app-footer></app-footer>
-    <app-nav :navmode="'board'"></app-nav>
+    <app-nav :navmode="'hotplace'"></app-nav>
   </div>
 </template>
 
@@ -38,7 +38,7 @@ import AppFooter from "@/components/layout/AppFooter.vue";
 
 import { mapGetters } from "vuex";
 export default {
-  name: "BoardNew",
+  name: "HotplaceNew",
   components: { TopFormNav, AppNav, AppFooter },
   data() {
     return {
@@ -52,7 +52,7 @@ export default {
   methods: {
     async sendArticle() {
       this.uploading = true;
-      let boardData = {
+      let hotplaceData = {
         id: this.userInfo.userId,
         title: this.content_title,
         content: this.content_text,
@@ -71,19 +71,19 @@ export default {
           );
           const imageData = response.data.data;
 
-          boardData.fileInfos.push({
+          hotplaceData.fileInfos.push({
             originName: file.name,
             onlinePath: imageData.display_url,
             deletePath: imageData.delete_url,
           });
         });
         await Promise.all(uploadPromises);
-        console.log(boardData.fileInfos);
+        console.log(hotplaceData.fileInfos);
 
         // 게시글 post 요청
-        http.post("/article/board/new", boardData).then(({ status }) => {
+        http.post("/article/hotplace/new", hotplaceData).then(({ status }) => {
           if (status == 200) {
-            this.$router.push({ name: "board" });
+            this.$router.push({ name: "hotplace" });
           }
         });
       } else {
@@ -146,7 +146,7 @@ export default {
   margin-left: 1rem;
   font-size: 0.5rem;
 }
-.board-new__background {
+.hotplace-new__background {
   position: fixed;
   top: 0;
   left: 0;
