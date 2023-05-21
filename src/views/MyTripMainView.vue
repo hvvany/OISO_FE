@@ -4,30 +4,39 @@
     <top-back-nav :title="'나의 여행'"></top-back-nav>
 
     <!-- 날씨 정보 스와이퍼 -->
-    <city-info-swiper :texts="plans.sido"></city-info-swiper>
+    <!-- 새벽에 날씨 안 나와서 일단 주석처리 -->
+    <div v-if="plans.length != 0">
+      <city-info-swiper :plans="plans"></city-info-swiper>
+    </div>
 
     <!-- 여행 계획 -->
     <div class="main-content__plan">
       <div class="plan">
         <ul v-if="plans.length != 0">
-          <li class="card" v-for="(val, sido, idx) in plans" :key="idx">
+          <li class="card" v-for="(val, idx) in plans" :key="idx">
             <div>
+              <!-- params 객체로 넘기기 -->
               <router-link
                 class="plan__more-card"
                 :to="{
-                  name: 'mytripmap',
-                  params: { planNo: idx },
+                  name: 'mytripdetail',
+                  params: {
+                    mytripNo: val.mytripNo,
+                    tripdetail: JSON.stringify(val),
+                  },
                 }">
-                <div id="plan__city">{{ val[0] }} 계획</div>
-                <div id="plan__period">{{ val[1] }} ~ {{ val[2] }}</div>
+                <div id="plan__title">{{ val.title }}</div>
+                <div id="plan__period">
+                  {{ val.startPeriod }} ~ {{ val.endPeriod }}
+                </div>
               </router-link>
-              <!-- params: { planNo: tripplan.planNo } -->
             </div>
           </li>
         </ul>
       </div>
     </div>
 
+    <!-- 버튼으로 모달 만들어서 도시 먼저 추가하게 vs 그냥 트립 인포에서 도시 추가하게 -->
     <button
       @click="$router.push({ name: 'mytripnew' })"
       class="add-article__btn">
@@ -41,6 +50,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import http from "@/util/http-common.js";
 import AppNav from "@/components/layout/AppNav.vue";
 import CityInfoSwiper from "@/components/common/CityInfoSwiper.vue";
 import TopBackNav from "@/components/layout/TopBackNav.vue";
@@ -49,26 +60,36 @@ import AppFooter from "@/components/layout/AppFooter.vue";
 
 export default {
   name: "MytripMainView",
-  components: { AppNav, CityInfoSwiper, TopBackNav, AppFooter },
+  components: { AppNav, TopBackNav, AppFooter, CityInfoSwiper },
   data: function () {
     return {
       message: "",
       topNavNum: 0,
-      plans: {
-        서울: ["서울", "2023-06-09", "2023-06-12"],
-        부산: ["부산", "2023-07-01", "2023-07-24"],
-        울산: ["울산", "2023-06-02", "2023-06-04"],
-        제주도: ["제주도", "2023-05-25", "2023-05-28"],
+      plans: [],
+      //sidos, sido_imgs 공통이니까
+      //TripInfoView, CityInfoSwiper 들이랑 합쳐서 빼자.. 나중에
+      sidos: {
+        서울: 1,
+        부산: 6,
+      },
+      sido_imgs: {
+        서울: "https://a.cdn-hotels.com/gdcs/production60/d893/3172bd6f-726c-4561-810f-deec13d17a6e.jpg?impolicy=fcrop&w=1600&h=1066&q=medium",
+        부산: "https://a.cdn-hotels.com/gdcs/production144/d1960/191730c7-8e21-4540-825c-65954ae4d132.jpg?impolicy=fcrop&w=1600&h=1066&q=medium",
       },
     };
   },
   created() {
-    // http.get("/mytrip").then((response) => {
-    //   console.log(response);
-    //   this.articles = response.data;
-    // });
+    http.get(`/mytrip/${this.userInfo.userId}`).then((response) => {
+      this.plans = response.data;
+      console.log("plans", this.plans[0]);
+    });
   },
   methods: {},
+  computed: {
+    ...mapGetters({
+      userInfo: "userInfo",
+    }),
+  },
 };
 </script>
 
@@ -103,7 +124,7 @@ export default {
   color: black;
 }
 
-#plan__city {
+#plan__title {
   font-size: 1.4rem;
   margin-bottom: 0.4rem;
 }
