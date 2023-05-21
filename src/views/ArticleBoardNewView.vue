@@ -9,12 +9,7 @@
       type="text"
       placeholder="제목을 입력해주세요."
       v-model="content_title" />
-    <!-- <input type="file" name="files" id="files" multiple="multiple" /> -->
-    <div class="filebox">
-      <input class="upload-name" value="첨부파일" placeholder="첨부파일" />
-      <label for="files">파일찾기</label>
-      <input type="file" name="files" id="files" multiple="multiple" />
-    </div>
+    <file-input></file-input>
     <textarea
       class="input__text"
       placeholder="본문을 입력해주세요."
@@ -31,15 +26,15 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import http from "@/util/http-common";
 import TopFormNav from "@/components/layout/TopFormNav.vue";
 import AppNav from "@/components/layout/AppNav.vue";
 import AppFooter from "@/components/layout/AppFooter.vue";
-
-import { mapGetters } from "vuex";
+import FileInput from "@/components/common/FileInput.vue";
 export default {
   name: "BoardNew",
-  components: { TopFormNav, AppNav, AppFooter },
+  components: { TopFormNav, AppNav, AppFooter, FileInput },
   data() {
     return {
       content_title: "",
