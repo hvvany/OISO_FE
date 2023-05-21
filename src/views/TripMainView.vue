@@ -2,7 +2,7 @@
   <div>
     <!-- 상단 네브바 -->
     <top-nav :topNavNum="topNavNum"></top-nav>
-
+    
     <!-- 사이드바 -->
     <div id="mySidebar" class="sidebar">
       <a href="javascript:void(0)" class="closebtn" @click="closeNav()"

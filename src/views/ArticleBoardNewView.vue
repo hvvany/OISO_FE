@@ -14,6 +14,12 @@
       class="input__text"
       placeholder="본문을 입력해주세요."
       v-model="content_text"></textarea>
+
+    <!-- 파일 업로드 애니메이션 -->
+    <div v-if="uploading" class="board-new__background">
+      <div v-if="uploading" class="upload-animation"></div>
+    </div>
+
     <app-footer></app-footer>
     <app-nav :navmode="'board'"></app-nav>
   </div>
@@ -34,11 +40,13 @@ export default {
       content_title: "",
       content_text: "",
       canEdit: false,
+      uploading: false,
     };
   },
   mounted() {},
   methods: {
     async sendArticle() {
+      this.uploading = true;
       let boardData = {
         id: this.userInfo.userId,
         title: this.content_title,
@@ -76,6 +84,7 @@ export default {
       } else {
         alert("정보를 입력해 주세요");
       }
+      this.uploading = false;
     },
   },
   computed: {
@@ -101,5 +110,23 @@ export default {
   width: 80vw;
   height: 130vw;
   border-radius: 20px;
+}
+.board-new__background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(2px);
+}
+.upload-animation {
+  background-image: url("../../public/img/upload_action_icon.gif");
+  background-size: cover;
+  border-radius: 50%;
+  width: 10rem;
+  height: 10rem;
+  position: fixed;
+  left: calc(50vw - 5rem);
+  top: calc(50vh - 5rem);
 }
 </style>
