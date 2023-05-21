@@ -56,6 +56,7 @@ export default {
       message: "",
       modal_show: false,
       boardData: [],
+      afterMounted:''
     };
   },
   created() {

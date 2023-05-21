@@ -42,6 +42,7 @@ swiper {
   height: 10rem;
 }
 .swiper__slide-img {
-  width: 100%;
+  width: 100vw;
+  height: 90vw;
 }
 </style>

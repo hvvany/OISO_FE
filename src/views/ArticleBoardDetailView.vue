@@ -74,6 +74,19 @@ export default {
     };
   },
   created() {
+    http.get("/article/board/").then((response) => {
+      this.boardData = response.data;
+      console.log(response.data);
+      for (let article of response.data) {
+        if (article.articleNo == this.$route.params.articleNo) {
+          for (let imgs of article.fileInfos) {
+            this.imgs.push(imgs.onlinePath);
+          }
+          console.log(this.imgs);
+          break;
+        }
+      }
+    });
     http
       .get("/article/board/" + this.$route.params.articleNo)
       .then((response) => {
@@ -94,20 +107,6 @@ export default {
       .then((response) => {
         this.comments = response.data;
       });
-
-    http.get("/article/board/").then((response) => {
-      this.boardData = response.data;
-      console.log(response.data);
-      for (let article of response.data) {
-        if (article.articleNo == this.$route.params.articleNo) {
-          for (let imgs of article.fileInfos) {
-            this.imgs.push(imgs.onlinePath);
-          }
-          console.log(this.imgs);
-          break;
-        }
-      }
-    });
   },
   mounted() {},
   computed: {
