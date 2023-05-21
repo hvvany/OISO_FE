@@ -64,11 +64,11 @@ const routes = [
     name: "hotplaceDetail",
     component: () => import("@/views/ArticleHotplaceDetailView.vue"),
   },
-  // {
-  //   path: "/article/hotplace/new",
-  //   name: "hotplaceNew",
-  //   component: () => import("@/views/ArticleHotplaceNewView.vue"),
-  // },
+  {
+    path: "/article/hotplace/new",
+    name: "hotplaceNew",
+    component: () => import("@/views/ArticleHotplaceNewView.vue"),
+  },
   {
     path: "/mytrip",
     name: "mytrip",
