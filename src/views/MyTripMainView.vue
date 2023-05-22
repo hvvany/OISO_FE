@@ -21,7 +21,7 @@
                 :to="{
                   name: 'mytripdetail',
                   params: {
-                    mytripNo: val.mytripNo,
+                    sido_code: val.sido_code,
                     tripdetail: JSON.stringify(val),
                   },
                 }">
@@ -38,7 +38,7 @@
 
     <!-- 버튼으로 모달 만들어서 도시 먼저 추가하게 vs 그냥 트립 인포에서 도시 추가하게 -->
     <button
-      @click="$router.push({ name: 'mytripnew' })"
+      @click="$router.push({ name: 'mytripNew' })"
       class="add-article__btn">
       +
     </button>

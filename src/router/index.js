@@ -81,7 +81,7 @@ const routes = [
   },
   {
     path: "/mytripnew",
-    name: "mytripnew",
+    name: "mytripNew",
     component: () => import("@/views/MyTripNewView.vue"),
   },
 ];

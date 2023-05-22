@@ -29,7 +29,7 @@ export default {
       detailInfo: [],
       location: [],
       tripdetail: this.$route.params.tripdetail,
-      mytripNo: this.$route.params.mytripNo,
+      sido_code: this.$route.params.sido_code,
     };
   },
   created() {
@@ -44,8 +44,9 @@ export default {
     //일단 db에서 계획을 가져오고
     getInfo() {
       //db에 저장된 여행 상세 정보 가져와서 공공 데이터로
+      console.log(this.tripdetail, this.sido_code);
       http
-        .get("/mytrip/" + this.userInfo.userId + "/" + this.mytripNo)
+        .get("/mytrip/" + this.userInfo.userId + "/" + this.sido_code)
         .then((response) => {
           this.tripInfo = response.data;
 
