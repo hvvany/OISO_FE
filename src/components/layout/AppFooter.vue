@@ -24,7 +24,7 @@ export default {
 
 <style scoped>
 footer {
-  margin: 5rem 0 5rem 0;
+  padding: 2rem 0 5rem 0;
   font-size: 0.5rem;
   color: rgb(151, 151, 151);
 }

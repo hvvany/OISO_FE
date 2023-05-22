@@ -1,25 +1,31 @@
 <template>
-  <div>
+  <div style="background-color: white">
     <div v-if="!editMode">
       <top-form-nav
         :title="'게시글 조회'"
         :mode="'디테일'"
         :canEdit="canEdit"></top-form-nav>
-      <div class="title">
-        <span class="space__title">{{ content_title }}</span>
+      <div class="meta-info">
+        <span class="meta__author">{{ content_author }}</span>
+        <span class="meta__regTime">{{ content_regTime }}</span>
       </div>
-      <div class="title">
-        <span class="space__author">{{ content_author }}</span>
-        <span class="space__regTime">{{ content_regTime }}</span>
+      <div class="title--before-edit">
+        {{ content_title }}
       </div>
-      <!-- <div v-for="(img, idx) in imgs" :key="idx">
-        <img :src="img.onlinePath" />
-      </div> -->
+      <hr />
+
       <img-swiper class="main-swiper" :imgs="imgs"></img-swiper>
-
-      <textarea class="input__text" v-model="content_text" readonly></textarea>
+      <p class="content info__overview">{{ content_text }}</p>
+      <hr />
+      <h3 class="comment">댓글</h3>
+      <comment-row
+        type="board"
+        v-for="comment in comments"
+        :key="comment.commentNo"
+        :articleNo="comment.articleNo"
+        :comment="comment"></comment-row>
+      <comment-write :articleNo="this.articleNo" type="board"></comment-write>
     </div>
-
     <div v-else>
       <top-form-nav
         :title="content_title"
@@ -27,15 +33,16 @@
         :canEdit="canEdit"></top-form-nav>
       <input class="input__title" type="text" v-model="content_title" />
       <textarea class="input__text" v-model="content_text"></textarea>
+      <hr />
+      <h3 class="comment">댓글</h3>
+      <comment-row
+        type="board"
+        v-for="comment in comments"
+        :key="comment.commentNo"
+        :articleNo="comment.articleNo"
+        :comment="comment"></comment-row>
+      <comment-write :articleNo="this.articleNo" type="board"></comment-write>
     </div>
-    <comment-write :articleNo="this.articleNo" type="board"></comment-write>
-
-    <comment-row
-      type="board"
-      v-for="comment in comments"
-      :key="comment.commentNo"
-      :articleNo="comment.articleNo"
-      :comment="comment"></comment-row>
 
     <app-footer></app-footer>
     <app-nav :navmode="'board'"></app-nav>
@@ -167,6 +174,23 @@ export default {
 </script>
 
 <style scoped>
+.meta-info {
+  font-size: 0.8rem;
+  margin: 1rem 1rem 2rem 1rem;
+  text-align: start;
+}
+.meta__author {
+  font-size: 1rem;
+}
+.meta__regTime {
+  margin: 0rem 1rem;
+}
+.title--before-edit {
+  font-size: 2rem;
+  margin: 1rem;
+  text-align: start;
+}
+
 .input__title {
   width: 80vw;
   border-radius: 20px;
@@ -175,23 +199,27 @@ export default {
   padding: 0 1rem;
   margin: 1rem;
 }
-
-.title {
-  height: 2rem;
-  margin: 0 1.4rem;
-  padding-top: 1rem;
-  display: flex;
-  justify-content: space-between;
+.info__overview {
+  text-align: start;
+  padding: 1rem;
+  line-height: 1.4rem;
+  margin: 4vw 2vh;
+  font-size: 1rem;
 }
-.space__title {
-  font-size: 1.1rem;
+.main-swiper {
+  margin: 1rem;
 }
 
 .space__author,
 .space__regTime {
   font-size: 0.8rem;
 }
-
+.comment {
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-align: start;
+  padding: 1rem;
+}
 .input__text {
   padding: 1rem;
   margin: 1rem 0;
