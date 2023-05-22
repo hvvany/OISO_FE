@@ -94,6 +94,7 @@ export default {
       //근데 이게 5시 발표 기준이라 00시~05시까지는 동작을 안 하는데...ㅎ
 
       let code = this.sidos[this.plans[this.now].sido_code];
+      console.log("this.plans", this.plans[this.now].sido_code);
       console.log("code", code);
       const request_url =
         "https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=" +
@@ -165,7 +166,7 @@ export default {
       });
     },
     getIcon(temp) {
-      return process.env.BASE_URL + temp + ".png";
+      return process.env.BASE_URL + "weather/" + temp + ".png";
     },
   },
 };

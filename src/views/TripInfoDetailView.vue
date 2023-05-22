@@ -39,12 +39,14 @@ export default {
     return {
       contentId: 0,
       contentTypeId: 0,
+      sido_code: 0,
       info: [],
       location: [],
     };
   },
   created() {
     this.contentId = this.$route.params.contentId;
+    console.log("contentId", this.contentId);
     this.contentTypeId = this.$route.params.contentTypeId;
 
     const request_url =
@@ -56,25 +58,29 @@ export default {
       this.contentTypeId +
       "&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y&numOfRows=10&pageNo=1";
     http.get(request_url).then((response) => {
+      console.log(response);
       this.info = response.data.response.body.items.item[0];
-      // this.location["lat"] = this.info.mapy;
-      // this.location["lng"] = this.info.mapx;
       let latlng = { lat: this.info.mapy, lng: this.info.mapx };
+      this.sido_code = this.info.areacode;
       this.location.push(latlng);
     });
   },
   methods: {
     addMyTrip() {
+      console.log(this.sido_code);
       http
         .post(`/mytrip/${this.userInfo.userId}`, {
           id: this.userInfo.userId,
-          contentId: this.comment,
-          contentTypeId: this.articleNo,
+          contentId: this.contentId,
+          contentTypeId: this.contentTypeId,
+          sido_code: this.sido_code,
         })
         .then(({ status }) => {
           if (status == 200) {
             console.log("추가 성공");
-            // this.$router.go();
+            this.$router.push({
+              name: "tripinfo",
+            });
           }
         });
     },
