@@ -76,6 +76,12 @@ export default {
           sido_code: this.sido_code,
         })
         .then(({ status }) => {
+          console.log({
+            id: this.userInfo.userId,
+            contentId: this.contentId,
+            contentTypeId: this.contentTypeId,
+            sido_code: this.sido_code,
+          });
           if (status == 200) {
             console.log("추가 성공");
             this.$router.push({

@@ -16,6 +16,13 @@
         <div
           class="cards__card"
           @click="$router.push('/article/board/' + board.articleNo)">
+          
+          <div class="card__imgs">
+            <img
+              v-if="board.fileInfos[0]"
+              class="card__img"
+              :src="board.fileInfos[0].onlinePath" />
+          </div>
           <div class="card__author">
             작성자 ▪ {{ board.id }} | 작성일 ▪ {{ board.regTime.split(" ")[0] }}
           </div>
@@ -23,12 +30,6 @@
           <p class="card__content">
             {{ board.content | showFirstLine }}
           </p>
-          <div class="card__imgs">
-            <img
-              v-if="board.fileInfos[0]"
-              class="card__img"
-              :src="board.fileInfos[0].onlinePath" />
-          </div>
         </div>
       </div>
 
@@ -56,7 +57,7 @@ export default {
       message: "",
       modal_show: false,
       boardData: [],
-      afterMounted:''
+      afterMounted: "",
     };
   },
   created() {
@@ -127,10 +128,9 @@ content {
 
 .cards__card {
   padding: 1rem;
-  margin: 0 0.5rem 1rem 0.5rem;
+  margin: 0 0 1rem 0;
   border-radius: 5px;
   background-color: white;
-  box-shadow: 2px 2px 2px 1px rgba(128, 128, 128, 0.29);
 }
 .card__author {
   font-size: 0.7rem;
@@ -156,6 +156,7 @@ content {
   overflow: hidden;
 }
 .card__img {
-  width: 90%;
+  width: 100%;
+  border-radius: 5px;
 }
 </style>

@@ -1,11 +1,13 @@
 <template>
   <div>
-    <div>
+    <div class="comment">
       <textarea
         placeholder="댓글 입력 ..."
         rows="2"
         v-model="comment"></textarea>
-      <button @click="sendComment">등록</button>
+      <button @click="sendComment">
+        <span class="material-symbols-outlined"> arrow_upward </span>
+      </button>
     </div>
   </div>
 </template>
@@ -53,19 +55,35 @@ export default {
 </script>
 
 <style scoped>
+.comment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem 0;
+}
 textarea {
-  width: 80vw;
-  height: 10vw;
+  position: relative;
+  left: 2rem;
+  height: 5rem;
+  width: 100%;
   line-height: 1.3rem;
-  border: 1px solid black;
-  border-radius: 10px;
-  padding: 1rem;
+  border: 0.1px solid rgba(195, 195, 195, 0.638);
+  border-radius: 20px;
+  padding: 1rem 3.5rem 1rem 1rem;
   font-size: 10px;
 }
 
 button {
-  width: 50px;
-  margin-left: 8px;
-  margin-top: 1vw;
+  position: relative;
+  right: 1.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-width: 0;
+  border-radius: 50%;
+  background-color: #3485ff;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

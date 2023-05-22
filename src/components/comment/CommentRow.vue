@@ -1,9 +1,14 @@
 <template>
   <div>
-    <div v-if="!showModal">
-      <div class="comment__author">{{ author }}</div>
+    <div v-if="!showModal" class="comment-card">
+      <div class="comment__author">
+        <div>{{ author }}</div>
+        <div class="material-symbols-outlined" @click="viewEdit = !viewEdit">
+          more_vert
+        </div>
+      </div>
       <div class="comment__text">{{ comment_text }}</div>
-      <div class="group__button">
+      <div v-if="viewEdit" class="group__button">
         <button @click="modifyStart">수정</button>
         <button @click="deleteComment">삭제</button>
       </div>
@@ -33,6 +38,7 @@ export default {
       author: "",
       comment_text: "",
       articleNo: "",
+      viewEdit: false,
     };
   },
   created() {
@@ -93,25 +99,31 @@ export default {
 </script>
 <style>
 .comment__author {
-  text-align: left;
-  margin-left: 10vw;
-  margin-bottom: 2vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 1.3rem;
 }
 
 .comment__text {
-  width: 90vw;
-  height: 20vw;
+  width: 80vw;
+  height: 2rem;
   background-color: white;
-  padding: 2vw;
-  border: 1px solid black;
+  padding: 1rem;
+  margin-bottom: 1rem;
   border-radius: 10px;
+  border-width: 1px;
+  border-color: #b5b5b5bb;
   display: inline-block;
   text-align: left;
   font-size: 10px;
 }
 
 .group__button {
-  margin-top: 1vw;
+  margin: 0.7rem 0;
+  display: block;
+  bottom: 0;
+  z-index: 10;
 }
 
 button {
