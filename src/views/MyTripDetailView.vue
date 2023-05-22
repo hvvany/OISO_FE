@@ -5,6 +5,14 @@
       <kakao-map :location="location" type="detail"></kakao-map>
     </div>
 
+    <ul>
+      <li v-for="(value, idx) in totalInfo" :key="idx">
+        <div>{{ value[0][0].title }}</div>
+        <button @click="deleteDetail">삭제</button>
+        <!-- 아니 구조 진짜 이상한데...ㅋㅋㅋ -->
+      </li>
+    </ul>
+
     <app-footer></app-footer>
     <app-nav :navmode="'mytrip'"></app-nav>
   </div>
@@ -19,7 +27,7 @@ import http from "@/util/http-common";
 import { mapGetters } from "vuex";
 export default {
   name: "MytripView",
-  components: { AppNav, TopBackNav, KakaoMap, AppFooter },
+  components: { AppNav, TopBackNav, AppFooter, KakaoMap }, //
 
   data() {
     return {
@@ -27,6 +35,7 @@ export default {
       info: [],
       tripInfo: [],
       detailInfo: [],
+      totalInfo: [],
       location: [],
       tripdetail: this.$route.params.tripdetail,
       sido_code: this.$route.params.sido_code,
@@ -44,13 +53,13 @@ export default {
     //일단 db에서 계획을 가져오고
     getInfo() {
       //db에 저장된 여행 상세 정보 가져와서 공공 데이터로
-      console.log(this.tripdetail, this.sido_code);
+      //이거 가져올 때 day로 정렬해서 가져와야겠다!
       http
         .get("/mytrip/" + this.userInfo.userId + "/" + this.sido_code)
         .then((response) => {
           this.tripInfo = response.data;
 
-          //가져온 여행지 하나씩 돌아가면서 상세 정보 가져오기
+          //가져온 여행지 하나씩 돌아가면서 상세 정보 가져오기 (지도 마커 용도)
           for (let trip of this.tripInfo) {
             const request_url =
               "https://apis.data.go.kr/B551011/KorService1/detailCommon1?serviceKey=" +
@@ -68,6 +77,7 @@ export default {
                 this.detailInfo.push(response.data.response.body.items.item);
               })
               .finally(() => {
+                this.totalInfo.push(this.detailInfo);
                 this.getDetail();
               });
           }
@@ -78,6 +88,19 @@ export default {
         let latlng = { lat: test[0].mapy, lng: test[0].mapx };
         this.location.push(latlng);
       }
+    },
+    deleteDetail() {
+      console.log();
+      http
+        .delete(`/trip/${this.userInfo.userId}/${this.detailNo}`)
+        .then((response) => {
+          console.log("삭제 완료");
+          console.log(response.data);
+        })
+        .catch((response) => {
+          console.log("error.");
+          console.log(response.data);
+        });
     },
   },
 };

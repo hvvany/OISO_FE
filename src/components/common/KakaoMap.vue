@@ -39,7 +39,8 @@ export default {
   methods: {
     initMap() {
       const container = document.getElementById("map");
-      console.log("init", this.location[0].lat);
+      // console.log("얍", this.location[0]);
+      // console.log("init", this.location[0].lat);
       const options = {
         center: new kakao.maps.LatLng(
           this.location[0].lat,
