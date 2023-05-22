@@ -14,25 +14,25 @@
       </button>
       <div class="cards">
         <div
-          v-for="(board, idx) in boardData"
+          v-for="(hotplace, idx) in hotplaceData"
           :key="idx"
-          @click="$router.push('/article/hotplace/' + board.articleNo)">
+          @click="$router.push('/article/hotplace/' + hotplace.articleNo)">
           <div
-            v-if="board.fileInfos[0]"
+            v-if="hotplace.fileInfos[0]"
             class="cards__card"
             :style="
               'background-image: linear-gradient(rgba(255, 255, 255, 0),rgba(0, 0, 0, 0.35)), url(' +
-              board.fileInfos[0].onlinePath +
+              hotplace.fileInfos[0].onlinePath +
               ');'
             ">
             <h1 class="card__number">
               {{ idx + 1 }}
             </h1>
-            <h2 class="card__title">핫플 제목</h2>
-            <p class="card__location">핫플 지역</p>
+            <h2 class="card__title">{{ hotplace.title }}</h2>
+            <p class="card__location">{{ hotplace.content}}</p>
             <div class="card__author">
-              작성자 ▪ {{ board.id }} | 작성일 ▪
-              {{ board.regTime.split(" ")[0] }}
+              작성자 ▪ {{ hotplace.id }} | 작성일 ▪
+              {{ hotplace.regTime.split(" ")[0] }}
             </div>
           </div>
         </div>
@@ -58,7 +58,7 @@ export default {
   data() {
     return {
       message: "",
-      boardData: [],
+      hotplaceData: [],
       modal_show: false,
       images: {
         감천문화마을: [
@@ -78,7 +78,7 @@ export default {
   },
   created() {
     http.get("/article/hotplace/").then((response) => {
-      this.boardData = response.data;
+      this.hotplaceData = response.data;
       console.log(response.data);
     });
   },
