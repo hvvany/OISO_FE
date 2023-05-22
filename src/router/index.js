@@ -35,11 +35,6 @@ const routes = [
     component: () => import("@/views/TripInfoDetailView.vue"),
   },
   {
-    path: "/article/bulletin",
-    name: "bulletin",
-    component: () => import("@/views/ArticleBulletinView.vue"),
-  },
-  {
     path: "/article/board",
     name: "board",
     component: () => import("@/views/ArticleBoardView.vue"),
@@ -68,6 +63,21 @@ const routes = [
     path: "/article/hotplace/new",
     name: "hotplaceNew",
     component: () => import("@/views/ArticleHotplaceNewView.vue"),
+  },
+  {
+    path: "/article/bulletin",
+    name: "bulletin",
+    component: () => import("@/views/ArticleBulletinView.vue"),
+  },
+  {
+    path: "/article/bulletin/:articleNo",
+    name: "bulletinDetail",
+    component: () => import("@/views/ArticleBulletinDetailView.vue"),
+  },
+  {
+    path: "/article/bulletin/new",
+    name: "bulletinNew",
+    component: () => import("@/views/ArticleBulletinNewView.vue"),
   },
   {
     path: "/mytrip",

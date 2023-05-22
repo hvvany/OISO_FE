@@ -99,10 +99,11 @@ export default {
 </script>
 <style>
 .comment__author {
+  font-size: 1.2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0 1.3rem;
+  margin: 0 1.5rem;
 }
 
 .comment__text {
@@ -116,7 +117,7 @@ export default {
   border-color: #b5b5b5bb;
   display: inline-block;
   text-align: left;
-  font-size: 10px;
+  font-size: 1rem;
 }
 
 .group__button {
