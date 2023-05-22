@@ -19,12 +19,14 @@
       <hr />
       <h3 class="comment">댓글</h3>
       <comment-row
-        type="board"
+        type="hotplace"
         v-for="comment in comments"
         :key="comment.commentNo"
         :articleNo="comment.articleNo"
         :comment="comment"></comment-row>
-      <comment-write :articleNo="this.articleNo" type="board"></comment-write>
+      <comment-write
+        :articleNo="this.articleNo"
+        type="hotplace"></comment-write>
     </div>
     <div v-else>
       <top-form-nav
@@ -36,12 +38,14 @@
       <hr />
       <h3 class="comment">댓글</h3>
       <comment-row
-        type="board"
+        type="hotplace"
         v-for="comment in comments"
         :key="comment.commentNo"
         :articleNo="comment.articleNo"
         :comment="comment"></comment-row>
-      <comment-write :articleNo="this.articleNo" type="board"></comment-write>
+      <comment-write
+        :articleNo="this.articleNo"
+        type="hotplace"></comment-write>
     </div>
 
     <app-footer></app-footer>
@@ -82,8 +86,6 @@ export default {
   },
   created() {
     http.get("/article/hotplace/").then((response) => {
-      this.boardData = response.data;
-      console.log(response.data);
       for (let article of response.data) {
         if (article.articleNo == this.$route.params.articleNo) {
           for (let imgs of article.fileInfos) {
@@ -110,7 +112,7 @@ export default {
         }
       });
     http
-      .get("/comment/board/" + this.$route.params.articleNo)
+      .get("/comment/hotplace/" + this.$route.params.articleNo)
       .then((response) => {
         this.comments = response.data;
       });
@@ -129,7 +131,7 @@ export default {
       console.log(this);
       if ((this.content_text != "") & (this.content_title != "")) {
         http
-          .post("/article/board/new", {
+          .post("/article/hotplace/new", {
             id: this.userInfo.userId,
             title: this.content_title,
             content: this.content_text,
@@ -147,7 +149,7 @@ export default {
       console.log(this);
       if ((this.content_text != "") & (this.content_title != "")) {
         http
-          .put(`/article/board/${this.articleNo}`, {
+          .put(`/article/hotplace/${this.articleNo}`, {
             articleNo: this.articleNo,
             title: this.content_title,
             content: this.content_text,
@@ -163,7 +165,7 @@ export default {
     },
     deleteArticle() {
       http
-        .delete("/article/board/" + this.$route.params.articleNo)
+        .delete("/article/hotplace/" + this.$route.params.articleNo)
         .then((response) => {
           console.log(response.data);
           this.$router.push({ name: "board" });

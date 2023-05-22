@@ -63,21 +63,21 @@ export default {
 }
 textarea {
   position: relative;
-  left: 2rem;
-  height: 5rem;
-  width: 100%;
+  left: 1.5rem;
+  height: 2rem;
+  width: 100vw;
   line-height: 1.3rem;
   border: 0.1px solid rgba(195, 195, 195, 0.638);
   border-radius: 20px;
   padding: 1rem 3.5rem 1rem 1rem;
-  font-size: 10px;
+  font-size: 1rem;
 }
 
 button {
   position: relative;
   right: 1.5rem;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2rem;
+  height: 2rem;
   border-width: 0;
   border-radius: 50%;
   background-color: #3485ff;

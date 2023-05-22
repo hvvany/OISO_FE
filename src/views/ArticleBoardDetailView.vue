@@ -187,7 +187,7 @@ export default {
 }
 .title--before-edit {
   font-size: 2rem;
-  margin: 1rem;
+  margin: 1rem 1.5rem;
   text-align: start;
 }
 
@@ -215,10 +215,10 @@ export default {
   font-size: 0.8rem;
 }
 .comment {
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   font-weight: 700;
   text-align: start;
-  padding: 1rem;
+  padding: 1rem 1.5rem;
 }
 .input__text {
   padding: 1rem;
