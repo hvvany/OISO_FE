@@ -2,7 +2,7 @@
   <div>
     <h1>new trip</h1>
     <!-- 시도는 코드 말고 이름으로 선택할 수 있게 하고
-         날짜는 형식에 맞는지 확인하자 -->
+        날짜는 형식에 맞는지 확인하자 -->
     <div class="plan">
       <input
         class="plan__input"

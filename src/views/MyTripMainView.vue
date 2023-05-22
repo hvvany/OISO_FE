@@ -143,7 +143,7 @@ export default {
   font-weight: 200;
   color: white;
   border-radius: 50%;
-  background-color: #3485ff;
+  background-color: #ffc062;
   border: solid 0;
   box-shadow: 2px 2px 2px 1px rgba(128, 128, 128, 0.29);
 }
