@@ -16,7 +16,7 @@
         <div
           v-for="(hotplace, idx) in hotplaceData"
           :key="idx"
-          @click="$router.push('/article/hotplace/' + hotplace.articleNo)">
+          @click="updateCnt(hotplace)">
           <div
             v-if="hotplace.fileInfos[0]"
             class="cards__card"
@@ -31,7 +31,8 @@
             <h2 class="card__title">{{ hotplace.title }}</h2>
             <div class="card__author">
               작성자 ▪ {{ hotplace.id }} | 작성일 ▪
-              {{ hotplace.regTime.split(" ")[0] }}
+              {{ hotplace.regTime.split(" ")[0] }} | 조회수 ▪
+              {{ hotplace.viewCnt }}
             </div>
           </div>
         </div>
@@ -84,6 +85,21 @@ export default {
   methods: {
     openModal() {
       this.modal_show = true;
+    },
+    updateCnt(hotplace) {
+      http
+        .put(`/article/hotplace/${hotplace.articleNo}`, {
+          articleNo: hotplace.articleNo,
+          title: hotplace.title,
+          content: hotplace.content,
+          likeCnt: hotplace.likeCnt,
+          viewCnt: hotplace.viewCnt + 1,
+        })
+        .then(({ status }) => {
+          if (status == 200) {
+            this.$router.push("/article/hotplace/" + hotplace.articleNo);
+          }
+        });
     },
   },
 };

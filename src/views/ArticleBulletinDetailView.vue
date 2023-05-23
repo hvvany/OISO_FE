@@ -2,13 +2,18 @@
   <div style="background-color: white">
     <div v-if="!editMode">
       <top-form-nav
-        :title="'핫플레이스'"
+        :title="'공지사항'"
         :mode="'디테일'"
         :canEdit="canEdit"></top-form-nav>
       <div class="meta-info">
         <span class="meta__author">{{ content_author }}</span>
         <span class="meta__regTime">{{ content_regTime }}</span>
       </div>
+      <div class="meta-info__cnt">
+        <span class="meta__cnt">조회수 {{ content_viewCnt }} </span>
+        <span class="meta__cnt">like {{ content_likeCnt }}</span>
+      </div>
+      <button @click="updateLikeCnt()">좋아요!</button>
       <div class="title--before-edit">
         {{ content_title }}
       </div>
@@ -16,17 +21,6 @@
 
       <img-swiper class="main-swiper" :imgs="imgs"></img-swiper>
       <p class="content info__overview">{{ content_text }}</p>
-      <hr />
-      <h3 class="comment">댓글</h3>
-      <comment-row
-        type="hotplace"
-        v-for="comment in comments"
-        :key="comment.commentNo"
-        :articleNo="comment.articleNo"
-        :comment="comment"></comment-row>
-      <comment-write
-        :articleNo="this.articleNo"
-        type="hotplace"></comment-write>
     </div>
     <div v-else>
       <top-form-nav
@@ -35,21 +29,10 @@
         :canEdit="canEdit"></top-form-nav>
       <input class="input__title" type="text" v-model="content_title" />
       <textarea class="input__text" v-model="content_text"></textarea>
-      <hr />
-      <h3 class="comment">댓글</h3>
-      <comment-row
-        type="hotplace"
-        v-for="comment in comments"
-        :key="comment.commentNo"
-        :articleNo="comment.articleNo"
-        :comment="comment"></comment-row>
-      <comment-write
-        :articleNo="this.articleNo"
-        type="hotplace"></comment-write>
     </div>
 
     <app-footer></app-footer>
-    <app-nav :navmode="'hotplace'"></app-nav>
+    <app-nav :navmode="'bulletin'"></app-nav>
   </div>
 </template>
 
@@ -62,42 +45,31 @@ import http from "@/util/http-common";
 // import AppFooter from "@/components/layout/AppFooter.vue";
 import { mapGetters } from "vuex";
 export default {
-  name: "HotplaceNew",
+  name: "BulletinDetail",
   components: {
     TopFormNav: () => import("@/components/layout/TopFormNav"),
     AppNav: () => import("@/components/layout/AppNav"),
     AppFooter: () => import("@/components/layout/AppFooter"),
     ImgSwiper: () => import("@/components/common/ImgSwiper"),
-    "comment-write": () => import("@/components/comment/CommentWrite"),
-    "comment-row": () => import("@/components/comment/CommentRow"),
   },
   data() {
     return {
+      articleNo: 0,
       content_title: "",
       content_text: "",
       content_author: "",
       content_regTime: "",
+      content_viewCnt: 0,
+      content_likeCnt: 0,
       editMode: false,
       canEdit: false,
-      articleNo: 0,
       comments: "",
       imgs: [],
     };
   },
   created() {
-    http.get("/article/hotplace/").then((response) => {
-      for (let article of response.data) {
-        if (article.articleNo == this.$route.params.articleNo) {
-          for (let imgs of article.fileInfos) {
-            this.imgs.push(imgs.onlinePath);
-          }
-          console.log(this.imgs);
-          break;
-        }
-      }
-    });
     http
-      .get("/article/hotplace/" + this.$route.params.articleNo)
+      .get("/article/bulletin/" + this.$route.params.articleNo)
       .then((response) => {
         const boardData = response.data;
         console.log(response.data);
@@ -106,15 +78,12 @@ export default {
         this.articleNo = boardData.articleNo;
         this.content_author = boardData.id;
         this.content_regTime = boardData.regTime;
+        this.content_viewCnt = boardData.viewCnt;
+        this.content_likeCnt = boardData.likeCnt;
         if (this.userInfo.userId === boardData.id) {
           this.canEdit = true;
           console.log(this.canEdit);
         }
-      });
-    http
-      .get("/comment/hotplace/" + this.$route.params.articleNo)
-      .then((response) => {
-        this.comments = response.data;
       });
   },
   mounted() {},
@@ -127,36 +96,20 @@ export default {
     changeEdit() {
       this.editMode = !this.editMode;
     },
-    sendArticle() {
-      console.log(this);
-      if ((this.content_text != "") & (this.content_title != "")) {
-        http
-          .post("/article/hotplace/new", {
-            id: this.userInfo.userId,
-            title: this.content_title,
-            content: this.content_text,
-          })
-          .then(({ status }) => {
-            if (status == 200) {
-              this.$router.push({ name: "board" });
-            }
-          });
-      } else {
-        alert("정보를 입력해 주세요");
-      }
-    },
     modifyArticle() {
       console.log(this);
       if ((this.content_text != "") & (this.content_title != "")) {
         http
-          .put(`/article/hotplace/${this.articleNo}`, {
+          .put(`/article/bulletin/${this.articleNo}`, {
             articleNo: this.articleNo,
             title: this.content_title,
             content: this.content_text,
+            viewCnt: this.viewCnt,
+            likeCnt: this.likeCnt,
           })
           .then(({ status }) => {
             if (status == 200) {
-              this.$router.push({ name: "board" });
+              this.$router.push({ name: "bulletin" });
             }
           });
       } else {
@@ -165,10 +118,25 @@ export default {
     },
     deleteArticle() {
       http
-        .delete("/article/hotplace/" + this.$route.params.articleNo)
+        .delete("/article/bulletin/" + this.$route.params.articleNo)
         .then((response) => {
           console.log(response.data);
-          this.$router.push({ name: "board" });
+          this.$router.push({ name: "bulletin" });
+        });
+    },
+    updateLikeCnt() {
+      http
+        .put(`/article/bulletin/${this.articleNo}`, {
+          articleNo: this.articleNo,
+          title: this.content_title,
+          content: this.content_text,
+          likeCnt: this.content_likeCnt++,
+          viewCnt: this.content_viewCnt,
+        })
+        .then(({ status }) => {
+          if (status == 200) {
+            // this.$router.push("/article/bulletin/" + board.articleNo);
+          }
         });
     },
   },
@@ -179,6 +147,11 @@ export default {
 .meta-info {
   font-size: 0.8rem;
   margin: 1rem 1rem 2rem 1rem;
+  text-align: start;
+}
+.meta-info__cnt {
+  font-size: 0.8rem;
+  margin: 0 1rem;
   text-align: start;
 }
 .meta__author {

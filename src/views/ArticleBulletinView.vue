@@ -2,9 +2,10 @@
   <div>
     <top-back-nav :title="'공지사항'"></top-back-nav>
     <ul class="content-list" v-for="(bulletin, idx) in bulletinData" :key="idx">
-      <li class="content-list__item">
+      <li class="content-list__item" @click="updateCnt(bulletin)">
         <p>{{ bulletin.title }}</p>
         <p>{{ bulletin.content }}</p>
+        <p>조회수 {{ bulletin.viewCnt }}</p>
       </li>
     </ul>
     <button
@@ -37,7 +38,23 @@ export default {
       console.log(response.data);
     });
   },
-  methods: {},
+  methods: {
+    updateCnt(bulletin) {
+      http
+        .put(`/article/bulletin/${bulletin.articleNo}`, {
+          articleNo: bulletin.articleNo,
+          title: bulletin.title,
+          content: bulletin.content,
+          likeCnt: bulletin.likeCnt,
+          viewCnt: bulletin.viewCnt + 1,
+        })
+        .then(({ status }) => {
+          if (status == 200) {
+            this.$router.push("/article/bulletin/" + bulletin.articleNo);
+          }
+        });
+    },
+  },
 };
 </script>
 
