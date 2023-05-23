@@ -6,19 +6,23 @@
     </div>
 
     <content>
-      <div class="cards">
-        <div v-for="(value, idx) in totalInfo" :key="idx">
-          <div class="cards__card">
-            <span class="card__title">{{ value[0][0].title }}</span>
-            <button
-              class="card__delete"
-              @click="deleteDetail(value[0][0].contentid)">
-              삭제
-            </button>
+      <draggable class="cards">
+        <transition-group>
+          <div v-for="(value, idx) in totalInfo" :key="idx">
+            <div class="cards__card">
+              <span class="card__title">{{ value[0][0].title }}</span>
+              <button
+                class="card__delete"
+                @click="deleteDetail(value[0][0].contentid)">
+                삭제
+              </button>
+            </div>
           </div>
-        </div>
-      </div>
+        </transition-group>
+      </draggable>
     </content>
+
+    <button class="card__modify" @click="modifyTrip">완료</button>
     <app-footer></app-footer>
     <app-nav :navmode="'mytrip'"></app-nav>
   </div>
@@ -30,10 +34,11 @@ import TopBackNav from "@/components/layout/TopBackNav.vue";
 import KakaoMap from "@/components/common/KakaoMap.vue";
 import AppFooter from "@/components/layout/AppFooter.vue";
 import http from "@/util/http-common";
+import draggable from "vuedraggable";
 import { mapGetters } from "vuex";
 export default {
   name: "MytripView",
-  components: { AppNav, TopBackNav, AppFooter, KakaoMap }, //
+  components: { AppNav, TopBackNav, AppFooter, KakaoMap, draggable }, //
 
   data() {
     return {
@@ -106,6 +111,7 @@ export default {
           console.log(response.data);
         });
     },
+    modifyTrip() {},
   },
 };
 </script>
@@ -136,6 +142,7 @@ content {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-size: 14px;
 }
 
 button {
@@ -145,5 +152,11 @@ button {
   border-radius: 8px;
   padding: 6px 12px;
   font-size: 12px;
+}
+
+.card__modify {
+  width: 15%;
+  color: rgb(22, 116, 22);
+  font-size: 16px;
 }
 </style>

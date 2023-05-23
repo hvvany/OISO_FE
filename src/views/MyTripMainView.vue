@@ -13,8 +13,8 @@
     <div class="main-content__plan">
       <div class="plan">
         <ul v-if="plans.length != 0">
-          <li class="card" v-for="(val, idx) in plans" :key="idx">
-            <div>
+          <li v-for="(val, idx) in plans" :key="idx" class="card__group">
+            <div class="card">
               <!-- params 객체로 넘기기 -->
               <router-link
                 class="plan__more-card"
@@ -26,10 +26,21 @@
                   },
                 }">
                 <div id="plan__title">{{ val.title }}</div>
+
                 <div id="plan__period">
                   {{ val.startPeriod }} ~ {{ val.endPeriod }}
                 </div>
               </router-link>
+            </div>
+            <div class="outline__button">
+              <div
+                class="material-symbols-outlined"
+                @click="viewEdit = !viewEdit">
+                more_vert
+              </div>
+              <div v-show="viewEdit" class="delete__button">
+                <button @click="deletePlan(val.mytripNo)">삭제</button>
+              </div>
             </div>
           </li>
         </ul>
@@ -66,6 +77,7 @@ export default {
       message: "",
       topNavNum: 0,
       plans: [],
+      viewEdit: false,
       //sidos, sido_imgs 공통이니까
       //TripInfoView, CityInfoSwiper 들이랑 합쳐서 빼자.. 나중에
       sidos: {
@@ -84,7 +96,21 @@ export default {
       console.log("plans", this.plans[0]);
     });
   },
-  methods: {},
+  methods: {
+    deletePlan(mytripNo) {
+      console.log(mytripNo);
+      http
+        .delete(`/mytrip/plan/${mytripNo}`)
+        .then((response) => {
+          console.log("삭제 완료");
+          console.log(response.data);
+        })
+        .catch((response) => {
+          console.log("error.");
+          console.log(response.data);
+        });
+    },
+  },
   computed: {
     ...mapGetters({
       userInfo: "userInfo",
@@ -106,9 +132,16 @@ export default {
   margin: 0 1rem 0 1rem;
 }
 
+.card__group {
+  display: flex;
+  width: 95vw;
+}
+
 .card {
+  position: relative;
+  left: 1.2rem;
   height: 20vw;
-  width: 85vw;
+  width: 95vw;
   margin: 3vw;
   border: 1px solid;
   display: flex;
@@ -119,18 +152,17 @@ export default {
 }
 
 .plan__more-card {
-  width: 0;
   text-decoration: none;
   color: black;
 }
 
 #plan__title {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   margin-bottom: 0.4rem;
 }
 
 #plan__period {
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 
 .add-article__btn {
@@ -146,5 +178,21 @@ export default {
   background-color: #ffc062;
   border: solid 0;
   box-shadow: 2px 2px 2px 1px rgba(128, 128, 128, 0.29);
+}
+
+.outline__button {
+  width: 3.8rem;
+  margin: 1.3rem 0;
+  position: relative;
+  right: 2.8rem;
+  top: 0.7rem;
+}
+
+button {
+  border: 1px solid #989898;
+  background-color: white;
+  border-radius: 8px;
+  font-size: 12px;
+  margin-top: 4px;
 }
 </style>
