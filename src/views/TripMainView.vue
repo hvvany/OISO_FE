@@ -2,7 +2,7 @@
   <div>
     <!-- 상단 네브바 -->
     <top-nav :topNavNum="topNavNum"></top-nav>
-    
+
     <!-- 사이드바 -->
     <div id="mySidebar" class="sidebar">
       <a href="javascript:void(0)" class="closebtn" @click="closeNav()"
@@ -37,7 +37,14 @@
           >
         </div>
 
-        <img-cards class="hotplace__cards" :infos="imgs"></img-cards>
+        <div class="cards">
+          <div class="card" v-for="(hotplace, idx) in hotplaceData" :key="idx">
+            <img class="card__img" :src="hotplace.fileInfos[0].onlinePath" />
+            <h3 class="card__title">{{ hotplace.title }}</h3>
+            <p class="card__content">{{ hotplace.content | showFirstLine }}</p>
+            <p class="card__author">@{{ hotplace.id }}</p>
+          </div>
+        </div>
       </div>
     </content>
     <app-footer></app-footer>
@@ -48,15 +55,15 @@
 </template>
 
 <script>
+import http from "@/util/http-common";
 import AppNav from "@/components/layout/AppNav.vue";
 import ImgSwiper from "@/components/common/ImgSwiper.vue";
-import ImgCards from "@/components/common/ImgCards.vue";
 import TopNav from "@/components/layout/TopNav.vue";
 import AppFooter from "@/components/layout/AppFooter.vue";
 import { mapActions, mapGetters } from "vuex";
 export default {
   name: "TripMain",
-  components: { AppNav, ImgSwiper, ImgCards, TopNav, AppFooter },
+  components: { AppNav, ImgSwiper, TopNav, AppFooter },
   data: function () {
     return {
       message: "",
@@ -67,12 +74,17 @@ export default {
       ],
       topNavNum: 0,
       isAdmin: false,
+      hotplaceData: [],
     };
   },
   created() {
     if (this.userInfo.userId === "ssafy") {
       this.isAdmin = true;
     }
+    http.get("/article/hotplace/").then((response) => {
+      this.hotplaceData = response.data;
+      console.log(response.data);
+    });
   },
   methods: {
     ...mapActions(["userLogout"]),
@@ -137,7 +149,7 @@ export default {
   align-items: center;
   width: 70vw;
   height: 2.5rem;
-  margin: 1.2rem 1.2rem;
+  margin: 2rem 1.2rem 2rem 1.2rem;
   padding: 0 1rem 0 1rem;
 }
 .search__icon {
@@ -147,7 +159,7 @@ export default {
   display: flex;
   align-items: center;
   background-color: #ffffffff;
-  font-size: 0.5rem;
+  font-size: 0.8rem;
   border: none;
   width: 100%;
 }
@@ -159,8 +171,8 @@ export default {
   margin: 0 1rem 0 1rem;
 }
 .hotplace__title {
-  font-size: 1.1rem;
-  font-weight: 500;
+  font-size: 1.4rem;
+  font-weight: 700;
 }
 .hotplace__more-btn {
   text-decoration: none;
@@ -206,6 +218,32 @@ export default {
   font-size: 36px;
   width: 1rem;
   padding-left: 2rem;
+}
+
+.card__img {
+  width: 70vw;
+  height: 60vw;
+  border-radius: 5px;
+}
+.card__title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0.7rem 0;
+  text-align: start;
+}
+.card__content {
+  font-size: 0.8rem;
+  text-align: start;
+  color: #676767;
+}
+.card__author {
+  font-size: 0.6rem;
+  margin: 0.7rem 0 2rem 0;
+  text-align: start;
+  color: #aeaeae;
+}
+.card {
+  margin: 1rem 1rem;
 }
 
 /* The button used to open the sidebar */
