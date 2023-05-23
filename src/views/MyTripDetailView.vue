@@ -124,6 +124,15 @@ export default {
       let latlng = { lat: this.detailInfo.mapy, lng: this.detailInfo.mapx };
       this.location.push(latlng);
       this.flag = true;
+      this.getSortedTripInfo();
+    },
+    //sequence 기준 정렬
+    getSortedTripInfo() {
+      const sortedTripInfo = [...this.tripInfo];
+      sortedTripInfo.sort((a, b) => {
+        return a.sequence - b.sequence;
+      });
+      this.sortTripInfo = sortedTripInfo;
     },
     deleteDetail(contentid) {
       http
