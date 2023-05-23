@@ -29,7 +29,7 @@ export default {
 <style scoped>
 .card__img {
   width: 70vw;
-  height: 70vw;
+  height: 60vw;
 }
 .card {
   margin: 1rem 1rem;
