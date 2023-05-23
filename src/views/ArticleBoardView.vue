@@ -16,7 +16,6 @@
         <div
           class="cards__card"
           @click="$router.push('/article/board/' + board.articleNo)">
-          
           <div class="card__imgs">
             <img
               v-if="board.fileInfos[0]"

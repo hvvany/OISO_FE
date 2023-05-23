@@ -62,11 +62,8 @@ export default {
           })
           .then(({ status }) => {
             if (status == 200) {
-              //값 초기화
-              this.userName = "";
-              this.comment_text = "";
+              this.$parent.getComment();
               this.modifyStop();
-              this.$router.go();
             }
           })
           .catch(({ response }) => {
@@ -77,22 +74,16 @@ export default {
       }
     },
     deleteComment() {
-      if (confirm("이걸 뭘로 바꾸지")) {
+      if (confirm("정말 삭제하시겠습니까?")) {
         this.delete();
-        this.$router.go();
       }
     },
     delete() {
-      http
-        .delete(`/comment/board/${this.commentNo}`)
-        .then((response) => {
-          console.log("댓글 삭제 완료");
-          console.log(response.data);
-        })
-        .catch((response) => {
-          console.log("error.");
-          console.log(response.data);
-        });
+      http.delete(`/comment/board/${this.commentNo}`).then(({ status }) => {
+        if (status == 200) {
+          this.$parent.getComment();
+        }
+      });
     },
   },
 };

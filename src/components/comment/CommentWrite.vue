@@ -38,7 +38,8 @@ export default {
           })
           .then(({ status }) => {
             if (status == 200) {
-              this.$router.go();
+              this.comment = "";
+              this.$parent.getComment();
             }
           });
       } else {
