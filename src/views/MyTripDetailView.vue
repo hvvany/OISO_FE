@@ -1,21 +1,31 @@
 <template>
   <div>
     <top-back-nav :title="'MyTrip'"></top-back-nav>
-    <div v-if="detailInfo.length > 0">
+    <div v-if="flag">
       <kakao-map :location="location" type="detail"></kakao-map>
     </div>
 
     <content>
-      <draggable class="cards">
+      <draggable class="cards" @end="onDragEnd">
         <transition-group>
-          <div v-for="(value, idx) in totalInfo" :key="idx">
-            <div class="cards__card">
-              <span class="card__title">{{ value[0][0].title }}</span>
-              <button
-                class="card__delete"
-                @click="deleteDetail(value[0][0].contentid)">
-                삭제
-              </button>
+          <div
+            v-for="(dayItems, dayIndex) in getSortedTripInfo()"
+            :key="dayIndex">
+            <div v-for="(val, idx) in totalInfo" :key="idx">
+              <div v-if="val.contentid == dayItems.contentId">
+                <div>{{ val.title }}</div>
+                <div v-if="dayItems.sequence != 99">
+                  <h3>Day{{ dayItems.day }} - {{ dayItems.sequence }}번</h3>
+                </div>
+                <div v-else>
+                  <div v-if="dayItems.day != 99">
+                    <h3>Day{{ dayItems.day }}</h3>
+                  </div>
+                  <div v-else>
+                    <h3>미정</h3>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </transition-group>
@@ -48,6 +58,8 @@ export default {
       detailInfo: [],
       totalInfo: [],
       location: [],
+      sortedTripInfo: [],
+      flag: false,
       tripdetail: this.$route.params.tripdetail,
       sido_code: this.$route.params.sido_code,
     };
@@ -61,6 +73,21 @@ export default {
     }),
   },
   methods: {
+    onDragEnd(event) {
+      const updatedOrder = event.newIndex;
+      console.log("Updated", updatedOrder);
+      console.log(this.totalInfo);
+      const offset = updatedOrder - this.totalInfo[updatedOrder].sequence;
+
+      console.log("offset", offset);
+      this.totalInfo.forEach((value, index) => {
+        console.log(value);
+        value.day = index + 1;
+        value.sequence += offset;
+      });
+      console.log("drag", this.totalInfo);
+    },
+
     //일단 db에서 계획을 가져오고
     getInfo() {
       //db에 저장된 여행 상세 정보 가져와서 공공 데이터로
@@ -84,8 +111,13 @@ export default {
             http
               .get(request_url)
               .then((response) => {
-                this.detailInfo = [];
-                this.detailInfo.push(response.data.response.body.items.item);
+                // console.log("짠", response.data.response.body.items.item[0]);
+                const item = response.data.response.body.items.item[0];
+                const title = item.title;
+                const contentid = item.contentid;
+                const mapx = item.mapx;
+                const mapy = item.mapy;
+                this.detailInfo = { title, contentid, mapx, mapy };
               })
               .finally(() => {
                 this.totalInfo.push(this.detailInfo);
@@ -95,13 +127,24 @@ export default {
         });
     },
     getDetail() {
-      for (let test of this.detailInfo) {
-        let latlng = { lat: test[0].mapy, lng: test[0].mapx };
-        this.location.push(latlng);
-      }
+      let latlng = { lat: this.detailInfo.mapy, lng: this.detailInfo.mapx };
+      this.location.push(latlng);
+      this.flag = true;
+    },
+    //day, sequence 기준 정렬
+    getSortedTripInfo() {
+      const sortedTripInfo = [...this.tripInfo];
+      sortedTripInfo.sort((a, b) => {
+        if (a.day === b.day) {
+          return a.sequence - b.sequence;
+        } else {
+          return a.day - b.day;
+        }
+      });
+
+      return sortedTripInfo;
     },
     deleteDetail(contentid) {
-      console.log("contentId", contentid);
       http
         .delete(`/mytrip/${this.userInfo.userId}/${contentid}`)
         .then((response) => {
@@ -111,7 +154,31 @@ export default {
           console.log(response.data);
         });
     },
-    modifyTrip() {},
+    modifyTrip() {
+      console.log("modify", this.totalInfo);
+      http
+        .post(`/mytrip/${this.userInfo.userId}/${this.sido_code}`, {
+          totalInfo: this.totalInfo,
+        })
+        .then((response) => {
+          // Handle the server response if needed
+          console.log(response);
+        })
+        .catch((error) => {
+          // Handle any errors that occurred during the request
+          console.error("Error updating list order:", error);
+        });
+    },
+    getTitleById(contentId) {
+      for (const items of this.totalInfo) {
+        for (const item of items) {
+          if (item.contentid === String(contentId)) {
+            return item.title;
+          }
+        }
+      }
+      return "Title not found";
+    },
   },
 };
 </script>
@@ -158,5 +225,11 @@ button {
   width: 15%;
   color: rgb(22, 116, 22);
   font-size: 16px;
+}
+
+.day-divider {
+  border-top: 1px solid #ccc;
+  margin: 10px 0;
+  padding-top: 10px;
 }
 </style>

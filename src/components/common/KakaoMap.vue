@@ -61,6 +61,7 @@ export default {
       }
     },
     displayMarker() {
+      console.log(this.location);
       for (let pos of this.location) {
         var marker = new kakao.maps.Marker({
           position: new kakao.maps.LatLng(pos.lat, pos.lng),

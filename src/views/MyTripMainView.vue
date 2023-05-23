@@ -93,12 +93,10 @@ export default {
   created() {
     http.get(`/mytrip/${this.userInfo.userId}`).then((response) => {
       this.plans = response.data;
-      console.log("plans", this.plans[0]);
     });
   },
   methods: {
     deletePlan(mytripNo) {
-      console.log(mytripNo);
       http
         .delete(`/mytrip/plan/${mytripNo}`)
         .then((response) => {
