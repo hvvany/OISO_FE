@@ -31,18 +31,42 @@
       </div>
       <div class="main-content__hotplace">
         <div class="hotplace">
-          <h2 class="hotplace__title">OISO 핫플레이스</h2>
+          <h2 class="hotplace__title">핫플레이스 TOP 3</h2>
           <router-link class="hotplace__more-btn" :to="{ name: 'hotplace' }"
             >더보기</router-link
           >
         </div>
 
-        <div class="cards">
-          <div class="card" v-for="(hotplace, idx) in hotplaceData" :key="idx">
+        <div class="cards" v-for="(hotplace, idx) in hotplaceData" :key="idx">
+          <div
+            class="card"
+            v-if="idx < 3"
+            @click="$router.push('/article/hotplace/' + hotplace.articleNo)">
             <img class="card__img" :src="hotplace.fileInfos[0].onlinePath" />
             <h3 class="card__title">{{ hotplace.title }}</h3>
             <p class="card__content">{{ hotplace.content | showFirstLine }}</p>
             <p class="card__author">@{{ hotplace.id }}</p>
+          </div>
+        </div>
+        <div>
+          <h2 class="beta-title">Beta 기능</h2>
+          <div class="beta__gpt">
+            <div class="gpt__title">무엇이든 물어보살!</div>
+            <div class="gpt__example">
+              예시) 부산 서면에 혼자서 낮에 여행하기 좋은 여행지 추천해줘
+            </div>
+            <div class="gpt__question-group">
+              <textarea class="gpt__question" v-model="gptQuestion"></textarea>
+              <button
+                v-if="!onGptProcessing"
+                class="gpt__btn--no-processing"
+                @click="questionGPT()"></button>
+              <div v-else class="gpt__btn--processing"></div>
+            </div>
+            <textarea
+              v-if="gptAnswer != ''"
+              v-model="gptAnswer"
+              class="gpt__answer"></textarea>
           </div>
         </div>
       </div>
@@ -75,6 +99,9 @@ export default {
       topNavNum: 0,
       isAdmin: false,
       hotplaceData: [],
+      gptQuestion: "",
+      gptAnswer: "",
+      onGptProcessing: false,
     };
   },
   created() {
@@ -107,6 +134,32 @@ export default {
 
     closeNav() {
       document.getElementById("mySidebar").style.width = "0";
+    },
+    questionGPT() {
+      this.onGptProcessing = true;
+      const apiKey = "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"; // Replace with your OpenAI API key
+      const apiUrl = "https://api.openai.com/v1/chat/completions"; //
+
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      };
+
+      const data = {
+        model: "gpt-3.5-turbo",
+        messages: [{ role: "user", content: this.gptQuestion }],
+      };
+      http
+        .post(apiUrl, data, { headers })
+        .then((response) => {
+          console.log(response.data); // Process the API response as desired
+          this.gptAnswer = response.data.choices[0].message.content;
+          this.onGptProcessing = false;
+        })
+        .catch((error) => {
+          this.onGptProcessing = false;
+          console.error("Error:", error);
+        });
     },
   },
   computed: {
@@ -168,7 +221,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 0 1rem 0 1rem;
+  margin: 0 3rem 0 3rem;
 }
 .hotplace__title {
   font-size: 1.4rem;
@@ -243,7 +296,7 @@ export default {
   color: #aeaeae;
 }
 .card {
-  margin: 1rem 1rem;
+  margin: 3rem;
 }
 
 /* The button used to open the sidebar */
@@ -274,5 +327,69 @@ export default {
   .sidebar a {
     font-size: 18px;
   }
+}
+
+.beta-title {
+  text-align: start;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 2rem 3rem;
+}
+.gpt {
+  margin: 2rem;
+}
+.gpt__title {
+  text-align: start;
+  margin: 1rem 3rem;
+  font-weight: 600;
+}
+.gpt__example {
+  font-size: 0.3rem;
+  color: #7c7c7c;
+  font-weight: 400;
+  margin: 1rem;
+}
+.gpt__question-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.gpt__question {
+  width: 75vw;
+  height: 5rem;
+  border-radius: 5px;
+  border-width: 0.5px;
+  border-color: #aeaeae;
+}
+.gpt__btn--no-processing {
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  margin: 1rem;
+  border-width: 5px;
+  border-color: #3c59ee;
+  border-radius: 50%;
+  background-image: url("../../public/img/confusion.gif");
+  background-size: cover;
+}
+.gpt__btn--processing {
+  width: 7rem;
+  height: 7rem;
+  padding: 0;
+  margin: 1rem;
+  border-width: 5px;
+  border-color: #3c59ee;
+  border-radius: 50%;
+  background-image: url("../../public/img/overthinking.gif");
+  background-size: cover;
+}
+.gpt__answer {
+  width: 75vw;
+  height: 20rem;
+  padding: 0.7rem;
+  margin-bottom: 5rem;
+  border-radius: 5px;
+  border-width: 0.5px;
+  border-color: #aeaeae;
 }
 </style>
