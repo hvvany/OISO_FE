@@ -6,30 +6,33 @@
     </div>
 
     <content>
-      <draggable class="cards" @end="onDragEnd">
-        <transition-group>
-          <div
-            v-for="(dayItems, dayIndex) in getSortedTripInfo()"
-            :key="dayIndex">
-            <div v-for="(val, idx) in totalInfo" :key="idx">
-              <div v-if="val.contentid == dayItems.contentId">
-                <div>{{ val.title }}</div>
-                <div v-if="dayItems.sequence != 99">
-                  <h3>Day{{ dayItems.day }} - {{ dayItems.sequence }}번</h3>
+      <div v-for="(dayItems, dayIndex) in getSortedTripInfo()" :key="dayIndex">
+        <div v-for="(val, idx) in totalInfo" :key="idx">
+          <div v-if="val.contentid == dayItems.contentId">
+            <div v-if="shouldOutputDay(dayItems.day, dayIndex)">
+              <div v-if="dayItems.day != 99">
+                <h3>Day{{ dayItems.day }}</h3>
+              </div>
+
+              <div v-else>
+                <div v-for="number in day - lastday" :key="number + 1">
+                  <h3>Day{{ number + 2 }}</h3>
+                  <draggable
+                    class="cards"
+                    @end="onDragEnd"
+                    :options="dragOptions">
+                  </draggable>
                 </div>
-                <div v-else>
-                  <div v-if="dayItems.day != 99">
-                    <h3>Day{{ dayItems.day }}</h3>
-                  </div>
-                  <div v-else>
-                    <h3>미정</h3>
-                  </div>
-                </div>
+                <h3>미정</h3>
               </div>
             </div>
+
+            <draggable class="cards" @end="onDragEnd" :options="dragOptions">
+              <div class="cards__card">{{ val.title }}</div>
+            </draggable>
           </div>
-        </transition-group>
-      </draggable>
+        </div>
+      </div>
     </content>
 
     <button class="card__modify" @click="modifyTrip">완료</button>
@@ -60,12 +63,21 @@ export default {
       location: [],
       sortedTripInfo: [],
       flag: false,
-      tripdetail: this.$route.params.tripdetail,
       sido_code: this.$route.params.sido_code,
+      startPeriod: this.$route.params.startPeriod,
+      endPeriod: this.$route.params.endPeriod,
+      dragOptions: {
+        draggable: ".cards__card",
+        group: "cardsGroup",
+      },
+      day: 0,
+      lastday: 0,
     };
   },
   created() {
     this.getInfo();
+    this.day = this.endPeriod - this.startPeriod;
+    console.log(this.day);
   },
   computed: {
     ...mapGetters({
@@ -86,6 +98,16 @@ export default {
         value.sequence += offset;
       });
       console.log("drag", this.totalInfo);
+    },
+    shouldOutputDay(day, index) {
+      if (index === 0) {
+        // Output the day if it's the first item
+        return true;
+      } else {
+        // Output the day if it's different from the previous item's day
+        const prevDayItems = this.getSortedTripInfo()[index - 1];
+        return day !== prevDayItems.day;
+      }
     },
 
     //일단 db에서 계획을 가져오고
@@ -111,7 +133,6 @@ export default {
             http
               .get(request_url)
               .then((response) => {
-                // console.log("짠", response.data.response.body.items.item[0]);
                 const item = response.data.response.body.items.item[0];
                 const title = item.title;
                 const contentid = item.contentid;
@@ -138,6 +159,11 @@ export default {
         if (a.day === b.day) {
           return a.sequence - b.sequence;
         } else {
+          if (a.day > b.day && a.day != 99) {
+            this.lastday = a.day;
+          } else if (a.day <= b.day && b.day != 99) {
+            this.lastday = b.day;
+          }
           return a.day - b.day;
         }
       });
@@ -185,14 +211,20 @@ export default {
 
 <style scoped>
 content {
-  padding: 0 1rem;
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+h3 {
+  margin-top: 0.5rem;
 }
 
 .cards {
   display: flex;
   flex-direction: column;
+  margin-bottom: 0.5rem;
 }
 
 .cards__card {
@@ -207,9 +239,10 @@ content {
   background-color: white;
   /* 자식 요소 수직 가운데 정렬 */
   display: flex;
-  justify-content: space-between;
   align-items: center;
   font-size: 14px;
+  line-height: 1.4rem;
+  text-align: left;
 }
 
 button {
@@ -222,7 +255,7 @@ button {
 }
 
 .card__modify {
-  width: 15%;
+  width: 20%;
   color: rgb(22, 116, 22);
   font-size: 16px;
 }

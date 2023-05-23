@@ -22,7 +22,8 @@
                   name: 'mytripdetail',
                   params: {
                     sido_code: val.sido_code,
-                    tripdetail: JSON.stringify(val),
+                    startPeriod: val.startPeriod,
+                    endPeriod: val.endPeriod,
                   },
                 }">
                 <div id="plan__title">{{ val.title }}</div>
