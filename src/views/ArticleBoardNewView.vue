@@ -41,6 +41,8 @@ export default {
       content_text: "",
       canEdit: false,
       uploading: false,
+      likeCnt: 0,
+      viewCnt: 0,
     };
   },
   mounted() {},
@@ -51,6 +53,8 @@ export default {
         id: this.userInfo.userId,
         title: this.content_title,
         content: this.content_text,
+        viewCnt: this.viewCnt,
+        likeCnt: this.likeCnt,
         fileInfos: [],
       };
       if (this.content_text !== "" && this.content_title !== "") {

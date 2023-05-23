@@ -9,6 +9,11 @@
         <span class="meta__author">{{ content_author }}</span>
         <span class="meta__regTime">{{ content_regTime }}</span>
       </div>
+      <div class="meta-info__cnt">
+        <span class="meta__cnt">조회수 {{ content_viewCnt }} </span>
+        <span class="meta__cnt">like {{ content_likeCnt }}</span>
+      </div>
+      <button @click="updateLikeCnt()">좋아요!</button>
       <div class="title--before-edit">
         {{ content_title }}
       </div>
@@ -69,13 +74,15 @@ export default {
   },
   data() {
     return {
+      articleNo: 0,
       content_title: "",
       content_text: "",
       content_author: "",
       content_regTime: "",
+      content_viewCnt: 0,
+      content_likeCnt: 0,
       editMode: false,
       canEdit: false,
-      articleNo: 0,
       comments: "",
       imgs: [],
     };
@@ -104,6 +111,8 @@ export default {
         this.articleNo = boardData.articleNo;
         this.content_author = boardData.id;
         this.content_regTime = boardData.regTime;
+        this.content_viewCnt = boardData.viewCnt;
+        this.content_likeCnt = boardData.likeCnt;
         if (this.userInfo.userId === boardData.id) {
           this.canEdit = true;
           console.log(this.canEdit);
@@ -121,32 +130,15 @@ export default {
     changeEdit() {
       this.editMode = !this.editMode;
     },
-    sendArticle() {
-      console.log(this);
-      if ((this.content_text != "") & (this.content_title != "")) {
-        http
-          .post("/article/board/new", {
-            id: this.userInfo.userId,
-            title: this.content_title,
-            content: this.content_text,
-          })
-          .then(({ status }) => {
-            if (status == 200) {
-              this.$router.push({ name: "board" });
-            }
-          });
-      } else {
-        alert("정보를 입력해 주세요");
-      }
-    },
     modifyArticle() {
-      console.log(this);
       if ((this.content_text != "") & (this.content_title != "")) {
         http
           .put(`/article/board/${this.articleNo}`, {
             articleNo: this.articleNo,
             title: this.content_title,
             content: this.content_text,
+            viewCnt: this.content_viewCnt,
+            likeCnt: this.content_likeCnt,
           })
           .then(({ status }) => {
             if (status == 200) {
@@ -172,6 +164,21 @@ export default {
           this.comments = response.data;
         });
     },
+    updateLikeCnt() {
+      http
+        .put(`/article/board/${this.articleNo}`, {
+          articleNo: this.articleNo,
+          title: this.content_title,
+          content: this.content_text,
+          likeCnt: this.content_likeCnt++,
+          viewCnt: this.content_viewCnt,
+        })
+        .then(({ status }) => {
+          if (status == 200) {
+            // this.$router.push("/article/board/" + board.articleNo);
+          }
+        });
+    },
   },
 };
 </script>
@@ -180,6 +187,11 @@ export default {
 .meta-info {
   font-size: 0.8rem;
   margin: 1rem 1rem 2rem 1rem;
+  text-align: start;
+}
+.meta-info__cnt {
+  font-size: 0.8rem;
+  margin: 0 1rem;
   text-align: start;
 }
 .meta__author {

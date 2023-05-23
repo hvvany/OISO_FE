@@ -13,9 +13,7 @@
         +
       </button>
       <div class="cards" v-for="(board, idx) in boardData" :key="idx">
-        <div
-          class="cards__card"
-          @click="$router.push('/article/board/' + board.articleNo)">
+        <div class="cards__card" @click="updateCnt(board)">
           <div class="card__imgs">
             <img
               v-if="board.fileInfos[0]"
@@ -23,7 +21,8 @@
               :src="board.fileInfos[0].onlinePath" />
           </div>
           <div class="card__author">
-            작성자 ▪ {{ board.id }} | 작성일 ▪ {{ board.regTime.split(" ")[0] }}
+            작성자 ▪ {{ board.id }} | 작성일 ▪
+            {{ board.regTime.split(" ")[0] }} | 조회수 ▪ {{ board.viewCnt }}
           </div>
           <h2 class="card__title">{{ board.title }}</h2>
           <p class="card__content">
@@ -87,6 +86,21 @@ export default {
           this.boardData = test;
         });
       }
+    },
+    updateCnt(board) {
+      http
+        .put(`/article/board/${board.articleNo}`, {
+          articleNo: board.articleNo,
+          title: board.title,
+          content: board.content,
+          likeCnt: board.likeCnt,
+          viewCnt: board.viewCnt + 1,
+        })
+        .then(({ status }) => {
+          if (status == 200) {
+            this.$router.push("/article/board/" + board.articleNo);
+          }
+        });
     },
   },
 };
