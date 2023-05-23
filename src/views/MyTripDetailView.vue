@@ -15,8 +15,10 @@
               </div>
 
               <div v-else>
-                <div v-for="number in day - lastday" :key="number + 1">
-                  <h3>Day{{ number + 2 }}</h3>
+                <div
+                  v-for="number in period - lastday - 1"
+                  :key="number + lastday">
+                  <h3>Day{{ number + lastday + 1 }}</h3>
                   <draggable
                     class="cards"
                     @end="onDragEnd"
@@ -26,7 +28,6 @@
                 <h3>미정</h3>
               </div>
             </div>
-
             <draggable class="cards" @end="onDragEnd" :options="dragOptions">
               <div class="cards__card">{{ val.title }}</div>
             </draggable>
@@ -60,6 +61,7 @@ export default {
       tripInfo: [],
       detailInfo: [],
       totalInfo: [],
+      updatedOrder: [],
       location: [],
       sortedTripInfo: [],
       flag: false,
@@ -70,14 +72,16 @@ export default {
         draggable: ".cards__card",
         group: "cardsGroup",
       },
-      day: 0,
+      period: 0,
       lastday: 0,
+      day: 1,
+      sequence: 1,
     };
   },
   created() {
     this.getInfo();
-    this.day = this.endPeriod - this.startPeriod;
-    console.log(this.day);
+    this.period = this.endPeriod - this.startPeriod;
+    console.log(this.period);
   },
   computed: {
     ...mapGetters({
@@ -86,27 +90,16 @@ export default {
   },
   methods: {
     onDragEnd(event) {
-      const updatedOrder = event.newIndex;
-      console.log("Updated", updatedOrder);
-      console.log(this.totalInfo);
-      const offset = updatedOrder - this.totalInfo[updatedOrder].sequence;
-
-      console.log("offset", offset);
-      this.totalInfo.forEach((value, index) => {
-        console.log(value);
-        value.day = index + 1;
-        value.sequence += offset;
-      });
-      console.log("drag", this.totalInfo);
+      //이제 드래그 이벤트를 고쳐서 day랑  sequence 고치자ㅑ...
+      console.log(event);
     },
-    shouldOutputDay(day, index) {
+
+    shouldOutputDay(period, index) {
       if (index === 0) {
-        // Output the day if it's the first item
         return true;
       } else {
-        // Output the day if it's different from the previous item's day
         const prevDayItems = this.getSortedTripInfo()[index - 1];
-        return day !== prevDayItems.day;
+        return period !== prevDayItems.day;
       }
     },
 
