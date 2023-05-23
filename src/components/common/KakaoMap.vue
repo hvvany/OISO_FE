@@ -39,8 +39,6 @@ export default {
   methods: {
     initMap() {
       const container = document.getElementById("map");
-      // console.log("얍", this.location[0]);
-      // console.log("init", this.location[0].lat);
       const options = {
         center: new kakao.maps.LatLng(
           this.location[0].lat,
@@ -65,11 +63,9 @@ export default {
     displayMarker() {
       console.log(this.location);
       for (let pos of this.location) {
-        console.log("들어오는데", pos.lat, pos.lng);
         var marker = new kakao.maps.Marker({
           position: new kakao.maps.LatLng(pos.lat, pos.lng),
         });
-        console.log("marker", marker);
         marker.setMap(this.map);
       }
     },
