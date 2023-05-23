@@ -43,11 +43,9 @@ export default {
   data() {
     return {
       message: "",
-      info: [],
       tripInfo: [],
       detailInfo: [],
       totalInfo: [],
-      updatedOrder: [],
       location: [],
       sortTripInfo: [],
       flag: false,
@@ -59,8 +57,6 @@ export default {
         onEnd: this.onDragEnd,
       },
       period: 0,
-      lastday: 0,
-      day: 1,
       sequence: 1,
     };
   },
@@ -76,6 +72,7 @@ export default {
   },
   methods: {
     onDragEnd(event) {
+      //이거하면서 지도에 선도 바꾸기 해야겠는데~~
       const draggedItem = this.sortTripInfo[event.oldIndex];
       this.sortTripInfo.splice(event.oldIndex, 1);
       this.sortTripInfo.splice(event.newIndex, 0, draggedItem);
@@ -86,15 +83,6 @@ export default {
         });
       });
     },
-    shouldOutputDay(period, index) {
-      if (index === 0) {
-        return true;
-      } else {
-        const prevDayItems = this.getSortedTripInfo()[index - 1];
-        return period !== prevDayItems.day;
-      }
-    },
-
     //일단 db에서 계획을 가져오고
     getInfo() {
       //db에 저장된 여행 상세 정보 가져와서 공공 데이터로
@@ -136,16 +124,6 @@ export default {
       let latlng = { lat: this.detailInfo.mapy, lng: this.detailInfo.mapx };
       this.location.push(latlng);
       this.flag = true;
-      this.getSortedTripInfo();
-    },
-    //day, sequence 기준 정렬 => 이것도 필요 없겠다!
-    getSortedTripInfo() {
-      const sortedTripInfo = [...this.tripInfo];
-      sortedTripInfo.sort((a, b) => {
-        return a.sequence - b.sequence;
-      });
-
-      this.sortTripInfo = sortedTripInfo;
     },
     deleteDetail(contentid) {
       http
