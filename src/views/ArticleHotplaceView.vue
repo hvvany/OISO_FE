@@ -29,7 +29,6 @@
               {{ idx + 1 }}
             </h1>
             <h2 class="card__title">{{ hotplace.title }}</h2>
-            <p class="card__location">{{ hotplace.content}}</p>
             <div class="card__author">
               작성자 ▪ {{ hotplace.id }} | 작성일 ▪
               {{ hotplace.regTime.split(" ")[0] }}
@@ -130,7 +129,7 @@ content {
 }
 .cards__card {
   width: 90vw;
-  height: 16rem;
+  height: 15rem;
   padding: 1rem;
   margin: 1rem 0.5rem 1rem 0.5rem;
   border-radius: 10px;
@@ -150,16 +149,10 @@ content {
   font-weight: 700;
   color: white;
 }
-.card__location {
-  font-size: 1.2rem;
-  margin-top: 3.5rem;
-  color: white;
-  text-align: start;
-}
 .card__author {
   font-size: 0.6rem;
   text-align: start;
-  margin-top: 1rem;
+  margin-top: 4.5rem;
   color: white;
 }
 </style>

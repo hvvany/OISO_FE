@@ -111,11 +111,7 @@ export default {
           console.log(this.canEdit);
         }
       });
-    http
-      .get("/comment/hotplace/" + this.$route.params.articleNo)
-      .then((response) => {
-        this.comments = response.data;
-      });
+    this.getComment();
   },
   mounted() {},
   computed: {
@@ -169,6 +165,13 @@ export default {
         .then((response) => {
           console.log(response.data);
           this.$router.push({ name: "board" });
+        });
+    },
+    getComment() {
+      http
+        .get("/comment/hotplace/" + this.$route.params.articleNo)
+        .then((response) => {
+          this.comments = response.data;
         });
     },
   },
