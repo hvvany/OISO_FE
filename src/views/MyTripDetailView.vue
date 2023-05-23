@@ -5,14 +5,20 @@
       <kakao-map :location="location" type="detail"></kakao-map>
     </div>
 
-    <ul>
-      <li v-for="(value, idx) in totalInfo" :key="idx">
-        <div>{{ value[0][0].title }}</div>
-        <button @click="deleteDetail">삭제</button>
-        <!-- 아니 구조 진짜 이상한데...ㅋㅋㅋ -->
-      </li>
-    </ul>
-
+    <content>
+      <div class="cards">
+        <div v-for="(value, idx) in totalInfo" :key="idx">
+          <div class="cards__card">
+            <span class="card__title">{{ value[0][0].title }}</span>
+            <button
+              class="card__delete"
+              @click="deleteDetail(value[0][0].contentid)">
+              삭제
+            </button>
+          </div>
+        </div>
+      </div>
+    </content>
     <app-footer></app-footer>
     <app-nav :navmode="'mytrip'"></app-nav>
   </div>
@@ -89,16 +95,14 @@ export default {
         this.location.push(latlng);
       }
     },
-    deleteDetail() {
-      console.log();
+    deleteDetail(contentid) {
+      console.log("contentId", contentid);
       http
-        .delete(`/trip/${this.userInfo.userId}/${this.detailNo}`)
+        .delete(`/mytrip/${this.userInfo.userId}/${contentid}`)
         .then((response) => {
-          console.log("삭제 완료");
           console.log(response.data);
         })
         .catch((response) => {
-          console.log("error.");
           console.log(response.data);
         });
     },
@@ -106,4 +110,40 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+content {
+  padding: 0 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.cards {
+  display: flex;
+  flex-direction: column;
+}
+
+.cards__card {
+  width: 90vw;
+  height: 4rem;
+  padding: 1rem;
+  margin: 0.5rem;
+  border-radius: 10px;
+  box-shadow: 2px 2px 2px 2px rgba(128, 128, 128, 0.29);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: white;
+  /* 자식 요소 수직 가운데 정렬 */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+button {
+  width: 20%;
+  border: 1px solid #989898;
+  background-color: white;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 12px;
+}
+</style>
