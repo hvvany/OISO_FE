@@ -4,36 +4,22 @@
     <div v-if="flag">
       <kakao-map :location="location" type="detail"></kakao-map>
     </div>
-
     <content>
-      <div v-for="(dayItems, dayIndex) in getSortedTripInfo()" :key="dayIndex">
-        <div v-for="(val, idx) in totalInfo" :key="idx">
-          <div v-if="val.contentid == dayItems.contentId">
-            <div v-if="shouldOutputDay(dayItems.day, dayIndex)">
-              <div v-if="dayItems.day != 99">
-                <h3>Day{{ dayItems.day }}</h3>
-              </div>
-
-              <div v-else>
-                <div
-                  v-for="number in period - lastday - 1"
-                  :key="number + lastday">
-                  <h3>Day{{ number + lastday + 1 }}</h3>
-                  <draggable
-                    class="cards"
-                    @end="onDragEnd"
-                    :options="dragOptions">
-                  </draggable>
+      <ul>
+        <draggable class="cards" v-model="sortTripInfo" :options="dragOptions">
+          <transition-group>
+            <div v-for="(dayItems, dayIndex) in sortTripInfo" :key="dayIndex">
+              <li v-for="(item, idx) in totalInfo" :key="idx">
+                <div v-if="dayItems.contentId == item.contentid">
+                  <div class="cards__card">
+                    {{ item.title }} {{ item.contentid }}
+                  </div>
                 </div>
-                <h3>미정</h3>
-              </div>
+              </li>
             </div>
-            <draggable class="cards" @end="onDragEnd" :options="dragOptions">
-              <div class="cards__card">{{ val.title }}</div>
-            </draggable>
-          </div>
-        </div>
-      </div>
+          </transition-group>
+        </draggable>
+      </ul>
     </content>
 
     <button class="card__modify" @click="modifyTrip">완료</button>
@@ -57,24 +43,20 @@ export default {
   data() {
     return {
       message: "",
-      info: [],
       tripInfo: [],
       detailInfo: [],
       totalInfo: [],
-      updatedOrder: [],
       location: [],
-      sortedTripInfo: [],
+      sortTripInfo: [],
       flag: false,
       sido_code: this.$route.params.sido_code,
       startPeriod: this.$route.params.startPeriod,
       endPeriod: this.$route.params.endPeriod,
       dragOptions: {
-        draggable: ".cards__card",
-        group: "cardsGroup",
+        animation: 150,
+        onEnd: this.onDragEnd,
       },
       period: 0,
-      lastday: 0,
-      day: 1,
       sequence: 1,
     };
   },
@@ -90,19 +72,17 @@ export default {
   },
   methods: {
     onDragEnd(event) {
-      //이제 드래그 이벤트를 고쳐서 day랑  sequence 고치자ㅑ...
-      console.log(event);
-    },
+      //이거하면서 지도에 선도 바꾸기 해야겠는데~~
+      const draggedItem = this.sortTripInfo[event.oldIndex];
+      this.sortTripInfo.splice(event.oldIndex, 1);
+      this.sortTripInfo.splice(event.newIndex, 0, draggedItem);
 
-    shouldOutputDay(period, index) {
-      if (index === 0) {
-        return true;
-      } else {
-        const prevDayItems = this.getSortedTripInfo()[index - 1];
-        return period !== prevDayItems.day;
-      }
+      this.sortTripInfo.forEach((dayItems) => {
+        dayItems.forEach((item, itemIndex) => {
+          item.index = itemIndex;
+        });
+      });
     },
-
     //일단 db에서 계획을 가져오고
     getInfo() {
       //db에 저장된 여행 상세 정보 가져와서 공공 데이터로
@@ -144,24 +124,15 @@ export default {
       let latlng = { lat: this.detailInfo.mapy, lng: this.detailInfo.mapx };
       this.location.push(latlng);
       this.flag = true;
+      this.getSortedTripInfo();
     },
-    //day, sequence 기준 정렬
+    //sequence 기준 정렬
     getSortedTripInfo() {
       const sortedTripInfo = [...this.tripInfo];
       sortedTripInfo.sort((a, b) => {
-        if (a.day === b.day) {
-          return a.sequence - b.sequence;
-        } else {
-          if (a.day > b.day && a.day != 99) {
-            this.lastday = a.day;
-          } else if (a.day <= b.day && b.day != 99) {
-            this.lastday = b.day;
-          }
-          return a.day - b.day;
-        }
+        return a.sequence - b.sequence;
       });
-
-      return sortedTripInfo;
+      this.sortTripInfo = sortedTripInfo;
     },
     deleteDetail(contentid) {
       http
@@ -174,29 +145,18 @@ export default {
         });
     },
     modifyTrip() {
-      console.log("modify", this.totalInfo);
-      http
-        .post(`/mytrip/${this.userInfo.userId}/${this.sido_code}`, {
-          totalInfo: this.totalInfo,
-        })
-        .then((response) => {
-          // Handle the server response if needed
-          console.log(response);
-        })
-        .catch((error) => {
-          // Handle any errors that occurred during the request
-          console.error("Error updating list order:", error);
-        });
-    },
-    getTitleById(contentId) {
-      for (const items of this.totalInfo) {
-        for (const item of items) {
-          if (item.contentid === String(contentId)) {
-            return item.title;
-          }
-        }
+      let idx = 0;
+      for (let info of this.sortTripInfo) {
+        info.sequence = idx++;
+        http
+          .put(`/mytrip/${info.detailNo}/${idx}`, {})
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.error("Error", error);
+          });
       }
-      return "Title not found";
     },
   },
 };
