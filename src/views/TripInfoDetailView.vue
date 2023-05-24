@@ -1,7 +1,9 @@
 <template>
   <div class="all">
     <top-back-nav :title="info.title"></top-back-nav>
-    <button @click="addMyTrip">여행 계획에 추가</button>
+    <div v-if="add == false">
+      <button @click="addMyTrip">여행 계획에 추가</button>
+    </div>
     <img :src="info.firstimage" />
     <div class="info__addr">주소: {{ info.addr1 }} {{ info.addr2 }}</div>
 
@@ -42,6 +44,7 @@ export default {
       sido_code: 0,
       info: [],
       location: [],
+      add: false,
     };
   },
   created() {
@@ -60,13 +63,14 @@ export default {
     http.get(request_url).then((response) => {
       console.log(response);
       this.info = response.data.response.body.items.item[0];
-      // let latlng = { lat: this.info.mapy, lng: this.info.mapx };
       const mapx = this.info.mapx;
       const mapy = this.info.mapy;
       this.sido_code = this.info.areacode;
       const detailInfo = { mapx, mapy };
       this.location.push(detailInfo);
     });
+    // http로 get해서 있는지 없는지 가져오게 해야하는데
+    //그러면 백엔드 또 다 바꿔야되네 contentId랑 id랑 같은거 있으면 add 바꾸는걸로
   },
   methods: {
     addMyTrip() {
@@ -92,6 +96,7 @@ export default {
             });
           }
         });
+      add = true;
     },
   },
   computed: {
