@@ -85,8 +85,13 @@ export default {
     onDragEnd(event) {
       const draggedItem = this.sortTripInfo[event.oldIndex];
       console.log("자", draggedItem, event.oldIndex, event.newIndex);
-      this.sortTripInfo.splice(event.oldIndex, 1);
-      this.sortTripInfo.splice(event.newIndex + 1, 0, draggedItem);
+      if (event.oldIndex > event.newIndex) {
+        this.sortTripInfo.splice(event.oldIndex, 1);
+        this.sortTripInfo.splice(event.newIndex + 1, 0, draggedItem);
+      } else {
+        this.sortTripInfo.splice(event.oldIndex, 1);
+        this.sortTripInfo.splice(event.newIndex - 1, 0, draggedItem);
+      }
       this.updateMap();
     },
     updateMap() {
