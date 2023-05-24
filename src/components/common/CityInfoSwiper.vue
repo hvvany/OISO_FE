@@ -11,7 +11,7 @@
         :key="idx">
         <div class="cards__card">
           <div class="weather_text">
-            <div>지금 {{ value["LOC"] }} 의</div>
+            <div>지금 {{ value["LOC"] }}의</div>
             <div>온도는 {{ value["TMP"] }}℃</div>
             <div
               v-if="(value['TMN'] != 0) & (value['TMX'] != 0)"
@@ -186,9 +186,10 @@ export default {
 }
 .weather_text {
   float: left;
+  font-size: 1.2rem;
 }
 .weather_img {
-  margin-left: 1rem;
+  margin-left: 2rem;
   float: right;
 }
 

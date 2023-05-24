@@ -14,7 +14,13 @@
       <div class="plan">
         <ul v-if="plans.length != 0">
           <li v-for="(val, idx) in plans" :key="idx" class="card__group">
-            <div class="card">
+            <div
+              class="card"
+              :style="
+                'background-image: linear-gradient(rgba(0, 0, 0, 0.35),rgba(0, 0, 0, 0.35)), url(' +
+                sido_imgs[val.sido_code] +
+                ')'
+              ">
               <!-- params 객체로 넘기기 -->
               <router-link
                 class="plan__more-card"
@@ -39,7 +45,10 @@
                 @click="viewEdit = !viewEdit">
                 more_vert
               </div>
-              <div v-show="viewEdit" class="delete__button">
+              <div v-show="viewEdit">
+                <button @click="modifyPlan(val.mytripNo)">수정</button>
+              </div>
+              <div v-show="viewEdit">
                 <button @click="deletePlan(val.mytripNo)">삭제</button>
               </div>
             </div>
@@ -72,22 +81,22 @@ import AppFooter from "@/components/layout/AppFooter.vue";
 
 export default {
   name: "MytripMainView",
-  components: { AppNav, TopBackNav, AppFooter, CityInfoSwiper },
+  components: {
+    AppNav,
+    TopBackNav,
+    AppFooter,
+    CityInfoSwiper,
+    // "mytrip-form": () => import("@/components/comment/CommentWrite"),
+  },
   data: function () {
     return {
       message: "",
       topNavNum: 0,
       plans: [],
       viewEdit: false,
-      //sidos, sido_imgs 공통이니까
-      //TripInfoView, CityInfoSwiper 들이랑 합쳐서 빼자.. 나중에
-      sidos: {
-        서울: 1,
-        부산: 6,
-      },
       sido_imgs: {
-        서울: "https://a.cdn-hotels.com/gdcs/production60/d893/3172bd6f-726c-4561-810f-deec13d17a6e.jpg?impolicy=fcrop&w=1600&h=1066&q=medium",
-        부산: "https://a.cdn-hotels.com/gdcs/production144/d1960/191730c7-8e21-4540-825c-65954ae4d132.jpg?impolicy=fcrop&w=1600&h=1066&q=medium",
+        1: "https://a.cdn-hotels.com/gdcs/production60/d893/3172bd6f-726c-4561-810f-deec13d17a6e.jpg?impolicy=fcrop&w=1600&h=1066&q=medium",
+        6: "https://a.cdn-hotels.com/gdcs/production144/d1960/191730c7-8e21-4540-825c-65954ae4d132.jpg?impolicy=fcrop&w=1600&h=1066&q=medium",
       },
     };
   },
@@ -140,13 +149,15 @@ export default {
   position: relative;
   height: 25vw;
   width: 100rem;
+  height: 8rem;
   margin: 1rem 0;
   border: 1px solid;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 15px;
-  /* background-color: rgba(224, 255, 255, 0.436); */
+  background-size: cover;
+  background-position: center bottom;
 }
 
 .plan__more-card {
@@ -155,12 +166,15 @@ export default {
 }
 
 #plan__title {
-  font-size: 1.2rem;
-  margin-bottom: 0.4rem;
+  font-size: 1.4rem;
+  margin-top: 0.6rem;
+  color: white;
 }
 
 #plan__period {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
+  margin-top: 1.4rem;
+  color: white;
 }
 
 .add-article__btn {
@@ -186,11 +200,12 @@ export default {
 }
 
 button {
-  border: 1px solid #989898;
-  background-color: white;
+  border: 1px solid #000000;
+  background-color: rgb(9, 9, 9);
+  color: white;
   border-radius: 8px;
   font-size: 6px;
   margin-top: 1px;
-  margin: 0;
+  margin-bottom: 2px;
 }
 </style>
