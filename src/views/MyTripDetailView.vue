@@ -1,8 +1,8 @@
 <template>
   <div>
     <top-back-nav :title="'MyTrip'"></top-back-nav>
-    <div v-if="flag">
-      <kakao-map :location="location" type="detail"></kakao-map>
+    <div v-if="sortTripInfo.length == size">
+      <kakao-map :location="kakaoInfo" type="detail"></kakao-map>
     </div>
     <content>
       <ul>
@@ -44,11 +44,11 @@ export default {
     return {
       message: "",
       tripInfo: [],
+      kakaoInfo: [],
       detailInfo: [],
       totalInfo: [],
       location: [],
       sortTripInfo: [],
-      flag: false,
       sido_code: this.$route.params.sido_code,
       startPeriod: this.$route.params.startPeriod,
       endPeriod: this.$route.params.endPeriod,
@@ -56,14 +56,12 @@ export default {
         animation: 150,
         onEnd: this.onDragEnd,
       },
-      period: 0,
       sequence: 1,
+      size: 0,
     };
   },
   created() {
     this.getInfo();
-    this.period = this.endPeriod - this.startPeriod;
-    console.log(this.period);
   },
   computed: {
     ...mapGetters({
@@ -90,6 +88,7 @@ export default {
         .get("/mytrip/" + this.userInfo.userId + "/" + this.sido_code)
         .then((response) => {
           this.tripInfo = response.data;
+          this.size = this.tripInfo.length;
 
           //가져온 여행지 하나씩 돌아가면서 상세 정보 가져오기 (지도 마커 용도)
           for (let trip of this.tripInfo) {
@@ -110,24 +109,27 @@ export default {
                 const contentid = item.contentid;
                 const mapx = item.mapx;
                 const mapy = item.mapy;
-                this.detailInfo = { title, contentid, mapx, mapy };
+                this.detailInfo = { ...trip, title, contentid, mapx, mapy };
               })
               .finally(() => {
                 this.totalInfo.push(this.detailInfo);
-                this.getDetail();
+                // this.getDetail();
+                this.kakaoInfo.push(this.detailInfo);
+                this.getSortedTripInfo();
               });
           }
         });
     },
-    getDetail() {
-      let latlng = { lat: this.detailInfo.mapy, lng: this.detailInfo.mapx };
-      this.location.push(latlng);
-      this.flag = true;
-      this.getSortedTripInfo();
-    },
+    // getDetail() {
+    //   let latlng = { lat: this.detailInfo.mapy, lng: this.detailInfo.mapx };
+    //   this.location.push(latlng);
+    //   this.flag = true;
+    //   this.getSortedTripInfo();
+    //   //{ ...item, viewEdit: false }
+    // },
     //sequence 기준 정렬
     getSortedTripInfo() {
-      const sortedTripInfo = [...this.tripInfo];
+      const sortedTripInfo = [...this.kakaoInfo];
       sortedTripInfo.sort((a, b) => {
         return a.sequence - b.sequence;
       });
@@ -207,7 +209,7 @@ button {
 }
 
 .card__modify {
-  width: 30%;
+  width: 20%;
   color: rgb(22, 116, 22);
   font-size: 16px;
 }

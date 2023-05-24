@@ -42,10 +42,11 @@
             <div class="outline__button">
               <div
                 class="material-symbols-outlined"
-                @click="viewEdit = !viewEdit">
+                style="color: white"
+                @click="val.viewEdit = !val.viewEdit">
                 more_vert
               </div>
-              <div v-show="viewEdit">
+              <div v-show="val.viewEdit">
                 <button
                   @click="
                     $router.push({
@@ -55,9 +56,7 @@
                   ">
                   수정
                 </button>
-              </div>
-              <div v-show="viewEdit">
-                <button @click="deletePlan(val.mytripNo)">삭제</button>
+                <button @click="deletePlan(val.mytripNo, idx)">삭제</button>
               </div>
             </div>
           </li>
@@ -123,16 +122,20 @@ export default {
   },
   created() {
     http.get(`/mytrip/${this.userInfo.userId}`).then((response) => {
-      this.plans = response.data;
+      this.plans = response.data.map((item) => {
+        return { ...item, viewEdit: false };
+      });
     });
   },
   methods: {
-    deletePlan(mytripNo) {
+    deletePlan(mytripNo, idx) {
       http
         .delete(`/mytrip/plan/${mytripNo}`)
         .then((response) => {
           console.log("삭제 완료");
           console.log(response.data);
+          this.plans.splice(idx, 1);
+          console.log(this.plans);
         })
         .catch((response) => {
           console.log("error.");
@@ -189,6 +192,7 @@ export default {
 #plan__title {
   font-size: 1.4rem;
   margin-top: 0.6rem;
+  font-weight: 600;
   color: white;
 }
 

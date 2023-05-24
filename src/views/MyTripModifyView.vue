@@ -26,21 +26,25 @@
         placeholder="계획 제목 입력"
         ref="title" />
       <p v-show="err === 2">{{ errMsg }}</p>
-      <label for="startPeriod">시작일 ex) 20230524 </label>
+
+      <label for="startPeriod">시작일 </label>
       <input
         class="plan__input"
         v-model="startPeriod"
-        type="text"
+        type="date"
         placeholder="시작일 확인"
-        ref="startPeriod" />
+        ref="startPeriod"
+        id="startDate" />
       <p v-show="err === 3">{{ errMsg }}</p>
-      <label for="endPeriod">종료일 ex) 20230530 </label>
+      <label for="endPeriod">종료일 </label>
+
       <input
         class="plan__input"
         v-model="endPeriod"
-        type="text"
+        type="date"
         placeholder="종료일 입력"
-        ref="endPeriod" />
+        ref="endPeriod"
+        id="endDate" />
       <p v-show="err === 4">{{ errMsg }}</p>
       <button class="plan__btn" type="button" @click="validate">
         계획 수정 완료
@@ -95,6 +99,18 @@ export default {
     this.startPeriod = planInfo.startPeriod;
     this.endPeriod = planInfo.endPeriod;
     this.mytripNo = planInfo.mytripNo;
+  },
+  mounted() {
+    var now_utc = Date.now();
+    var today = new Date(now_utc).toISOString().split("T")[0];
+    let start = document.getElementById("startDate");
+    start.setAttribute("min", today);
+    let end = document.getElementById("endDate");
+    end.setAttribute("min", today);
+
+    start.addEventListener("input", function () {
+      end.setAttribute("min", this.value);
+    });
   },
   methods: {
     validate() {

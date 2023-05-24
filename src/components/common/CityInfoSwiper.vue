@@ -5,9 +5,28 @@
       :loop="false"
       @swiper="onSwiper"
       @slideChange="onSlideChange">
-      <swiper-slide
+      <swiper-slide v-for="(item, index) in weather" :key="index">
+        <div class="cards__card">
+          <div class="weather_text">
+            <div>지금 {{ item.LOC }}의</div>
+            <div>온도는 {{ item.TMP }}℃</div>
+            <div
+              v-if="(item.TMN != 0) & (item.TMX != 0)"
+              style="font-size: 1rem">
+              최저 {{ item.TMN }}℃, 최고 {{ item.TMX }}℃
+            </div>
+            <div style="font-size: 1rem">
+              {{ item.WTH }}
+            </div>
+          </div>
+          <div class="weather_img">
+            <img class="img" :src="weather_icon" />
+          </div>
+        </div>
+      </swiper-slide>
+      <!-- <swiper-slide
         class="swiper__slide-img"
-        v-for="(value, key, idx) in weather"
+        v-for="(value, idx) in weather"
         :key="idx">
         <div class="cards__card">
           <div class="weather_text">
@@ -26,7 +45,7 @@
             <img class="img" :src="weather_icon" />
           </div>
         </div>
-      </swiper-slide>
+      </swiper-slide> -->
     </swiper>
   </div>
 </template>
@@ -47,7 +66,7 @@ export default {
   },
   data() {
     return {
-      weather: { 1: [] },
+      weather: [],
       formattedDate: "",
       now: 0,
       weather_icon: "",
@@ -78,88 +97,91 @@ export default {
     const month = String(today.getMonth() + 1).padStart(2, "0");
     const day = String(today.getDate()).padStart(2, "0");
     this.formattedDate = today.getFullYear() + month + day;
+    this.getWeatherInfo();
   },
   computed: {},
   methods: {
     onSwiper(swiper) {
       console.log(swiper);
-      this.getWeatherInfo();
     },
     onSlideChange() {
-      this.now++; //스와이퍼로 넘길 때마다 +- 하고싶은데...
       console.log("slide change");
     },
     getWeatherInfo() {
       //이걸 계획만큼 반복해야 한다..!
-      //근데 이게 5시 발표 기준이라 00시~05시까지는 동작을 안 하는데...ㅎ
+      for (let i = 0; i < this.plans.length; i++) {
+        let info = this.sidos[this.plans[i].sido_code];
+        let sido_code = this.plans[i].sido_code;
+        console.log("code", info, sido_code);
 
-      let code = this.sidos[this.plans[this.now].sido_code];
-      const request_url =
-        "https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=" +
-        process.env.VUE_APP_WEATHER_KEY +
-        "&pageNo=1&numOfRows=100" +
-        "&dataType=JSON&base_date=" +
-        this.formattedDate +
-        "&base_time=0500" +
-        "&nx=" +
-        code.nx +
-        "&ny=" +
-        code.ny;
-      console.log(request_url);
+        const request_url =
+          "https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=" +
+          process.env.VUE_APP_WEATHER_KEY +
+          "&pageNo=1&numOfRows=100" +
+          "&dataType=JSON&base_date=" +
+          this.formattedDate +
+          "&base_time=0500" +
+          "&nx=" +
+          info.nx +
+          "&ny=" +
+          info.ny;
+        console.log(request_url);
 
-      http.get(request_url).then((response) => {
-        let infos = {
-          LOC: code.name,
-          TMP: 0,
-          TMN: 0,
-          TMX: 0,
-          SKY: 0,
-          PTY: 0,
-          WTH: "",
-        };
-        console.log(response.data.response.body);
-        for (let info of response.data.response.body.items.item) {
-          if (info.category === "TMP") {
-            infos.TMP = info.fcstValue;
-          } else if (info.category === "TMN") {
-            infos.TMN = info.fcstValue;
-          } else if (info.category === "TMX") {
-            infos.TMX = info.fcstValue;
-          } else if (info.category === "SKY") {
-            infos.SKY = info.fcstValue;
-          } else if (info.category === "PTY") {
-            infos.PTY = info.fcstValue;
+        http.get(request_url).then((response) => {
+          let infos = {
+            LOC: info.name,
+            TMP: 0,
+            TMN: 0,
+            TMX: 0,
+            SKY: 0,
+            PTY: 0,
+            WTH: "",
+          };
+          console.log(response.data.response.body);
+          for (let info of response.data.response.body.items.item) {
+            if (info.category === "TMP") {
+              infos.TMP = info.fcstValue;
+            } else if (info.category === "TMN") {
+              infos.TMN = info.fcstValue;
+            } else if (info.category === "TMX") {
+              infos.TMX = info.fcstValue;
+            } else if (info.category === "SKY") {
+              infos.SKY = info.fcstValue;
+            } else if (info.category === "PTY") {
+              infos.PTY = info.fcstValue;
+            }
           }
-        }
-        let temp = "";
-        if (infos.PTY == 0) {
-          if (infos.SKY == 1) {
-            infos.WTH = "맑음";
-            temp = "sunny";
-          } else if (infos.SKY == 3) {
-            infos.WTH = "구름 많음";
-            temp = "partly_cloudy";
-          } else if (infos.SKY == 4) {
-            infos.WTH = "흐림";
-            temp = "cloudy";
+          let temp = "";
+          if (infos.PTY == 0) {
+            if (infos.SKY == 1) {
+              infos.WTH = "맑음";
+              temp = "sunny";
+            } else if (infos.SKY == 3) {
+              infos.WTH = "구름 많음";
+              temp = "partly_cloudy";
+            } else if (infos.SKY == 4) {
+              infos.WTH = "흐림";
+              temp = "cloudy";
+            }
+          } else if (infos.PTY == 1) {
+            infos.WTH = "비";
+            temp = "rainy";
+          } else if (infos.PTY == 2) {
+            infos.WTH = "비 또는 눈";
+            temp = "mix";
+          } else if (infos.PTY == 3) {
+            infos.WTH = "눈";
+            temp = "snowy";
+          } else if (infos.PTY == 4) {
+            infos.WTH = "소나기";
+            temp = "rainy";
           }
-        } else if (infos.PTY == 1) {
-          infos.WTH = "비";
-          temp = "rainy";
-        } else if (infos.PTY == 2) {
-          infos.WTH = "비 또는 눈";
-          temp = "mix";
-        } else if (infos.PTY == 3) {
-          infos.WTH = "눈";
-          temp = "snowy";
-        } else if (infos.PTY == 4) {
-          infos.WTH = "소나기";
-          temp = "rainy";
-        }
-        this.weather_icon = this.getIcon(temp);
+          this.weather_icon = this.getIcon(temp);
 
-        this.weather[1] = infos;
-      });
+          this.weather.push(infos);
+          console.log("infos", infos);
+        });
+      }
     },
     getIcon(temp) {
       return process.env.BASE_URL + "weather/" + temp + ".png";
@@ -168,21 +190,15 @@ export default {
 };
 </script>
 <style scoped>
-.swiper__slide-img {
-  width: 100rem;
-  height: 8rem;
-  color: aliceblue;
-  text-align: left;
-  line-height: 2rem;
-  font-size: 1.4rem;
-}
 .cards__card {
   width: 100vw;
   height: 8rem;
-  background-color: gray;
+  background-color: rgb(228, 228, 228);
+  color: rgb(0, 0, 0);
   display: flex;
   justify-content: center;
   align-items: center;
+  line-height: 2rem;
 }
 .weather_text {
   float: left;
