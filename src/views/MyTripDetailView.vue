@@ -2,11 +2,15 @@
   <div>
     <top-back-nav :title="'MyTrip'"></top-back-nav>
     <div v-if="sortTripInfo.length == size">
-      <kakao-map :location="kakaoInfo" type="detail"></kakao-map>
+      <kakao-map ref="kakaoMap" :location="kakaoInfo" type="detail"></kakao-map>
     </div>
     <content>
       <ul>
-        <draggable class="cards" v-model="sortTripInfo" :options="dragOptions">
+        <draggable
+          class="cards"
+          v-model="sortTripInfo"
+          :options="dragOptions"
+          @end="onDragEnd">
           <transition-group>
             <div v-for="(dayItems, dayIndex) in sortTripInfo" :key="dayIndex">
               <li v-for="(item, idx) in totalInfo" :key="idx">
@@ -63,6 +67,9 @@ export default {
   created() {
     this.getInfo();
   },
+  mounted() {
+    // this.updateMap();
+  },
   computed: {
     ...mapGetters({
       userInfo: "userInfo",
@@ -70,16 +77,16 @@ export default {
   },
   methods: {
     onDragEnd(event) {
-      //이거하면서 지도에 선도 바꾸기 해야겠는데~~
       const draggedItem = this.sortTripInfo[event.oldIndex];
       this.sortTripInfo.splice(event.oldIndex, 1);
       this.sortTripInfo.splice(event.newIndex, 0, draggedItem);
-
-      this.sortTripInfo.forEach((dayItems) => {
-        dayItems.forEach((item, itemIndex) => {
-          item.index = itemIndex;
-        });
-      });
+      this.updateMap();
+    },
+    updateMap() {
+      console.log("refs", this.$refs.kakaoMap);
+      const newOrder = this.sortTripInfo.map((dayItems) => dayItems);
+      console.log("new", newOrder);
+      this.kakaoInfo = newOrder;
     },
     //일단 db에서 계획을 가져오고
     getInfo() {
