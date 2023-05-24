@@ -42,6 +42,7 @@ export default {
   methods: {
     initMap() {
       const container = document.getElementById("map");
+      console.log("initMap", this.location);
       const options = {
         center: new kakao.maps.LatLng(
           this.location[0].mapy,
@@ -68,11 +69,11 @@ export default {
       this.displayLine();
     },
     displayLine() {
-      for (let i = 1; i < this.markers.length; i++) {
+      for (let i = 0; i < this.markers.length - 1; i++) {
         var polyline = new kakao.maps.Polyline({
           path: [
-            this.markers[i - 1].getPosition(),
             this.markers[i].getPosition(),
+            this.markers[i + 1].getPosition(),
           ],
           strokeWeight: 5,
           strokeColor: "#FF3DE5",

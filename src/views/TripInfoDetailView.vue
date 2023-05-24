@@ -60,9 +60,12 @@ export default {
     http.get(request_url).then((response) => {
       console.log(response);
       this.info = response.data.response.body.items.item[0];
-      let latlng = { lat: this.info.mapy, lng: this.info.mapx };
+      // let latlng = { lat: this.info.mapy, lng: this.info.mapx };
+      const mapx = this.info.mapx;
+      const mapy = this.info.mapy;
       this.sido_code = this.info.areacode;
-      this.location.push(latlng);
+      const detailInfo = { mapx, mapy };
+      this.location.push(detailInfo);
     });
   },
   methods: {
