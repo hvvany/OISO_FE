@@ -11,6 +11,7 @@ export default new Vuex.Store({
     accessToken: null,
     refreshToken: null,
     userInfo: null,
+    sido_pick: null,
   },
   getters: {
     accessToken(state) {
@@ -21,6 +22,9 @@ export default new Vuex.Store({
     },
     userInfo(state) {
       return state.userInfo;
+    },
+    pickedSido(state) {
+      return state.sido_pick;
     },
   },
   mutations: {
@@ -35,6 +39,9 @@ export default new Vuex.Store({
       state.accessToken = null;
       state.refreshToken = null;
       state.userInfo = null;
+    },
+    SIDOPICK(state, payload) {
+      state.sido_pick = payload.sido_pick;
     },
   },
   actions: {
@@ -93,6 +100,9 @@ export default new Vuex.Store({
     },
     userLogout({ commit }) {
       commit("LOGOUT");
+    },
+    updateSidoPick({ commit }, value) {
+      commit("SIDOPICK", value);
     },
   },
   modules: {},
