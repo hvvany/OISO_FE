@@ -13,7 +13,18 @@
         <span class="meta__cnt">조회수 {{ content_viewCnt }} </span>
         <span class="meta__cnt">like {{ content_likeCnt }}</span>
       </div>
-      <button @click="updateLikeCnt()">좋아요!</button>
+      <button
+        v-if="likeChecked"
+        style="background-color: red"
+        @click="updateLikeCnt()">
+        좋아요!
+      </button>
+      <button
+        v-else
+        style="background-color: rgb(177, 177, 177)"
+        @click="updateLikeCnt()">
+        좋아요!
+      </button>
       <div class="title--before-edit">
         {{ content_title }}
       </div>
@@ -85,6 +96,7 @@ export default {
       canEdit: false,
       comments: "",
       imgs: [],
+      likeChecked: false,
     };
   },
   created() {
@@ -101,23 +113,8 @@ export default {
         }
       }
     });
-    http
-      .get("/article/board/" + this.$route.params.articleNo)
-      .then((response) => {
-        const boardData = response.data;
-        console.log(response.data);
-        this.content_title = boardData.title;
-        this.content_text = boardData.content;
-        this.articleNo = boardData.articleNo;
-        this.content_author = boardData.id;
-        this.content_regTime = boardData.regTime;
-        this.content_viewCnt = boardData.viewCnt;
-        this.content_likeCnt = boardData.likeCnt;
-        if (this.userInfo.userId === boardData.id) {
-          this.canEdit = true;
-          console.log(this.canEdit);
-        }
-      });
+    this.getArticleDetail();
+    this.getLikeCnt();
     this.getComment();
   },
   mounted() {},
@@ -127,6 +124,24 @@ export default {
     }),
   },
   methods: {
+    getArticleDetail() {
+      http
+        .get("/article/board/" + this.$route.params.articleNo)
+        .then((response) => {
+          const boardData = response.data;
+          this.content_title = boardData.title;
+          this.content_text = boardData.content;
+          this.articleNo = boardData.articleNo;
+          this.content_author = boardData.id;
+          this.content_regTime = boardData.regTime;
+          this.content_viewCnt = boardData.viewCnt;
+          this.content_likeCnt = boardData.likeCnt;
+          if (this.userInfo.userId === boardData.id) {
+            this.canEdit = true;
+            console.log(this.canEdit);
+          }
+        });
+    },
     changeEdit() {
       this.editMode = !this.editMode;
     },
@@ -138,7 +153,6 @@ export default {
             title: this.content_title,
             content: this.content_text,
             viewCnt: this.content_viewCnt,
-            likeCnt: this.content_likeCnt,
           })
           .then(({ status }) => {
             if (status == 200) {
@@ -164,19 +178,26 @@ export default {
           this.comments = response.data;
         });
     },
+    async getLikeCnt() {
+      await http
+        .get(
+          `/article/board/${this.$route.params.articleNo}/like/${this.userInfo.userId}`
+        )
+        .then((response) => {
+          console.log(response);
+          this.likeChecked = response.data;
+        });
+    },
     updateLikeCnt() {
       http
-        .put(`/article/board/${this.articleNo}`, {
+        .post(`/article/board/${this.articleNo}/like`, {
           articleNo: this.articleNo,
-          title: this.content_title,
-          content: this.content_text,
-          likeCnt: this.content_likeCnt++,
-          viewCnt: this.content_viewCnt,
+          id: this.userInfo.userId,
         })
-        .then(({ status }) => {
-          if (status == 200) {
-            // this.$router.push("/article/board/" + board.articleNo);
-          }
+        .then((response) => {
+          this.likeChecked = response.data;
+          console.log(response);
+          this.getArticleDetail();
         });
     },
   },

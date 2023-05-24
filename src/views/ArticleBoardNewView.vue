@@ -54,7 +54,6 @@ export default {
         title: this.content_title,
         content: this.content_text,
         viewCnt: this.viewCnt,
-        likeCnt: this.likeCnt,
         fileInfos: [],
       };
       if (this.content_text !== "" && this.content_title !== "") {

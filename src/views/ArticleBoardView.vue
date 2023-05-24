@@ -22,7 +22,7 @@
           </div>
           <div class="card__author">
             작성자 ▪ {{ board.id }} | 작성일 ▪
-            {{ board.regTime.split(" ")[0] }} | 조회수 ▪ {{ board.viewCnt }}
+            {{ board.regTime.split(" ")[0] }} | 조회수 ▪ {{ board.viewCnt }} | like ▪ {{ board.likeCnt }}
           </div>
           <h2 class="card__title">{{ board.title }}</h2>
           <p class="card__content">
