@@ -28,7 +28,7 @@
         placeholder="계획 제목 입력"
         ref="title" />
       <p v-show="err === 2">{{ errMsg }}</p>
-      <label for="startPeriod">시작일 </label>
+      <label for="startPeriod">시작일 ex) 20230524</label>
       <input
         class="plan__input"
         v-model="startPeriod"
@@ -36,7 +36,7 @@
         placeholder="시작일 확인"
         ref="startPeriod" />
       <p v-show="err === 3">{{ errMsg }}</p>
-      <label for="endPeriod">종료일 </label>
+      <label for="endPeriod">종료일 ex) 20230530 </label>
       <input
         class="plan__input"
         v-model="endPeriod"
