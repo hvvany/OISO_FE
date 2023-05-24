@@ -20,6 +20,7 @@ export default {
       markers: [],
       lines: [],
       infowindow: null,
+      kakaoMap: null,
     };
   },
   created() {
@@ -39,6 +40,22 @@ export default {
       document.head.appendChild(script);
     }
   },
+  watch: {
+    location: {
+      deep: true,
+      handler(newVal, oldVal) {
+        //기존 마커 제거
+        console.log(oldVal);
+        console.log(this.lines);
+        if (this.lines.length > 0) {
+          this.lines.forEach((item) => {
+            item.setMap(null);
+          });
+        }
+        this.displayMarker(newVal);
+      },
+    },
+  },
   methods: {
     initMap() {
       const container = document.getElementById("map");
@@ -53,12 +70,12 @@ export default {
 
       //지도 객체 등록
       this.map = new kakao.maps.Map(container, options);
-      // this.deleteMarker();
       this.displayMarker(this.location);
     },
 
-    displayMarker() {
-      for (let pos of this.location) {
+    displayMarker(location) {
+      this.markers = [];
+      for (let pos of location) {
         const latlng = new kakao.maps.LatLng(pos.mapy, pos.mapx);
         var marker = new kakao.maps.Marker({
           position: latlng,
@@ -69,6 +86,7 @@ export default {
       this.displayLine();
     },
     displayLine() {
+      this.lines = [];
       for (let i = 0; i < this.markers.length - 1; i++) {
         var polyline = new kakao.maps.Polyline({
           path: [
