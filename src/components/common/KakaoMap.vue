@@ -22,7 +22,9 @@ export default {
       infowindow: null,
     };
   },
-  created() {},
+  created() {
+    console.log("kakao", this.location);
+  },
   mounted() {
     //카카오맵 준비는 되어 있는 경우
     if (window.kakao && window.kakao.maps) {
@@ -42,8 +44,8 @@ export default {
       const container = document.getElementById("map");
       const options = {
         center: new kakao.maps.LatLng(
-          this.location[0].lat,
-          this.location[0].lng
+          this.location[0].mapy,
+          this.location[0].mapx
         ),
         level: 4,
       };
@@ -54,41 +56,15 @@ export default {
       this.displayMarker(this.location);
     },
 
-    //처음에 선 긋고 안 바꾸는 거! (남겨둬...)
-    // displayMarker() {
-    //   console.log(this.location);
-    //   for (let pos of this.location) {
-    //     const latlng = new kakao.maps.LatLng(pos.lat, pos.lng);
-    //     var marker = new kakao.maps.Marker({
-    //       position: latlng,
-    //     });
-    //     marker.setMap(this.map);
-    //     this.lines.push(latlng);
-    //   }
-    //   this.displayLine();
-    // },
-    // displayLine() {
-    //   var polyline = new kakao.maps.Polyline({
-    //     path: this.lines, // 선을 구성하는 좌표배열 입니다
-    //     strokeWeight: 5, // 선의 두께 입니다
-    //     strokeColor: "#FF3DE5", // 선의 색깔입니다
-    //     strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-    //     strokeStyle: "solid", // 선의 스타일입니다
-    //   });
-    //   polyline.setMap(this.map);
-    // },
-
     displayMarker() {
       for (let pos of this.location) {
-        const latlng = new kakao.maps.LatLng(pos.lat, pos.lng);
+        const latlng = new kakao.maps.LatLng(pos.mapy, pos.mapx);
         var marker = new kakao.maps.Marker({
           position: latlng,
         });
-        //마커를 순서대로 넣었어
         this.markers.push(marker);
         marker.setMap(this.map);
       }
-      console.log(this.markers);
       this.displayLine();
     },
     displayLine() {
