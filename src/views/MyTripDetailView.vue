@@ -207,7 +207,7 @@ button {
 }
 
 .card__modify {
-  width: 20%;
+  width: 30%;
   color: rgb(22, 116, 22);
   font-size: 16px;
 }
