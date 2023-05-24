@@ -94,6 +94,11 @@ const routes = [
     name: "mytripNew",
     component: () => import("@/views/MyTripNewView.vue"),
   },
+  {
+    path: "/mytripmodify",
+    name: "mytripModify",
+    component: () => import("@/views/MyTripModifyView.vue"),
+  },
 ];
 
 const router = new VueRouter({

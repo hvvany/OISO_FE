@@ -46,7 +46,15 @@
                 more_vert
               </div>
               <div v-show="viewEdit">
-                <button @click="modifyPlan(val.mytripNo)">수정</button>
+                <button
+                  @click="
+                    $router.push({
+                      name: 'mytripModify',
+                      params: { plan: JSON.stringify(val) },
+                    })
+                  ">
+                  수정
+                </button>
               </div>
               <div v-show="viewEdit">
                 <button @click="deletePlan(val.mytripNo)">삭제</button>
@@ -77,7 +85,6 @@ import AppNav from "@/components/layout/AppNav.vue";
 import CityInfoSwiper from "@/components/common/CityInfoSwiper.vue";
 import TopBackNav from "@/components/layout/TopBackNav.vue";
 import AppFooter from "@/components/layout/AppFooter.vue";
-// import http from "@/util/http-common";
 
 export default {
   name: "MytripMainView",
@@ -86,7 +93,6 @@ export default {
     TopBackNav,
     AppFooter,
     CityInfoSwiper,
-    // "mytrip-form": () => import("@/components/comment/CommentWrite"),
   },
   data: function () {
     return {
@@ -96,7 +102,22 @@ export default {
       viewEdit: false,
       sido_imgs: {
         1: "https://a.cdn-hotels.com/gdcs/production60/d893/3172bd6f-726c-4561-810f-deec13d17a6e.jpg?impolicy=fcrop&w=1600&h=1066&q=medium",
+        2: "https://a.cdn-hotels.com/gdcs/production1/d1836/6bd75900-f22e-4974-a748-5884b92a28b8.jpg?impolicy=fcrop&w=1600&h=1066&q=medium",
+        3: "https://a.cdn-hotels.com/gdcs/production10/d812/60c0d2de-6e54-4f4f-8c74-0c0757fd750b.jpg?impolicy=fcrop&w=1600&h=1066&q=medium",
+        4: "https://a.cdn-hotels.com/gdcs/production16/d1777/d35d743e-9d7b-482a-a6b4-c6037dec11b7.jpg?impolicy=fcrop&w=1600&h=1066&q=medium",
+        5: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/11/47/54/d2/peak-saeinbong.jpg?w=1200&h=-1&s=1",
         6: "https://a.cdn-hotels.com/gdcs/production144/d1960/191730c7-8e21-4540-825c-65954ae4d132.jpg?impolicy=fcrop&w=1600&h=1066&q=medium",
+        7: "https://a.cdn-hotels.com/gdcs/production10/d897/6d22ee20-0f8c-45c7-8c65-9ae0043263d7.jpg?impolicy=fcrop&w=1600&h=1066&q=medium",
+        8: "https://www.kculture.or.kr/jnrepo/upload/mig/iims_data/img/30_v.jpg",
+        31: "https://heritage.unesco.or.kr/wp-content/uploads/2019/04/hd6_394_i1.jpg",
+        32: "https://a.cdn-hotels.com/gdcs/production77/d1383/74886016-f897-4c87-9337-81a362840f6d.jpg?impolicy=fcrop&w=1600&h=1066&q=medium",
+        33: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/78/df/2d/1300291-largejpg.jpg?w=1200&h=-1&s=1",
+        34: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0c/ed/06/47/caption.jpg?w=1200&h=-1&s=1",
+        35: "https://a.cdn-hotels.com/gdcs/production9/d1467/a4e9ad3b-0465-405c-beb5-581116842d32.jpg?impolicy=fcrop&w=1600&h=1066&q=medium",
+        36: "https://a.cdn-hotels.com/gdcs/production193/d916/24b473af-1be6-4656-8cd0-88e1cbafdc0c.jpg?impolicy=fcrop&w=1600&h=1066&q=medium",
+        37: "https://a.cdn-hotels.com/gdcs/production111/d1446/b6ece273-9a32-4011-81aa-daf75d7ccb43.jpg?impolicy=fcrop&w=1600&h=1066&q=medium",
+        38: "https://a.cdn-hotels.com/gdcs/production24/d273/e5de0657-4fef-4317-b924-cb05bb99c6d8.jpg?impolicy=fcrop&w=1600&h=1066&q=medium",
+        39: "https://a.cdn-hotels.com/gdcs/production58/d323/da9d76f0-35fa-4f8d-a9d0-8a6e24e9d03f.jpg?impolicy=fcrop&w=1600&h=1066&q=medium",
       },
     };
   },
