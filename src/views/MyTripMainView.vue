@@ -46,7 +46,15 @@
                 more_vert
               </div>
               <div v-show="viewEdit">
-                <button @click="modifyPlan(val.mytripNo)">수정</button>
+                <button
+                  @click="
+                    $router.push({
+                      name: 'mytripModify',
+                      params: { plan: JSON.stringify(val) },
+                    })
+                  ">
+                  수정
+                </button>
               </div>
               <div v-show="viewEdit">
                 <button @click="deletePlan(val.mytripNo)">삭제</button>
@@ -77,7 +85,6 @@ import AppNav from "@/components/layout/AppNav.vue";
 import CityInfoSwiper from "@/components/common/CityInfoSwiper.vue";
 import TopBackNav from "@/components/layout/TopBackNav.vue";
 import AppFooter from "@/components/layout/AppFooter.vue";
-// import http from "@/util/http-common";
 
 export default {
   name: "MytripMainView",
@@ -86,7 +93,6 @@ export default {
     TopBackNav,
     AppFooter,
     CityInfoSwiper,
-    // "mytrip-form": () => import("@/components/comment/CommentWrite"),
   },
   data: function () {
     return {
