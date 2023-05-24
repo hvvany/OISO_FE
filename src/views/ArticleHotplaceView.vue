@@ -30,8 +30,8 @@
             </h1>
             <h2 class="card__title">{{ hotplace.title }}</h2>
             <div class="card__author">
-              작성자 ▪ {{ hotplace.id }} | 작성일 ▪
-              {{ hotplace.regTime.split(" ")[0] }} | 조회수 ▪
+              작성자 {{ hotplace.id }} | 작성일
+              {{ hotplace.regTime.split(" ")[0] }} | 조회수
               {{ hotplace.viewCnt }}
             </div>
           </div>
@@ -155,20 +155,20 @@ content {
 }
 .card__number {
   text-align: start;
-  font-size: 3rem;
+  font-size: 2.6rem;
   font-weight: 700;
   color: white;
 }
 .card__title {
   margin-top: 2.6rem;
-  font-size: 2rem;
+  font-size: 1.4rem;
   font-weight: 700;
   color: white;
 }
 .card__author {
   font-size: 0.6rem;
   text-align: start;
-  margin-top: 4.5rem;
+  margin-top: 5.5rem;
   color: white;
 }
 </style>

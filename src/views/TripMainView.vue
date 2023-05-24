@@ -26,7 +26,7 @@
           class="search__input"
           @click="$router.push('/trip/info')">
           <span class="search__icon material-symbols-outlined"> search </span>
-          <p>어디로 여행을 가시나요</p>
+          <p>어디로 여행을 가시나요?</p>
         </button>
       </div>
       <div class="main-content__hotplace">
@@ -48,12 +48,13 @@
             <p class="card__author">@{{ hotplace.id }}</p>
           </div>
         </div>
+        <hr />
         <div>
           <h2 class="beta-title">Beta 기능</h2>
           <div class="beta__gpt">
             <div class="gpt__title">무엇이든 물어보살!</div>
             <div class="gpt__example">
-              예시) 부산 서면에 혼자서 낮에 여행하기 좋은 여행지 추천해줘
+              예시) 부산 서면에 혼자 여행하기 좋은 여행지 추천해줘
             </div>
             <div class="gpt__question-group">
               <textarea class="gpt__question" v-model="gptQuestion"></textarea>
@@ -200,10 +201,10 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 70vw;
+  width: 75vw;
   height: 2.5rem;
-  margin: 2rem 1.2rem 2rem 1.2rem;
-  padding: 0 1rem 0 1rem;
+  margin: 1.5rem 1rem 2rem 1rem;
+  padding: 0 0.3rem 0 0.3rem;
 }
 .search__icon {
   color: #0000008f;
@@ -224,7 +225,7 @@ export default {
   margin: 0 3rem 0 3rem;
 }
 .hotplace__title {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   font-weight: 700;
 }
 .hotplace__more-btn {
@@ -274,12 +275,12 @@ export default {
 }
 
 .card__img {
-  width: 70vw;
+  /* width: 70vw; */
   height: 60vw;
   border-radius: 5px;
 }
 .card__title {
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 700;
   margin: 0.7rem 0;
   text-align: start;
@@ -333,21 +334,27 @@ export default {
   text-align: start;
   font-size: 1.3rem;
   font-weight: 700;
+  margin: 2rem 3rem 0rem 3rem;
+}
+
+.beta__gpt {
   margin: 2rem 3rem;
 }
+
 .gpt {
   margin: 2rem;
 }
 .gpt__title {
   text-align: start;
-  margin: 1rem 3rem;
+  margin: 1rem 0;
   font-weight: 600;
 }
 .gpt__example {
+  text-align: start;
   font-size: 0.3rem;
   color: #7c7c7c;
   font-weight: 400;
-  margin: 1rem;
+  margin: 0.5rem 0.2rem;
 }
 .gpt__question-group {
   display: flex;
