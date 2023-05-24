@@ -4,6 +4,9 @@
     <div v-if="add == false">
       <button @click="addMyTrip">여행 계획에 추가</button>
     </div>
+    <div v-if="add == true">
+      <button @click="delMyTrip">여행 계획에서 삭제</button>
+    </div>
     <img :src="info.firstimage" />
     <div class="info__addr">주소: {{ info.addr1 }} {{ info.addr2 }}</div>
 
@@ -60,15 +63,27 @@ export default {
       "&contentTypeId=" +
       this.contentTypeId +
       "&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y&numOfRows=10&pageNo=1";
-    http.get(request_url).then((response) => {
-      console.log(response);
-      this.info = response.data.response.body.items.item[0];
-      const mapx = this.info.mapx;
-      const mapy = this.info.mapy;
-      this.sido_code = this.info.areacode;
-      const detailInfo = { mapx, mapy };
-      this.location.push(detailInfo);
-    });
+    http
+      .get(request_url)
+      .then((response) => {
+        console.log(response);
+        this.info = response.data.response.body.items.item[0];
+        const mapx = this.info.mapx;
+        const mapy = this.info.mapy;
+        this.sido_code = this.info.areacode;
+        const detailInfo = { mapx, mapy };
+        this.location.push(detailInfo);
+      })
+      .finally(() => {
+        http
+          .get(`/mytrip/detail/${this.userInfo.userId}/${this.contentId}`)
+          .then((response) => {
+            console.log(response.data);
+            if (response.data == 1) {
+              this.add = true;
+            }
+          });
+      });
     // http로 get해서 있는지 없는지 가져오게 해야하는데
     //그러면 백엔드 또 다 바꿔야되네 contentId랑 id랑 같은거 있으면 add 바꾸는걸로
   },
@@ -83,12 +98,6 @@ export default {
           sido_code: this.sido_code,
         })
         .then(({ status }) => {
-          console.log({
-            id: this.userInfo.userId,
-            contentId: this.contentId,
-            contentTypeId: this.contentTypeId,
-            sido_code: this.sido_code,
-          });
           if (status == 200) {
             console.log("추가 성공");
             this.$router.push({
@@ -96,7 +105,18 @@ export default {
             });
           }
         });
-      add = true;
+      this.add = true;
+    },
+    delMyTrip() {
+      http
+        .delete(`/mytrip/${this.userInfo.userId}/${this.contentId}`)
+        .then((response) => {
+          console.log(response.data);
+          this.add = false;
+        })
+        .catch((response) => {
+          console.log(response.data);
+        });
     },
   },
   computed: {

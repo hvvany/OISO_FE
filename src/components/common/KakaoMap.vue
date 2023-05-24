@@ -45,8 +45,7 @@ export default {
       deep: true,
       handler(newVal, oldVal) {
         //기존 마커 제거
-        console.log(oldVal);
-        console.log(this.lines);
+        console.log("old", oldVal);
         if (this.lines.length > 0) {
           this.lines.forEach((item) => {
             item.setMap(null);

@@ -16,7 +16,7 @@
               <li v-for="(item, idx) in totalInfo" :key="idx">
                 <div v-if="dayItems.contentId == item.contentid">
                   <div class="cards__card">
-                    {{ item.title }} {{ item.contentid }}
+                    {{ item.title }}
                   </div>
                 </div>
               </li>
@@ -120,8 +120,8 @@ export default {
               })
               .finally(() => {
                 this.totalInfo.push(this.detailInfo);
-                // this.getDetail();
                 this.kakaoInfo.push(this.detailInfo);
+                console.log("finally", this.kakaoInfo);
                 this.getSortedTripInfo();
               });
           }
@@ -141,16 +141,6 @@ export default {
         return a.sequence - b.sequence;
       });
       this.sortTripInfo = sortedTripInfo;
-    },
-    deleteDetail(contentid) {
-      http
-        .delete(`/mytrip/${this.userInfo.userId}/${contentid}`)
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((response) => {
-          console.log(response.data);
-        });
     },
     modifyTrip() {
       let idx = 0;
