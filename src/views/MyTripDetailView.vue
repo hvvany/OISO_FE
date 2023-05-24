@@ -1,7 +1,7 @@
 <template>
   <div>
     <top-back-nav :title="'MyTrip'"></top-back-nav>
-    <div v-if="sortTripInfo.length == size">
+    <div v-if="flag">
       <kakao-map
         ref="kakaoMap"
         :location="kakaoInfo"
@@ -21,7 +21,7 @@
               <li v-for="(item, idx) in totalInfo" :key="idx">
                 <div v-if="dayItems.contentId == item.contentid">
                   <div class="cards__card" @click="moveMap(item)">
-                    {{ dayIndex + 1 }}. {{ item.title }} {{ item.contentid }}
+                    {{ dayIndex + 1 }}. {{ item.title }}
                   </div>
                 </div>
               </li>
@@ -86,10 +86,7 @@ export default {
       sequence: 1,
       size: 0,
       center: {},
-      plan: {
-        yes: "포함 O",
-        no: "포함 X",
-      },
+      flag: false,
     };
   },
   created() {
@@ -154,6 +151,7 @@ export default {
                 const mapx = item.mapx;
                 const mapy = item.mapy;
                 this.detailInfo = { ...trip, title, contentid, mapx, mapy };
+                this.flag = true;
               })
               .finally(() => {
                 this.totalInfo.push(this.detailInfo);
@@ -166,23 +164,25 @@ export default {
     },
     //sequence 기준 정렬
     getSortedTripInfo() {
-      const sortedTripInfo = [...this.kakaoInfo];
-      const zerosequence = sortedTripInfo.filter((item) => item.sequence === 0);
+      const sortedTripInfo = this.kakaoInfo.filter(
+        (item) => item.sequence != 99
+      );
+      const zerosequence = this.kakaoInfo.filter((item) => item.sequence == 99);
 
       sortedTripInfo.sort((a, b) => {
         return a.sequence - b.sequence;
       });
+
       this.sortTripInfo = sortedTripInfo;
       this.zerosequence = zerosequence;
 
-      console.log("sort", this.sortTripInfo);
+      // console.log("sort", this.sortTripInfo);
     },
     modifyTrip() {
       const list1Order = this.sortTripInfo.slice();
       const list2Order = this.zerosequence.slice();
       console.log("end", list1Order, list2Order);
 
-      //일정 포함 먼저 넣기 (sequence 1부터겠지?)
       for (let info of list1Order) {
         console.log("넣", info);
         http
