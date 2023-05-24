@@ -28,17 +28,13 @@ export default {
     console.log("kakao", this.location);
   },
   mounted() {
-    const script = document.createElement("script");
-    //카카오맵 준비는 되어 있는 경우
     if (window.kakao && window.kakao.maps) {
+      console.log("1");
       this.initMap();
     } else {
       /* global kakao */
-      script.onload = () => kakao.maps.load(this.initMap);
-      script.src =
-        "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=" +
-        process.env.VUE_APP_KAKAO_KEY;
-      document.head.appendChild(script);
+      console.log("2");
+      this.loadScript();
     }
   },
   watch: {
@@ -67,14 +63,23 @@ export default {
   methods: {
     initMap() {
       const container = document.getElementById("map");
-      console.log("initMap", this.location);
-      let options = { center: new kakao.maps.LatLng(35.096117, 128.853647) };
+      console.log("container", container);
+      if (container) {
+        let options = { center: new kakao.maps.LatLng(35.096117, 128.853647) };
 
-      //지도 객체 등록
-      this.map = new kakao.maps.Map(container, options);
-      this.displayMarker(this.location);
+        //지도 객체 등록
+        this.map = new kakao.maps.Map(container, options);
+        this.displayMarker(this.location);
+      }
     },
-
+    loadScript() {
+      const script = document.createElement("script");
+      script.src =
+        "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=" +
+        process.env.VUE_APP_KAKAO_KEY;
+      script.onload = () => kakao.maps.load(this.initMap);
+      document.head.appendChild(script);
+    },
     displayMarker(location) {
       this.markers = [];
       for (let pos of location) {

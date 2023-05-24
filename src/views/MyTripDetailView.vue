@@ -28,6 +28,7 @@
           </transition-group>
         </draggable>
       </ul>
+      <!-- <div class="dropzone" @drop="onDrop" @dragover="onDragOver"></div> -->
     </content>
 
     <button class="card__modify" @click="modifyTrip">완료</button>
