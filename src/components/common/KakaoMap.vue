@@ -13,6 +13,7 @@ export default {
   props: {
     location: Array,
     tpye: String,
+    center: Object,
   },
   data() {
     return {
@@ -27,11 +28,11 @@ export default {
     console.log("kakao", this.location);
   },
   mounted() {
+    const script = document.createElement("script");
     //카카오맵 준비는 되어 있는 경우
     if (window.kakao && window.kakao.maps) {
       this.initMap();
     } else {
-      const script = document.createElement("script");
       /* global kakao */
       script.onload = () => kakao.maps.load(this.initMap);
       script.src =
@@ -54,18 +55,20 @@ export default {
         this.displayMarker(newVal);
       },
     },
+    center: {
+      deep: true,
+      handler(newVal, oldVal) {
+        console.log("old", oldVal);
+        console.log(newVal.lat, newVal.lng);
+        this.map.setCenter(new kakao.maps.LatLng(newVal.lat, newVal.lng));
+      },
+    },
   },
   methods: {
     initMap() {
       const container = document.getElementById("map");
       console.log("initMap", this.location);
-      const options = {
-        center: new kakao.maps.LatLng(
-          this.location[0].mapy,
-          this.location[0].mapx
-        ),
-        level: 4,
-      };
+      let options = { center: new kakao.maps.LatLng(35.096117, 128.853647) };
 
       //지도 객체 등록
       this.map = new kakao.maps.Map(container, options);
@@ -82,6 +85,9 @@ export default {
         this.markers.push(marker);
         marker.setMap(this.map);
       }
+      this.map.setCenter(
+        new kakao.maps.LatLng(location[0].mapy, location[0].mapx)
+      );
       this.displayLine();
     },
     displayLine() {

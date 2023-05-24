@@ -2,7 +2,11 @@
   <div>
     <top-back-nav :title="'MyTrip'"></top-back-nav>
     <div v-if="sortTripInfo.length == size">
-      <kakao-map ref="kakaoMap" :location="kakaoInfo" type="detail"></kakao-map>
+      <kakao-map
+        ref="kakaoMap"
+        :location="kakaoInfo"
+        :center="center"
+        type="detail"></kakao-map>
     </div>
     <content>
       <ul>
@@ -15,8 +19,8 @@
             <div v-for="(dayItems, dayIndex) in sortTripInfo" :key="dayIndex">
               <li v-for="(item, idx) in totalInfo" :key="idx">
                 <div v-if="dayItems.contentId == item.contentid">
-                  <div class="cards__card">
-                    {{ item.title }}
+                  <div class="cards__card" @click="moveMap(item)">
+                    {{ dayIndex + 1 }}. {{ item.title }}
                   </div>
                 </div>
               </li>
@@ -62,6 +66,7 @@ export default {
       },
       sequence: 1,
       size: 0,
+      center: {},
     };
   },
   created() {
@@ -88,6 +93,9 @@ export default {
       const newOrder = this.sortTripInfo.map((dayItems) => dayItems);
       console.log("new", newOrder);
       this.kakaoInfo = newOrder;
+    },
+    moveMap(item) {
+      this.center = { lat: item.mapy, lng: item.mapx };
     },
     //일단 db에서 계획을 가져오고
     getInfo() {
@@ -135,6 +143,7 @@ export default {
         return a.sequence - b.sequence;
       });
       this.sortTripInfo = sortedTripInfo;
+      console.log("sort", this.sortTripInfo);
     },
     modifyTrip() {
       let idx = 0;
