@@ -2,7 +2,11 @@
   <div>
     <top-back-nav :title="'MyTrip'"></top-back-nav>
     <div v-if="sortTripInfo.length == size">
-      <kakao-map ref="kakaoMap" :location="kakaoInfo" type="detail"></kakao-map>
+      <kakao-map
+        ref="kakaoMap"
+        :location="kakaoInfo"
+        :center="center"
+        type="detail"></kakao-map>
     </div>
     <content>
       <ul>
@@ -15,8 +19,8 @@
             <div v-for="(dayItems, dayIndex) in sortTripInfo" :key="dayIndex">
               <li v-for="(item, idx) in totalInfo" :key="idx">
                 <div v-if="dayItems.contentId == item.contentid">
-                  <div class="cards__card">
-                    {{ item.title }}
+                  <div class="cards__card" @click="moveMap(item)">
+                    {{ dayIndex + 1 }}. {{ item.title }}
                   </div>
                 </div>
               </li>
@@ -24,6 +28,7 @@
           </transition-group>
         </draggable>
       </ul>
+      <!-- <div class="dropzone" @drop="onDrop" @dragover="onDragOver"></div> -->
     </content>
 
     <button class="card__modify" @click="modifyTrip">완료</button>
@@ -62,6 +67,7 @@ export default {
       },
       sequence: 1,
       size: 0,
+      center: {},
     };
   },
   created() {
@@ -78,8 +84,9 @@ export default {
   methods: {
     onDragEnd(event) {
       const draggedItem = this.sortTripInfo[event.oldIndex];
+      console.log("자", draggedItem, event.oldIndex, event.newIndex);
       this.sortTripInfo.splice(event.oldIndex, 1);
-      this.sortTripInfo.splice(event.newIndex, 0, draggedItem);
+      this.sortTripInfo.splice(event.newIndex + 1, 0, draggedItem);
       this.updateMap();
     },
     updateMap() {
@@ -87,6 +94,9 @@ export default {
       const newOrder = this.sortTripInfo.map((dayItems) => dayItems);
       console.log("new", newOrder);
       this.kakaoInfo = newOrder;
+    },
+    moveMap(item) {
+      this.center = { lat: item.mapy, lng: item.mapx };
     },
     //일단 db에서 계획을 가져오고
     getInfo() {
@@ -127,13 +137,6 @@ export default {
           }
         });
     },
-    // getDetail() {
-    //   let latlng = { lat: this.detailInfo.mapy, lng: this.detailInfo.mapx };
-    //   this.location.push(latlng);
-    //   this.flag = true;
-    //   this.getSortedTripInfo();
-    //   //{ ...item, viewEdit: false }
-    // },
     //sequence 기준 정렬
     getSortedTripInfo() {
       const sortedTripInfo = [...this.kakaoInfo];
@@ -141,6 +144,7 @@ export default {
         return a.sequence - b.sequence;
       });
       this.sortTripInfo = sortedTripInfo;
+      console.log("sort", this.sortTripInfo);
     },
     modifyTrip() {
       let idx = 0;
