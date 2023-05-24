@@ -6,7 +6,7 @@
     <!-- 날씨 정보 스와이퍼 -->
     <!-- 새벽에 날씨 안 나와서 일단 주석처리 -->
     <div v-if="plans.length != 0">
-      <city-info-swiper :plans="plans"></city-info-swiper>
+      <!-- <city-info-swiper :plans="plans"></city-info-swiper> -->
     </div>
 
     <!-- 여행 계획 -->
@@ -81,7 +81,7 @@
 import { mapGetters } from "vuex";
 import http from "@/util/http-common.js";
 import AppNav from "@/components/layout/AppNav.vue";
-import CityInfoSwiper from "@/components/common/CityInfoSwiper.vue";
+// import CityInfoSwiper from "@/components/common/CityInfoSwiper.vue";
 import TopBackNav from "@/components/layout/TopBackNav.vue";
 import AppFooter from "@/components/layout/AppFooter.vue";
 
@@ -91,7 +91,7 @@ export default {
     AppNav,
     TopBackNav,
     AppFooter,
-    CityInfoSwiper,
+    // CityInfoSwiper,
   },
   data: function () {
     return {
