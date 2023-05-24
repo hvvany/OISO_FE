@@ -1,7 +1,7 @@
 <template>
   <div>
     <top-back-nav :title="'MyTrip'"></top-back-nav>
-    <div v-if="sortTripInfo.length == size">
+    <div v-if="flag">
       <kakao-map
         ref="kakaoMap"
         :location="kakaoInfo"
@@ -9,13 +9,14 @@
         type="detail"></kakao-map>
     </div>
     <content>
-      <ul>
-        <draggable
-          class="cards"
-          v-model="sortTripInfo"
-          :options="dragOptions"
-          @end="onDragEnd">
-          <transition-group>
+      <div>
+        일정에 포함 O
+        <ul>
+          <draggable
+            class="cards"
+            :list="sortTripInfo"
+            group="plan"
+            @end="onDragEnd">
             <div v-for="(dayItems, dayIndex) in sortTripInfo" :key="dayIndex">
               <li v-for="(item, idx) in totalInfo" :key="idx">
                 <div v-if="dayItems.contentId == item.contentid">
@@ -25,10 +26,25 @@
                 </div>
               </li>
             </div>
-          </transition-group>
-        </draggable>
-      </ul>
-      <!-- <div class="dropzone" @drop="onDrop" @dragover="onDragOver"></div> -->
+          </draggable>
+        </ul>
+      </div>
+      <div>
+        일정에 포함 X
+        <ul>
+          <draggable
+            class="cards"
+            :list="zerosequence"
+            group="plan"
+            @end="onDragEnd">
+            <li v-for="(item, idx) in zerosequence" :key="idx">
+              <div class="cards__card" @click="moveMap(item)">
+                ? {{ item.title }}
+              </div>
+            </li>
+          </draggable>
+        </ul>
+      </div>
     </content>
 
     <button class="card__modify" @click="modifyTrip">완료</button>
@@ -58,16 +74,19 @@ export default {
       totalInfo: [],
       location: [],
       sortTripInfo: [],
+      zerosequence: [],
       sido_code: this.$route.params.sido_code,
       startPeriod: this.$route.params.startPeriod,
       endPeriod: this.$route.params.endPeriod,
       dragOptions: {
         animation: 150,
         onEnd: this.onDragEnd,
+        group: "plan",
       },
       sequence: 1,
       size: 0,
       center: {},
+      flag: false,
     };
   },
   created() {
@@ -83,10 +102,15 @@ export default {
   },
   methods: {
     onDragEnd(event) {
-      const draggedItem = this.sortTripInfo[event.oldIndex];
-      console.log("자", draggedItem, event.oldIndex, event.newIndex);
-      this.sortTripInfo.splice(event.oldIndex, 1);
-      this.sortTripInfo.splice(event.newIndex + 1, 0, draggedItem);
+      this.sortTripInfo.forEach((item, index) => {
+        item.sequence = index;
+      });
+      console.log("this", this.sortTripInfo);
+
+      this.zerosequence.forEach((item, index) => {
+        item.sequence = index;
+      });
+      console.log("event", event);
       this.updateMap();
     },
     updateMap() {
@@ -127,6 +151,7 @@ export default {
                 const mapx = item.mapx;
                 const mapy = item.mapy;
                 this.detailInfo = { ...trip, title, contentid, mapx, mapy };
+                this.flag = true;
               })
               .finally(() => {
                 this.totalInfo.push(this.detailInfo);
@@ -139,19 +164,39 @@ export default {
     },
     //sequence 기준 정렬
     getSortedTripInfo() {
-      const sortedTripInfo = [...this.kakaoInfo];
+      const sortedTripInfo = this.kakaoInfo.filter(
+        (item) => item.sequence != 99
+      );
+      const zerosequence = this.kakaoInfo.filter((item) => item.sequence == 99);
+
       sortedTripInfo.sort((a, b) => {
         return a.sequence - b.sequence;
       });
+
       this.sortTripInfo = sortedTripInfo;
-      console.log("sort", this.sortTripInfo);
+      this.zerosequence = zerosequence;
+
+      // console.log("sort", this.sortTripInfo);
     },
     modifyTrip() {
-      let idx = 0;
-      for (let info of this.sortTripInfo) {
-        info.sequence = idx++;
+      const list1Order = this.sortTripInfo.slice();
+      const list2Order = this.zerosequence.slice();
+      console.log("end", list1Order, list2Order);
+
+      for (let info of list1Order) {
+        console.log("넣", info);
         http
-          .put(`/mytrip/${info.detailNo}/${idx}`, {})
+          .put(`/mytrip/${info.detailNo}/${info.sequence}`, {})
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.error("Error", error);
+          });
+      }
+      for (let info of list2Order) {
+        http
+          .put(`/mytrip/${info.detailNo}/99`, {})
           .then((response) => {
             console.log(response);
           })

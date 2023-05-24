@@ -89,6 +89,7 @@ export default {
         this.markers.push(marker);
         marker.setMap(this.map);
       }
+      console.log(location[0]);
       this.map.setCenter(
         new kakao.maps.LatLng(location[0].mapy, location[0].mapx)
       );
