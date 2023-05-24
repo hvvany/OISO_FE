@@ -86,7 +86,6 @@ export default {
     //일단 db에서 계획을 가져오고
     getInfo() {
       //db에 저장된 여행 상세 정보 가져와서 공공 데이터로
-      //이거 가져올 때 day로 정렬해서 가져와야겠다!
       http
         .get("/mytrip/" + this.userInfo.userId + "/" + this.sido_code)
         .then((response) => {

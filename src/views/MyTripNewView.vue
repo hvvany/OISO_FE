@@ -87,7 +87,6 @@ export default {
         this.sendPlan();
       }
     },
-    //id, sido_code, title, startPeriod, endPeriod
     sendPlan() {
       console.log(this.sido_code, this.title, this.startPeriod, this.endPeriod);
       if (this.comment != "") {

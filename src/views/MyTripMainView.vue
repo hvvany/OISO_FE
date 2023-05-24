@@ -138,16 +138,15 @@ export default {
 
 .card {
   position: relative;
-  left: 1.2rem;
-  height: 20vw;
-  width: 95vw;
-  margin: 3vw;
+  height: 25vw;
+  width: 100rem;
+  margin: 1rem 0;
   border: 1px solid;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 15px;
-  background-color: rgba(224, 255, 255, 0.436);
+  /* background-color: rgba(224, 255, 255, 0.436); */
 }
 
 .plan__more-card {
@@ -180,18 +179,18 @@ export default {
 }
 
 .outline__button {
-  width: 3.8rem;
-  margin: 1.3rem 0;
+  margin: 1rem 0;
   position: relative;
-  right: 2.8rem;
-  top: 0.7rem;
+  right: 2rem;
+  top: 0.3rem;
 }
 
 button {
   border: 1px solid #989898;
   background-color: white;
   border-radius: 8px;
-  font-size: 12px;
-  margin-top: 4px;
+  font-size: 6px;
+  margin-top: 1px;
+  margin: 0;
 }
 </style>
