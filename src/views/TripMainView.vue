@@ -52,7 +52,7 @@
         <div>
           <h2 class="beta-title">Beta 기능</h2>
           <div class="beta__gpt">
-            <div class="gpt__title">무엇이든 물어보살!</div>
+            <div class="gpt__title">무엇이든 물어보시오!</div>
             <div class="gpt__example">
               예시) 부산 서면에 혼자 여행하기 좋은 여행지 추천해줘
             </div>
