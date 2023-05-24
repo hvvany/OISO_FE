@@ -71,6 +71,7 @@
 <script>
 import http from "@/util/http-common.js";
 import TextSwiper from "@/components/common/TextSwiper.vue";
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "TripInfo",
   components: {
@@ -147,14 +148,25 @@ export default {
       getinfocnt: 1,
     };
   },
-  created() {},
+  created() {
+    if (this.pickedSido) {
+      this.sido_pick = this.pickedSido;
+      this.addInfo();
+      this.input_mode = 1;
+      this.changeFilter("관광지");
+    }
+  },
   methods: {
+    ...mapActions(["updateSidoPick"]),
     changeMode() {
       this.input_mode = (this.input_mode + 1) % 2;
     },
     pickSido(sido) {
       this.sido_pick = sido;
       this.input_mode = 1;
+      this.updateSidoPick({
+        sido_pick: sido, //콜백 필요없겠지?
+      });
       this.changeFilter("관광지");
     },
     changeFilter(filter) {
@@ -184,6 +196,9 @@ export default {
         console.log(this.total_infos);
       });
     },
+  },
+  computed: {
+    ...mapGetters(["pickedSido"]),
   },
 };
 </script>
