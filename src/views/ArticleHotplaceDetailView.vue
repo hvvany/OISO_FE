@@ -204,8 +204,8 @@ export default {
   margin: 0rem 1rem;
 }
 .title--before-edit {
-  font-size: 2rem;
-  margin: 1rem;
+  font-size: 1.4rem;
+  margin: 1rem 1rem;
   text-align: start;
 }
 
