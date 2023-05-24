@@ -2,14 +2,20 @@
   <div>
     <h1>계획 수정</h1>
     <div class="plan">
-      <label for="sido_code">시도 코드 </label>
-      <input
-        class="plan__input"
-        v-model="sido_code"
-        type="text"
-        placeholder="시도 코드 입력"
-        ref="sido_code"
-        readonly />
+      <label for="sido_code">지역 선택 </label>
+      <div class="selectBox">
+        <div class="select__div">
+          <select v-model="sido_code" class="select">
+            <option value="">선택</option>
+            <option v-for="(value, key) in sidos" :value="value" :key="key">
+              {{ key }}
+            </option>
+          </select>
+          <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+        </div>
+      </div>
       <p v-show="err === 1">{{ errMsg }}</p>
 
       <label for="title">계획 제목 </label>
@@ -60,6 +66,25 @@ export default {
       startPeriod: "",
       endPeriod: "",
       mytripNo: 0,
+      sidos: {
+        서울: 1,
+        인천: 2,
+        대전: 3,
+        대구: 4,
+        광주: 5,
+        부산: 6,
+        울산: 7,
+        세종: 8,
+        경기도: 31,
+        강원도: 32,
+        충청북도: 33,
+        충청남도: 34,
+        경상북도: 35,
+        경상남도: 36,
+        전라북도: 37,
+        전라남도: 38,
+        제주도: 39,
+      },
     };
   },
   created() {
@@ -176,5 +201,37 @@ button {
   padding: 10px 12px;
   margin: 0px 10px;
   font-size: 14px;
+}
+
+.select__div {
+  margin: 1rem 0 0.5rem 0;
+}
+
+.selectBox {
+  position: relative;
+  width: 12rem;
+  height: 3rem;
+  border-radius: 20px;
+  border: 1px solid rgb(88, 88, 88);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+}
+.selectBox .select {
+  width: 12.2rem;
+  height: 3rem;
+  background: transparent;
+  border: 0 none;
+  outline: 0 none;
+  padding: 0.8rem;
+  position: relative;
+  z-index: 3;
+}
+.selectBox .select option {
+  background: rgb(255, 255, 255);
+  color: black;
+  padding: 3px 0;
+  font-size: 16px;
 }
 </style>
