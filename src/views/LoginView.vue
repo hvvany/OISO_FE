@@ -16,6 +16,7 @@
         placeholder="비밀번호 입력"
         required />
       <p v-show="err === 2">{{ errMsg }}</p>
+      <p v-show="err === 3">{{ errMsg }}</p>
       <button class="login__btn" type="button" @click="validate">로그인</button>
       <router-link :to="'/user/signup'">회원가입</router-link>
     </div>
@@ -76,7 +77,7 @@ export default {
             thiz.getUserInfo({
               accessToken: thiz.accessToken,
               callback: (status) => {
-                console.log("여기");
+                console.log("s", status);
                 if (status == 200) {
                   thiz.$router.push({ name: "tripmain" });
                 }
@@ -84,6 +85,9 @@ export default {
             });
           } else if (status == 500) {
             alert("서버 오류 입니다.");
+          } else {
+            thiz.err = 3;
+            thiz.errMsg = "로그인에 실패했습니다.";
           }
         },
       });

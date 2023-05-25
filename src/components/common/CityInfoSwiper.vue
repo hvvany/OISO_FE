@@ -192,25 +192,25 @@ export default {
 <style scoped>
 .cards__card {
   width: 100vw;
-  height: 8rem;
-  background-color: rgb(228, 228, 228);
+  height: 6rem;
+  background-color: rgb(255, 255, 255);
   color: rgb(0, 0, 0);
   display: flex;
   justify-content: center;
   align-items: center;
-  line-height: 2rem;
+  line-height: 1.4rem;
 }
 .weather_text {
   float: left;
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 .weather_img {
-  margin-left: 2rem;
+  margin-left: 4rem;
   float: right;
 }
 
 .img {
-  width: 6rem;
-  height: 6rem;
+  width: 4rem;
+  height: 4rem;
 }
 </style>
