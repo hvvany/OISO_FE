@@ -4,8 +4,7 @@
     <top-back-nav :title="'나의 여행'"></top-back-nav>
 
     <!-- 날씨 정보 스와이퍼 -->
-    <!-- 새벽에 날씨 안 나와서 일단 주석처리 -->
-    <div v-if="plans.length != 0">
+    <div v-if="testboolean2">
       <city-info-swiper :plans="plans"></city-info-swiper>
     </div>
 
@@ -84,7 +83,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import http from "@/util/http-common.js";
 import AppNav from "@/components/layout/AppNav.vue";
 import CityInfoSwiper from "@/components/common/CityInfoSwiper.vue";
@@ -105,6 +104,7 @@ export default {
       topNavNum: 0,
       plans: [],
       viewEdit: false,
+      len: 0,
       sido_imgs: {
         1: "https://a.cdn-hotels.com/gdcs/production60/d893/3172bd6f-726c-4561-810f-deec13d17a6e.jpg?impolicy=fcrop&w=1600&h=1066&q=medium",
         2: "https://a.cdn-hotels.com/gdcs/production1/d1836/6bd75900-f22e-4974-a748-5884b92a28b8.jpg?impolicy=fcrop&w=1600&h=1066&q=medium",
@@ -124,16 +124,40 @@ export default {
         38: "https://a.cdn-hotels.com/gdcs/production24/d273/e5de0657-4fef-4317-b924-cb05bb99c6d8.jpg?impolicy=fcrop&w=1600&h=1066&q=medium",
         39: "https://a.cdn-hotels.com/gdcs/production58/d323/da9d76f0-35fa-4f8d-a9d0-8a6e24e9d03f.jpg?impolicy=fcrop&w=1600&h=1066&q=medium",
       },
+      testboolean: false,
+      testboolean2: false,
     };
   },
-  created() {
-    http.get(`/mytrip/${this.userInfo.userId}`).then((response) => {
-      this.plans = response.data.map((item) => {
-        return { ...item, viewEdit: false };
+  async created() {
+    await http
+      .get(`/mytrip/${this.userInfo.userId}`)
+      .then((response) => {
+        this.plans = response.data.map((item) => {
+          return { ...item, viewEdit: false };
+        });
+      })
+      .finally(() => {
+        console.log("p", this.plans);
+        this.testboolean = true;
       });
-    });
+    if (this.testboolean) {
+      this.goUpdate();
+    }
   },
   methods: {
+    ...mapActions(["updatePlan"]),
+    goUpdate() {
+      const thiz = this;
+      console.log("ddd");
+      this.updatePlan({
+        plan: this.plans,
+        callback: (status) => {
+          if (status == "success") {
+            thiz.testboolean2 = true;
+          }
+        },
+      });
+    },
     deletePlan(mytripNo, idx) {
       http
         .delete(`/mytrip/plan/${mytripNo}`)
@@ -152,6 +176,7 @@ export default {
   computed: {
     ...mapGetters({
       userInfo: "userInfo",
+      plan: "plan",
     }),
   },
 };
@@ -161,6 +186,8 @@ export default {
 .city-info-swiper {
   position: sticky;
   top: 0;
+  height: 6rem;
+  width: 100vw;
 }
 
 .mytrip__title {
