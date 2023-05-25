@@ -6,11 +6,12 @@
     <!-- 날씨 정보 스와이퍼 -->
     <!-- 새벽에 날씨 안 나와서 일단 주석처리 -->
     <div v-if="plans.length != 0">
-      <!-- <city-info-swiper :plans="plans"></city-info-swiper> -->
+      <city-info-swiper :plans="plans"></city-info-swiper>
     </div>
 
     <!-- 여행 계획 -->
     <div class="main-content__plan">
+      <div class="mytrip__title">여행 계획</div>
       <div class="plan">
         <ul v-if="plans.length != 0">
           <li v-for="(val, idx) in plans" :key="idx" class="card__group">
@@ -86,7 +87,7 @@
 import { mapGetters } from "vuex";
 import http from "@/util/http-common.js";
 import AppNav from "@/components/layout/AppNav.vue";
-// import CityInfoSwiper from "@/components/common/CityInfoSwiper.vue";
+import CityInfoSwiper from "@/components/common/CityInfoSwiper.vue";
 import TopBackNav from "@/components/layout/TopBackNav.vue";
 import AppFooter from "@/components/layout/AppFooter.vue";
 
@@ -96,7 +97,7 @@ export default {
     AppNav,
     TopBackNav,
     AppFooter,
-    // CityInfoSwiper,
+    CityInfoSwiper,
   },
   data: function () {
     return {
@@ -160,6 +161,12 @@ export default {
 .city-info-swiper {
   position: sticky;
   top: 0;
+}
+
+.mytrip__title {
+  font-size: 1.4rem;
+  margin: 1rem 0 0 0;
+  font-weight: 600;
 }
 
 .plan {

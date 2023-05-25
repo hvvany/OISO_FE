@@ -8,13 +8,20 @@
 <style>
 #app {
   text-align: center;
+  font-family: Pretendard-Regular;
   /* font-family: "Noto Sans KR", sans-serif;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50; */
 }
-
+@font-face {
+  font-family: "Pretendard-Regular";
+  src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
+    format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
 nav {
   padding: 30px;
 }

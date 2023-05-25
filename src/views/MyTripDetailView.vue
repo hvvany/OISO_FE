@@ -9,8 +9,8 @@
         type="detail"></kakao-map>
     </div>
     <content>
-      <div>
-        일정에 포함 O
+      <div v-if="flag">
+        <div class="plan__title">일정</div>
         <ul>
           <draggable
             class="cards"
@@ -28,9 +28,11 @@
             </div>
           </draggable>
         </ul>
+        <br />
       </div>
+      <br />
       <div>
-        일정에 포함 X
+        <div class="plan__title">미정</div>
         <ul>
           <draggable
             class="cards"
@@ -47,7 +49,9 @@
       </div>
     </content>
 
-    <button class="card__modify" @click="modifyTrip">완료</button>
+    <div v-if="flag">
+      <button class="card__modify" @click="modifyTrip">완료</button>
+    </div>
     <app-footer></app-footer>
     <app-nav :navmode="'mytrip'"></app-nav>
   </div>
@@ -219,6 +223,11 @@ content {
 
 h3 {
   margin-top: 0.5rem;
+}
+
+.plan__title {
+  font-size: 1.2rem;
+  font-weight: 500;
 }
 
 .cards {
