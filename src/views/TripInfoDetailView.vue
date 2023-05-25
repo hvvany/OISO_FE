@@ -1,6 +1,6 @@
 <template>
   <div class="all">
-    <top-back-nav :title="info.title" :type="add"></top-back-nav>
+    <top-back-nav-detail :title="info.title" :type="add"></top-back-nav-detail>
 
     <img :src="info.firstimage" />
     <div class="info__addr">주소: {{ info.addr1 }} {{ info.addr2 }}</div>
@@ -30,7 +30,7 @@ import http from "@/util/http-common.js";
 export default {
   name: "TripInfoDetail",
   components: {
-    TopBackNav: () => import("@/components/layout/TopBackNav"),
+    TopBackNavDetail: () => import("@/components/layout/TopBackNavDetail"),
     AppNav: () => import("@/components/layout/AppNav"),
     AppFooter: () => import("@/components/layout/AppFooter"),
     KakaoMap: () => import("@/components/common/KakaoMap"),
