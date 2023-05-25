@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>계획 수정</h1>
+    <top-back-nav :title="'계획 수정'"></top-back-nav>
     <div class="plan">
       <label for="sido_code">지역 선택 </label>
       <div class="selectBox">
@@ -50,15 +50,19 @@
         계획 수정 완료
       </button>
     </div>
+    <app-nav :navmode="'mytrip'"></app-nav>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import http from "@/util/http-common";
+import AppNav from "@/components/layout/AppNav.vue";
+import TopBackNav from "@/components/layout/TopBackNav.vue";
+
 export default {
   name: "mytripNew",
-  components: {},
+  components: { TopBackNav, AppNav },
   data: function () {
     return {
       message: "",
@@ -181,6 +185,7 @@ label {
 }
 
 .plan {
+  margin-top: 1.4rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -233,6 +238,7 @@ button {
   justify-content: center;
   align-items: center;
   background-color: white;
+  margin: 0.5rem 0.5rem;
 }
 .selectBox .select {
   width: 12.2rem;

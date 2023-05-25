@@ -1,8 +1,6 @@
 <template>
   <div>
-    <h1>계획 추가</h1>
-    <!-- 시도는 코드 말고 이름으로 선택할 수 있게 하고 (완)
-        날짜는 형식에 맞는지 확인하자 -->
+    <top-back-nav :title="'새 계획 생성'"></top-back-nav>
     <div class="plan">
       <label for="sido_code">지역 선택 </label>
       <div class="selectBox">
@@ -50,15 +48,19 @@
         계획 생성
       </button>
     </div>
+    <app-nav :navmode="'mytrip'"></app-nav>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import http from "@/util/http-common";
+import TopBackNav from "@/components/layout/TopBackNav.vue";
+import AppNav from "@/components/layout/AppNav.vue";
+
 export default {
   name: "mytripNew",
-  components: {},
+  components: { AppNav, TopBackNav },
   data: function () {
     return {
       message: "",
@@ -161,7 +163,7 @@ export default {
 <style scoped>
 h1 {
   font-size: 1.4rem;
-  margin: 1rem;
+  margin: 1rem 0.5rem 0 0;
   font-weight: 700;
 }
 
@@ -172,6 +174,7 @@ label,
 
 .plan {
   display: flex;
+  margin-top: 1.4rem;
   flex-direction: column;
   align-items: center;
 }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>SignUp View</h1>
+    <h1>회원가입</h1>
     <div class="signup">
       <input
         class="signup__input"
@@ -118,6 +118,13 @@ export default {
 </script>
 
 <style scoped>
+h1 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
 .signup {
   display: flex;
   flex-direction: column;
@@ -138,10 +145,12 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 10rem;
+  width: 7rem;
   height: 3rem;
   border-width: 1px;
   border-radius: 20px;
-  margin: 0.6rem 0.6rem;
+  margin: 1rem;
+  font-weight: 600;
+  background-color: white;
 }
 </style>
