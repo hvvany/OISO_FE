@@ -156,6 +156,7 @@ export default {
       getinfocnt: 1,
       modal_show: false,
       search_keyword: "",
+      searchMode: false,
     };
   },
   created() {
@@ -191,10 +192,18 @@ export default {
       this.getInfo(this.getinfocnt);
     },
     getInfo(pageNum) {
+      let rows;
+      if (this.searchMode) {
+        rows = 1000;
+      } else {
+        rows = 10;
+      }
       const request_url =
         "https://apis.data.go.kr/B551011/KorService1/areaBasedSyncList1?serviceKey=" +
         process.env.VUE_APP_WEATHER_KEY +
-        "&numOfRows=10&pageNo=" +
+        "&numOfRows=" +
+        rows +
+        "&pageNo=" +
         pageNum +
         "&MobileOS=WIN&MobileApp=AppTest&_type=json&showflag=1&arrange=A" +
         "&contentTypeId=" +
@@ -219,11 +228,14 @@ export default {
 
         console.log("total", this.total_infos);
       });
+      this.searchMode = false;
     },
     openModal() {
       this.modal_show = true;
     },
     closeModal(search_keyword) {
+      this.searchMode = true;
+      this.getInfo();
       this.modal_show = false;
       //전체 목록 불러오기
       this.search_keyword = search_keyword;
@@ -237,20 +249,6 @@ export default {
           }
         }
         this.total_infos = test;
-
-        // http.get("/article/board/").then((response) => {
-        //   this.boardData = response.data;
-        //   //KMP 알고리즘
-        //   let test = {};
-        //   let idx = 0;
-        //   for (let info of this.boardData) {
-        //     if (this.$kmpSearch(info.title, search_keyword).length > 0) {
-        //       console.log(info);
-        //       test[idx++] = info;
-        //     }
-        //   }
-        //   this.boardData = test;
-        // });
       }
     },
   },

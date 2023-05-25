@@ -170,6 +170,7 @@ content {
 }
 .card__img {
   width: 100%;
+  height: 15rem;
   border-radius: 5px;
 }
 </style>

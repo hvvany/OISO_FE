@@ -40,10 +40,10 @@ export default {
 <style scoped>
 swiper {
   width: 10rem;
-  height: 10rem;
+  height: 8rem;
 }
 .swiper__slide-img {
   width: 100vw;
-  height: 80vw;
+  height: 70vw;
 }
 </style>
