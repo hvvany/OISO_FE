@@ -231,6 +231,6 @@ button {
   border-radius: 8px;
   font-size: 6px;
   margin-top: 1px;
-  margin-bottom: 2px;
+  /* margin-bottom: 2px; */
 }
 </style>

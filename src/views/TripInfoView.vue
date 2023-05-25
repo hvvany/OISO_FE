@@ -1,6 +1,11 @@
 <template>
   <div>
     <top-back-nav :title="'관광지 정보 조회'"></top-back-nav>
+    <button
+      @click="openModal"
+      class="search-article__btn material-symbols-outlined">
+      search
+    </button>
     <div
       v-if="sido_pick != '도시를 선택해 주세요'"
       class="sido"
@@ -63,6 +68,7 @@
         +
       </button>
     </ul>
+    <article-modal v-show="modal_show" @close="closeModal('')"></article-modal>
     <app-footer></app-footer>
     <app-nav></app-nav>
   </div>
@@ -71,11 +77,13 @@
 <script>
 import http from "@/util/http-common.js";
 import TextSwiper from "@/components/common/TextSwiper.vue";
+import ArticleModal from "@/components/common/ArticleModal.vue";
 import { mapActions, mapGetters } from "vuex";
 export default {
   name: "TripInfo",
   components: {
     TextSwiper,
+    ArticleModal,
     TopBackNav: () => import("@/components/layout/TopBackNav"),
     AppNav: () => import("@/components/layout/AppNav"),
     AppFooter: () => import("@/components/layout/AppFooter"),
@@ -146,14 +154,15 @@ export default {
       total_infos: [],
       get_infos: [],
       getinfocnt: 1,
+      modal_show: false,
     };
   },
   created() {
     if (this.pickedSido) {
       this.sido_pick = this.pickedSido;
-      this.addInfo();
       this.input_mode = 1;
-      this.changeFilter("관광지");
+      this.total_infos = [];
+      this.getInfo(1);
     }
   },
   methods: {
@@ -165,7 +174,7 @@ export default {
       this.sido_pick = sido;
       this.input_mode = 1;
       this.updateSidoPick({
-        sido_pick: sido, //콜백 필요없겠지?
+        sido_pick: sido,
       });
       this.changeFilter("관광지");
     },
@@ -195,6 +204,28 @@ export default {
         this.total_infos.push(...response.data.response.body.items.item);
         console.log(this.total_infos);
       });
+    },
+    openModal() {
+      this.modal_show = true;
+    },
+    closeModal(search_keyword) {
+      this.modal_show = false;
+      //전체 목록 불러오기
+      if (search_keyword != "") {
+        http.get("/article/board/").then((response) => {
+          this.boardData = response.data;
+          //KMP 알고리즘
+          let test = {};
+          let idx = 0;
+          for (let info of this.boardData) {
+            if (this.$kmpSearch(info.title, search_keyword).length > 0) {
+              console.log(info);
+              test[idx++] = info;
+            }
+          }
+          this.boardData = test;
+        });
+      }
     },
   },
   computed: {
@@ -241,9 +272,16 @@ export default {
   padding: 0.2rem 0.3rem;
   box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.29);
 }
+
 .filter-swiper {
   padding: 0.8rem 0;
+  z-index: -1;
 }
+
+.article-modal {
+  z-index: 10;
+}
+
 .sido-lst__item {
   display: flex;
   align-items: center;
@@ -285,5 +323,19 @@ export default {
   justify-self: end;
   font-size: 0.7rem;
   padding: 0.3rem 0.4rem;
+}
+
+.search-article__btn {
+  position: fixed;
+  right: 1rem;
+  bottom: 5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 1.4rem;
+  color: white;
+  border-radius: 50%;
+  background-color: #8d68f3;
+  border: solid 0;
+  box-shadow: 2px 2px 2px 1px rgba(128, 128, 128, 0.29);
 }
 </style>
