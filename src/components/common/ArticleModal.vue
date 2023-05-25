@@ -56,7 +56,7 @@ export default {
   height: 20vh;
   border-radius: 20px;
   box-shadow: 2px 2px 2px 2px rgba(128, 128, 128, 0.29);
-  z-index: 5;
+  z-index: 1;
   background-color: rgba(255, 255, 255);
 }
 
@@ -80,7 +80,7 @@ button {
   border: 1px solid #989898;
   background-color: white;
   border-radius: 8px;
-  padding: 10px 12px;
+  padding: 6px 6px;
   margin: 0px 10px;
   font-size: 12px;
 }
