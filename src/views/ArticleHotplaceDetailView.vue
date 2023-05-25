@@ -13,24 +13,19 @@
         <span class="meta__cnt">조회수 {{ content_viewCnt }} </span>
         <span class="meta__cnt">like {{ content_likeCnt }}</span>
       </div>
-      <button
-        v-if="likeChecked"
-        style="background-color: red"
-        @click="updateLikeCnt()">
-        좋아요!
-      </button>
-      <button
-        v-else
-        style="background-color: rgb(177, 177, 177)"
-        @click="updateLikeCnt()">
-        좋아요!
-      </button>
       <div class="title--before-edit">
         {{ content_title }}
       </div>
       <hr />
-
       <img-swiper class="main-swiper" :imgs="imgs"></img-swiper>
+      <div class="like-group">
+        <div
+          class="like--checked"
+          v-if="likeChecked"
+          @click="updateLikeCnt()"></div>
+        <div class="like--unchecked" v-else @click="updateLikeCnt()"></div>
+        <div>좋아요 {{ content_likeCnt }}개</div>
+      </div>
       <p class="content info__overview">{{ content_text }}</p>
       <hr />
       <h3 class="comment">댓글</h3>
@@ -51,17 +46,6 @@
         :canEdit="canEdit"></top-form-nav>
       <input class="input__title" type="text" v-model="content_title" />
       <textarea class="input__text" v-model="content_text"></textarea>
-      <hr />
-      <h3 class="comment">댓글</h3>
-      <comment-row
-        type="hotplace"
-        v-for="comment in comments"
-        :key="comment.commentNo"
-        :articleNo="comment.articleNo"
-        :comment="comment"></comment-row>
-      <comment-write
-        :articleNo="this.articleNo"
-        type="hotplace"></comment-write>
     </div>
 
     <app-footer></app-footer>
@@ -226,7 +210,8 @@ export default {
   margin: 0rem 1rem;
 }
 .title--before-edit {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
+  font-weight: 700;
   margin: 1rem 1rem;
   text-align: start;
 }
@@ -258,7 +243,7 @@ export default {
   font-size: 1.3rem;
   font-weight: 700;
   text-align: start;
-  padding: 1rem;
+  padding: 1rem 1.5rem;
 }
 .input__text {
   padding: 1rem;
@@ -266,5 +251,26 @@ export default {
   width: 80vw;
   height: 100vw;
   border-radius: 20px;
+}
+.like-group {
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+}
+.like--checked {
+  background-image: url(../../public/img/heart_red.png);
+  background-size: cover;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: none;
+  margin: 0 0.5rem 0 2rem;
+}
+.like--unchecked {
+  background-image: url(../../public/img/heart.png);
+  background-size: cover;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: none;
+  margin: 0 0.5rem 0 2rem;
 }
 </style>

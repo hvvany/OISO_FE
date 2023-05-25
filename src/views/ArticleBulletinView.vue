@@ -3,10 +3,11 @@
     <top-back-nav :title="'공지사항'"></top-back-nav>
     <ul class="content-list" v-for="(bulletin, idx) in bulletinData" :key="idx">
       <li class="content-list__item" @click="updateCnt(bulletin)">
-        <p>{{ bulletin.title }}</p>
-        <p>{{ bulletin.content }}</p>
-        <p>조회수 {{ bulletin.viewCnt }}</p>
-        <p>like {{ bulletin.likeCnt }}</p>
+        <p class="list--title">{{ bulletin.title }}</p>
+        <div class="list--time">
+          {{ bulletin.regTime }} | 조회수 {{ bulletin.viewCnt }} | like
+          {{ bulletin.likeCnt }}
+        </div>
       </li>
     </ul>
     <button
@@ -78,7 +79,17 @@ export default {
   padding: 0 1.5rem;
 }
 .content-list__item {
-  padding: 1rem;
+  text-align: start;
+  padding: 0.5rem;
   border-bottom: solid 1px gray;
+}
+.list--title {
+  margin: 0.5rem 0;
+  font-weight: 700;
+}
+.list--time {
+  font-size: 0.8rem;
+  margin: 0.5rem 0;
+  color: rgb(131, 131, 131);
 }
 </style>

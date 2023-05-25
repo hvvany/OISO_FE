@@ -7,11 +7,11 @@
         class="add-article__btn">
         +
       </button>
-      <button
+      <!-- <button
         @click="openModal"
         class="search-article__btn material-symbols-outlined">
         search
-      </button>
+      </button> -->
       <div class="cards">
         <div
           v-for="(hotplace, idx) in hotplaceData"
