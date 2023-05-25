@@ -46,8 +46,9 @@
                 @click="val.viewEdit = !val.viewEdit">
                 more_vert
               </div>
-              <div v-show="val.viewEdit">
+              <div v-if="val.viewEdit">
                 <button
+                  class="edit__button"
                   @click="
                     $router.push({
                       name: 'mytripModify',
@@ -56,7 +57,11 @@
                   ">
                   수정
                 </button>
-                <button @click="deletePlan(val.mytripNo, idx)">삭제</button>
+                <button
+                  class="edit__button"
+                  @click="deletePlan(val.mytripNo, idx)">
+                  삭제
+                </button>
               </div>
             </div>
           </li>
@@ -170,10 +175,9 @@ export default {
 }
 
 .card {
-  position: relative;
+  /* position: relative; */
   height: 25vw;
   width: 100rem;
-  height: 8rem;
   margin: 1rem 0;
   border: 1px solid;
   display: flex;
@@ -220,17 +224,25 @@ export default {
 .outline__button {
   margin: 1rem 0;
   position: relative;
-  right: 2rem;
+  width: 1.4rem;
+  right: 3rem;
   top: 0.3rem;
+  align-content: center;
 }
 
-button {
+.edit__button {
+  width: 2rem;
+  top: 0.3rem;
   border: 1px solid #000000;
   background-color: rgb(9, 9, 9);
   color: white;
-  border-radius: 8px;
   font-size: 6px;
-  margin-top: 1px;
-  /* margin-bottom: 2px; */
+  padding: 2px;
+  margin: 2px;
+  z-index: 4;
+}
+
+.material-symbols-outlined {
+  width: 2rem;
 }
 </style>
