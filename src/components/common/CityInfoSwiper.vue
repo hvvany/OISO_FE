@@ -66,7 +66,6 @@ export default {
         38: { name: "전라남도", nx: 51, ny: 67 },
         39: { name: "제주도", nx: 52, ny: 38 },
       },
-      swiperKey: 0,
     };
   },
   created() {
@@ -164,7 +163,6 @@ export default {
 
           this.weather.push(infos);
           console.log("infos", infos);
-          this.swiperKey += 1;
         });
       }
     },
