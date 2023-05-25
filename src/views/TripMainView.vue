@@ -8,7 +8,7 @@
       <a href="javascript:void(0)" class="closebtn" @click="closeNav()"
         >&times;</a
       >
-      <a href="#">사용자 이름</a>
+      <a href="#">{{ userInfo.userId }}님</a>
       <a href="#">개인정보 수정</a>
       <a @click="logout()">로그아웃</a>
       <router-link v-if="isAdmin" :to="{ name: 'member' }">member</router-link>
@@ -42,6 +42,7 @@
             class="card"
             v-if="idx < 3"
             @click="$router.push('/article/hotplace/' + hotplace.articleNo)">
+            <h1 class="card__number">BEST {{ idx + 1 }}</h1>
             <img class="card__img" :src="hotplace.fileInfos[0].onlinePath" />
             <h3 class="card__title">{{ hotplace.title }}</h3>
             <p class="card__content">{{ hotplace.content | showFirstLine }}</p>
@@ -138,7 +139,7 @@ export default {
     },
     questionGPT() {
       this.onGptProcessing = true;
-      const apiKey = "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"; // Replace with your OpenAI API key
+      const apiKey = "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"; // Replace with your OpenAI API key
       const apiUrl = "https://api.openai.com/v1/chat/completions"; //
 
       const headers = {
@@ -276,10 +277,15 @@ export default {
   width: 1rem;
   padding-left: 2rem;
 }
-
+.card__number {
+  text-align: start;
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+}
 .card__img {
   width: 100%;
-  height: 60vw;
+  height: 13rem;
   border-radius: 5px;
 }
 .card__title {

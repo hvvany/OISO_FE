@@ -13,25 +13,19 @@
         <span class="meta__cnt">조회수 {{ content_viewCnt }} </span>
         <span class="meta__cnt">like {{ content_likeCnt }}</span>
       </div>
-      <button
-        v-if="likeChecked"
-        style="background-color: red"
-        @click="updateLikeCnt()">
-        좋아요!
-      </button>
-      <button
-        v-else
-        style="background-color: rgb(177, 177, 177)"
-        @click="updateLikeCnt()">
-        좋아요!
-      </button>
       <div class="title--before-edit">
         {{ content_title }}
       </div>
       <hr />
-
-      <img-swiper class="main-swiper" :imgs="imgs"></img-swiper>
       <p class="content info__overview">{{ content_text }}</p>
+      <div class="like-group">
+        <div
+          class="like--checked"
+          v-if="likeChecked"
+          @click="updateLikeCnt()"></div>
+        <div class="like--unchecked" v-else @click="updateLikeCnt()"></div>
+        <div>좋아요 {{ content_likeCnt }}개</div>
+      </div>
     </div>
     <div v-else>
       <top-form-nav
@@ -61,7 +55,6 @@ export default {
     TopFormNav: () => import("@/components/layout/TopFormNav"),
     AppNav: () => import("@/components/layout/AppNav"),
     AppFooter: () => import("@/components/layout/AppFooter"),
-    ImgSwiper: () => import("@/components/common/ImgSwiper"),
   },
   data() {
     return {
@@ -223,5 +216,46 @@ export default {
   width: 80vw;
   height: 100vw;
   border-radius: 20px;
+}
+.like-group {
+  display: flex;
+  align-items: center;
+}
+.like--checked {
+  background-image: url(../../public/img/heart_red.png);
+  background-size: cover;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: none;
+  margin: 1rem 1rem 1rem 2rem;
+}
+.like--unchecked {
+  background-image: url(../../public/img/heart.png);
+  background-size: cover;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: none;
+  margin: 1rem 1rem 1rem 2rem;
+}
+.like-group {
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+}
+.like--checked {
+  background-image: url(../../public/img/heart_red.png);
+  background-size: cover;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: none;
+  margin: 0 0.5rem 0 2rem;
+}
+.like--unchecked {
+  background-image: url(../../public/img/heart.png);
+  background-size: cover;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: none;
+  margin: 0 0.5rem 0 2rem;
 }
 </style>

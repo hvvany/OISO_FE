@@ -64,7 +64,7 @@ export default {
 }
 textarea {
   position: relative;
-  left: 1.5rem;
+  left: 1rem;
   height: 2rem;
   width: 100vw;
   line-height: 1.3rem;
