@@ -151,9 +151,9 @@ export default {
   created() {
     if (this.pickedSido) {
       this.sido_pick = this.pickedSido;
-      this.addInfo();
       this.input_mode = 1;
-      this.changeFilter("관광지");
+      this.total_infos = [];
+      this.getInfo(1);
     }
   },
   methods: {
@@ -165,7 +165,7 @@ export default {
       this.sido_pick = sido;
       this.input_mode = 1;
       this.updateSidoPick({
-        sido_pick: sido, //콜백 필요없겠지?
+        sido_pick: sido,
       });
       this.changeFilter("관광지");
     },
