@@ -12,6 +12,7 @@ export default new Vuex.Store({
     refreshToken: null,
     userInfo: null,
     sido_pick: null,
+    plan: null,
   },
   getters: {
     accessToken(state) {
@@ -25,6 +26,9 @@ export default new Vuex.Store({
     },
     pickedSido(state) {
       return state.sido_pick;
+    },
+    plan(state) {
+      return state.plan;
     },
   },
   mutations: {
@@ -42,6 +46,10 @@ export default new Vuex.Store({
     },
     SIDOPICK(state, payload) {
       state.sido_pick = payload.sido_pick;
+    },
+    PLAN(state, payload) {
+      state.plan = payload.plan;
+      console.log("payload", payload.plan);
     },
   },
   actions: {
@@ -103,6 +111,10 @@ export default new Vuex.Store({
     },
     updateSidoPick({ commit }, value) {
       commit("SIDOPICK", value);
+    },
+    updatePlan({ commit }, payload) {
+      commit("PLAN", payload);
+      payload.callback("success");
     },
   },
   modules: {},

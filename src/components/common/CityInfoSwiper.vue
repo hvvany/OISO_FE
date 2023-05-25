@@ -1,10 +1,11 @@
 <template>
-  <div>
+  <div v-if="plans.length > 0">
     <swiper
       :slides-per-view="1"
-      :loop="true"
+      :loop="false"
       @swiper="onSwiper"
-      @slideChange="onSlideChange">
+      @slideChange="onSlideChange"
+      :key="weather.length">
       <swiper-slide v-for="(item, index) in weather" :key="index">
         <div class="cards__card">
           <div class="weather_text">
@@ -33,11 +34,9 @@ import { Swiper, SwiperSlide } from "swiper-vue2";
 import "swiper/swiper-bundle.css";
 
 import http from "@/util/http-common.js";
+import { mapGetters } from "vuex";
 
 export default {
-  props: {
-    plans: Array,
-  },
   components: {
     Swiper,
     SwiperSlide,
@@ -67,6 +66,7 @@ export default {
         38: { name: "전라남도", nx: 51, ny: 67 },
         39: { name: "제주도", nx: 52, ny: 38 },
       },
+      swiperKey: 0,
     };
   },
   created() {
@@ -77,7 +77,12 @@ export default {
     this.formattedDate = today.getFullYear() + month + day;
     this.getWeatherInfo();
   },
-  computed: {},
+  computed: {
+    ...mapGetters({
+      plans: "plan",
+    }),
+  },
+  mounted() {},
   methods: {
     onSwiper(swiper) {
       console.log(swiper);
@@ -87,6 +92,7 @@ export default {
     },
     getWeatherInfo() {
       //이걸 계획만큼 반복해야 한다..!
+      console.log("cis", this.plans.length);
       for (let i = 0; i < this.plans.length; i++) {
         let info = this.sidos[this.plans[i].sido_code];
         let sido_code = this.plans[i].sido_code;
@@ -103,7 +109,7 @@ export default {
           info.nx +
           "&ny=" +
           info.ny;
-        console.log(request_url);
+        // console.log(request_url);
 
         http.get(request_url).then((response) => {
           let infos = {
@@ -158,6 +164,7 @@ export default {
 
           this.weather.push(infos);
           console.log("infos", infos);
+          this.swiperKey += 1;
         });
       }
     },
@@ -169,8 +176,6 @@ export default {
 </script>
 <style scoped>
 .cards__card {
-  width: 100vw;
-  height: 6rem;
   background-color: rgb(255, 255, 255);
   color: rgb(0, 0, 0);
   display: flex;
