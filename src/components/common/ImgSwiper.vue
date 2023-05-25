@@ -4,7 +4,8 @@
       :slides-per-view="1"
       :loop="false"
       @swiper="onSwiper"
-      @slideChange="onSlideChange">
+      @slideChange="onSlideChange"
+      :key="imgs.length">
       <swiper-slide v-for="(img, idx) in imgs" :key="idx">
         <img class="swiper__slide-img" :src="img" :alt="img" />
       </swiper-slide>
@@ -43,6 +44,6 @@ swiper {
 }
 .swiper__slide-img {
   width: 100vw;
-  height: 90vw;
+  height: 80vw;
 }
 </style>
