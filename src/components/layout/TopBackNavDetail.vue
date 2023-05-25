@@ -4,6 +4,24 @@
       >arrow_back</a
     >
     <div class="top-back__title">{{ title }}</div>
+
+    <div v-show="type == 'No'">
+      <button
+        class="button__group"
+        @click="$parent.addMyTrip()"
+        style="color = black">
+        추가
+      </button>
+    </div>
+    <div v-show="type == 'Yes'">
+      <button
+        class="button__group"
+        @click="$parent.delMyTrip()"
+        style="color: red">
+        삭제
+      </button>
+      <div>{{ type }}</div>
+    </div>
   </div>
 </template>
 
@@ -13,6 +31,7 @@ export default {
   components: {},
   props: {
     title: String,
+    type: String,
   },
   data() {
     return {
@@ -33,6 +52,7 @@ export default {
   width: 100vw;
   height: 3.7rem;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   padding: 0.5rem;
   font-size: 1.2rem;
@@ -46,5 +66,18 @@ export default {
 }
 .top-back__title {
   font-size: 1.1rem;
+}
+
+button {
+  border-width: 0px;
+  padding: 4px;
+  margin: 8px;
+  color: black;
+  background-color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
