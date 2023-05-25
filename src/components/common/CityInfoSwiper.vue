@@ -2,7 +2,7 @@
   <div>
     <swiper
       :slides-per-view="1"
-      :loop="false"
+      :loop="true"
       @swiper="onSwiper"
       @slideChange="onSlideChange">
       <swiper-slide v-for="(item, index) in weather" :key="index">
@@ -20,32 +20,10 @@
             </div>
           </div>
           <div class="weather_img">
-            <img class="img" :src="weather_icon" />
+            <img class="img" :src="item.ICON" />
           </div>
         </div>
       </swiper-slide>
-      <!-- <swiper-slide
-        class="swiper__slide-img"
-        v-for="(value, idx) in weather"
-        :key="idx">
-        <div class="cards__card">
-          <div class="weather_text">
-            <div>지금 {{ value["LOC"] }}의</div>
-            <div>온도는 {{ value["TMP"] }}℃</div>
-            <div
-              v-if="(value['TMN'] != 0) & (value['TMX'] != 0)"
-              style="font-size: 1rem">
-              최저 {{ value["TMN"] }}℃, 최고 {{ value["TMX"] }}℃
-            </div>
-            <div style="font-size: 1rem">
-              {{ value["WTH"] }}
-            </div>
-          </div>
-          <div class="weather_img">
-            <img class="img" :src="weather_icon" />
-          </div>
-        </div>
-      </swiper-slide> -->
     </swiper>
   </div>
 </template>
@@ -136,8 +114,8 @@ export default {
             SKY: 0,
             PTY: 0,
             WTH: "",
+            ICON: "",
           };
-          console.log(response.data.response.body);
           for (let info of response.data.response.body.items.item) {
             if (info.category === "TMP") {
               infos.TMP = info.fcstValue;
@@ -176,7 +154,7 @@ export default {
             infos.WTH = "소나기";
             temp = "rainy";
           }
-          this.weather_icon = this.getIcon(temp);
+          infos.ICON = this.getIcon(temp);
 
           this.weather.push(infos);
           console.log("infos", infos);
@@ -184,7 +162,7 @@ export default {
       }
     },
     getIcon(temp) {
-      return process.env.BASE_URL + "weather/" + temp + ".png";
+      return process.env.BASE_URL + "weather/" + temp + ".gif";
     },
   },
 };
