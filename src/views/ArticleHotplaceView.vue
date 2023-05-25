@@ -155,8 +155,8 @@ content {
   color: white;
 }
 .card__title {
-  margin-top: 2.6rem;
-  font-size: 1.4rem;
+  margin-top: 3rem;
+  font-size: 1.7rem;
   font-weight: 700;
   color: white;
 }

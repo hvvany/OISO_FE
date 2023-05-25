@@ -54,8 +54,6 @@
 </template>
 
 <script>
-// import editor plugins
-
 import http from "@/util/http-common";
 // import TopFormNav from "@/components/layout/TopFormNav.vue";
 // import AppNav from "@/components/layout/AppNav.vue";
@@ -67,7 +65,7 @@ export default {
     TopFormNav: () => import("@/components/layout/TopFormNav"),
     AppNav: () => import("@/components/layout/AppNav"),
     AppFooter: () => import("@/components/layout/AppFooter"),
-    ImgSwiper: () => import("@/components/common/ImgSwiper"),
+    ImgSwiper: () => import("@/components/common/ImgSwiper.vue"),
     "comment-write": () => import("@/components/comment/CommentWrite"),
     "comment-row": () => import("@/components/comment/CommentRow"),
   },
@@ -88,7 +86,7 @@ export default {
     };
   },
   created() {
-    http.get("/article/board/").then((response) => {
+    http.get("/article/board/").then(async (response) => {
       this.boardData = response.data;
       console.log(response.data);
       for (let article of response.data) {
