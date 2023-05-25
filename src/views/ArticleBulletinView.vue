@@ -6,6 +6,7 @@
         <p>{{ bulletin.title }}</p>
         <p>{{ bulletin.content }}</p>
         <p>조회수 {{ bulletin.viewCnt }}</p>
+        <p>like {{ bulletin.likeCnt }}</p>
       </li>
     </ul>
     <button

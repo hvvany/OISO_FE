@@ -178,8 +178,8 @@ export default {
           this.comments = response.data;
         });
     },
-    async getLikeCnt() {
-      await http
+    getLikeCnt() {
+      http
         .get(
           `/article/board/${this.$route.params.articleNo}/like/${this.userInfo.userId}`
         )

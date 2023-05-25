@@ -206,6 +206,9 @@ export default {
   margin: 1.5rem 1rem 2rem 1rem;
   padding: 0 0.3rem 0 0.3rem;
 }
+.main-content__hotplace {
+  width: 100vw;
+}
 .search__icon {
   color: #0000008f;
 }
@@ -275,7 +278,7 @@ export default {
 }
 
 .card__img {
-  /* width: 70vw; */
+  width: 100%;
   height: 60vw;
   border-radius: 5px;
 }

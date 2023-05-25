@@ -32,7 +32,7 @@
             <div class="card__author">
               작성자 {{ hotplace.id }} | 작성일
               {{ hotplace.regTime.split(" ")[0] }} | 조회수
-              {{ hotplace.viewCnt }}
+              {{ hotplace.viewCnt }} | like ▪ {{ hotplace.likeCnt }}
             </div>
           </div>
         </div>
