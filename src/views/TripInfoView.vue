@@ -155,6 +155,7 @@ export default {
       get_infos: [],
       getinfocnt: 1,
       modal_show: false,
+      search_keyword: "",
     };
   },
   created() {
@@ -164,6 +165,7 @@ export default {
       this.total_infos = [];
       this.getInfo(1);
     }
+    this.search_keyword = "";
   },
   methods: {
     ...mapActions(["updateSidoPick"]),
@@ -201,8 +203,21 @@ export default {
         this.sidos[this.sido_pick];
       http.get(request_url).then((response) => {
         console.log(response.data.response.body.items.item);
-        this.total_infos.push(...response.data.response.body.items.item);
-        console.log(this.total_infos);
+
+        let data = response.data.response.body.items.item;
+        console.log("data", data);
+        if (this.search_keyword != "") {
+          for (let info of data) {
+            console.log("info", info);
+            if (this.$kmpSearch(info.title, this.search_keyword).length > 0) {
+              this.total_infos.push(info);
+            }
+          }
+        } else {
+          this.total_infos.push(...response.data.response.body.items.item);
+        }
+
+        console.log("total", this.total_infos);
       });
     },
     openModal() {
@@ -211,20 +226,31 @@ export default {
     closeModal(search_keyword) {
       this.modal_show = false;
       //전체 목록 불러오기
+      this.search_keyword = search_keyword;
       if (search_keyword != "") {
-        http.get("/article/board/").then((response) => {
-          this.boardData = response.data;
-          //KMP 알고리즘
-          let test = {};
-          let idx = 0;
-          for (let info of this.boardData) {
-            if (this.$kmpSearch(info.title, search_keyword).length > 0) {
-              console.log(info);
-              test[idx++] = info;
-            }
+        let test = [];
+        let idx = 0;
+        for (let info of this.total_infos) {
+          if (this.$kmpSearch(info.title, search_keyword).length > 0) {
+            console.log(info);
+            test[idx++] = info;
           }
-          this.boardData = test;
-        });
+        }
+        this.total_infos = test;
+
+        // http.get("/article/board/").then((response) => {
+        //   this.boardData = response.data;
+        //   //KMP 알고리즘
+        //   let test = {};
+        //   let idx = 0;
+        //   for (let info of this.boardData) {
+        //     if (this.$kmpSearch(info.title, search_keyword).length > 0) {
+        //       console.log(info);
+        //       test[idx++] = info;
+        //     }
+        //   }
+        //   this.boardData = test;
+        // });
       }
     },
   },
@@ -275,7 +301,7 @@ export default {
 
 .filter-swiper {
   padding: 0.8rem 0;
-  z-index: -1;
+  z-index: 0;
 }
 
 .article-modal {
