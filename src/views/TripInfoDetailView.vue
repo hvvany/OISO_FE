@@ -1,12 +1,7 @@
 <template>
   <div class="all">
-    <top-back-nav :title="info.title"></top-back-nav>
-    <div v-if="add == false">
-      <button @click="addMyTrip">여행 계획에 추가</button>
-    </div>
-    <div v-if="add == true">
-      <button @click="delMyTrip">여행 계획에서 삭제</button>
-    </div>
+    <top-back-nav :title="info.title" :type="add"></top-back-nav>
+
     <img :src="info.firstimage" />
     <div class="info__addr">주소: {{ info.addr1 }} {{ info.addr2 }}</div>
 
@@ -47,7 +42,7 @@ export default {
       sido_code: 0,
       info: [],
       location: [],
-      add: false,
+      add: "No",
     };
   },
   created() {
@@ -80,7 +75,7 @@ export default {
           .then((response) => {
             console.log(response.data);
             if (response.data == 1) {
-              this.add = true;
+              this.add = "Yes";
             }
           });
       });
@@ -100,19 +95,16 @@ export default {
         .then(({ status }) => {
           if (status == 200) {
             console.log("추가 성공");
-            this.$router.push({
-              name: "tripinfo",
-            });
           }
         });
-      this.add = true;
+      this.add = "Yes";
     },
     delMyTrip() {
       http
         .delete(`/mytrip/${this.userInfo.userId}/${this.contentId}`)
         .then((response) => {
           console.log(response.data);
-          this.add = false;
+          this.add = "No";
         })
         .catch((response) => {
           console.log(response.data);
@@ -156,5 +148,17 @@ img {
   width: 80vw;
   display: block;
   margin: 0px auto;
+}
+button {
+  border-width: 1px;
+  border-radius: 20px;
+  padding: 4px;
+  margin: 8px;
+  color: black;
+  background-color: #f5f5f5;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
